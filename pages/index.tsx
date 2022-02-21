@@ -1,8 +1,8 @@
 import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { Products } from '../components/products';
-import { BaseLayout } from '../layout/base-layout';
-import { IProducts } from '../interfaces/products';
+import { Products } from '@/components/products';
+import { BaseLayout } from '@/layout/base-layout';
+import { IProducts } from '@/interfaces/products';
 
 const Home: NextPage<IProducts> = ({ products }) => {
   return (

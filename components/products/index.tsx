@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { IProducts } from '../../interfaces/products';
-import like from '../../images/like.svg';
+import { IProducts } from '@/interfaces/products';
+import like from '@/images/like.svg';
 import styles from './products.module.css';
 
 export const Products: React.FC<IProducts> = ({ products }) => {
