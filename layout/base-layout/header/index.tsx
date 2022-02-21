@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../../images/logo.svg';
-import heart from '../../../images/heart.svg';
-import basket from '../../../images/basket.svg';
 import styles from './header.module.css';
+import { menu } from './config';
 
 export const Header: React.FC = () => {
   return (
@@ -13,22 +12,22 @@ export const Header: React.FC = () => {
           <Image src={logo} alt="app logo" width={102} height={41.88} />
         </a>
       </Link>
-      <Link href="/">
-        <a>
-          <Image src={heart} alt="app logo" width={18} height={18} />
-        </a>
-      </Link>
-      <Link href="/">
-        <a>
-          <Image src={basket} alt="app logo" width={18} height={18} />
-        </a>
-      </Link>
-      <Link href="/register">
-        <a>Register</a>
-      </Link>
-      <Link href="/login">
-        <a>Log in</a>
-      </Link>
+
+      <nav>
+        {menu.map((item) =>
+          item.component ? (
+            <Link key={item.name} href={item.path}>
+              <a>
+                <Image src={item.img} alt={item.name} width={18} height={18} />
+              </a>
+            </Link>
+          ) : (
+            <Link key={item.name} href={item.path}>
+              <a>{item.name}</a>
+            </Link>
+          )
+        )}
+      </nav>
     </header>
   );
 };
