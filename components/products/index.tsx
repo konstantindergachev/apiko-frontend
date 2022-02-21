@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { IProducts } from '@/interfaces/products';
 import { Card } from '@/components/shared/card';
-import like from '@/images/like.svg';
+import { LikeButton } from '@/components/like';
 
 import styles from './styles.module.css';
 
@@ -18,9 +18,7 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
               <p>{product.title}</p>
               <h3>$ {product.price}</h3>
             </div>
-            <div className={styles.like}>
-              <Image src={like} alt="like" width={18} height={18} />
-            </div>
+            <LikeButton />
           </Card>
         );
       })}
