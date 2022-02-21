@@ -3,7 +3,7 @@ import { IProducts } from '@/interfaces/products';
 import like from '@/images/like.svg';
 import styles from './products.module.css';
 
-export const Products: React.FC<IProducts> = ({ products }) => {
+export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
   return (
     <section className={styles.products}>
       {products.map((product) => {

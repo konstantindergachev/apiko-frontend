@@ -4,7 +4,7 @@ import logo from '@/images/logo.svg';
 import styles from './header.module.css';
 import { menu } from './config';
 
-export const Header: React.FC = () => {
+export const Header: React.FC = (): JSX.Element => {
   return (
     <header className={styles.header}>
       <Link href="/">

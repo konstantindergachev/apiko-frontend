@@ -4,7 +4,7 @@ import { Products } from '@/components/products';
 import { BaseLayout } from '@/layout/base-layout';
 import { IProducts } from '@/interfaces/products';
 
-const Home: NextPage<IProducts> = ({ products }) => {
+const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   return (
     <>
       <Head>
@@ -24,7 +24,9 @@ const Home: NextPage<IProducts> = ({ products }) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (): Promise<{
+  props: IProducts;
+}> => {
   const response = await fetch(
     'http://localhost:5000/api/products?offset=0&limit=20&sortBy=latest'
   );
