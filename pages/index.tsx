@@ -27,9 +27,7 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async (): Promise<{
   props: IProducts;
 }> => {
-  const response = await fetch(
-    'http://localhost:5000/api/products?offset=0&limit=20&sortBy=latest'
-  );
+  const response = await fetch(`${process.env.API_URL}/products?offset=0&limit=20&sortBy=latest`);
   const products = await response.json();
   return {
     props: { products },
