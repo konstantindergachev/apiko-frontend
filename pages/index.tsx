@@ -1,22 +1,10 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { Products } from '../components/products';
 import { BaseLayout } from '../layout/base-layout';
+import { IProducts } from '../interfaces/products';
 
-const Home: NextPage = () => {
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(
-          'http://localhost:5000/api/products?offset=0&limit=20&sortBy=latest'
-        );
-        const data = await response.json();
-        console.log('data', data); //FIXME:
-      } catch (error) {
-        console.log('error', error); //FIXME:
-      }
-    })();
-  }, []);
+const Home: NextPage<IProducts> = ({ products }) => {
   return (
     <>
       <Head>
@@ -26,10 +14,22 @@ const Home: NextPage = () => {
       </Head>
 
       <BaseLayout>
-        <main>main</main>
+        <main>
+          <Products products={products} />
+        </main>
       </BaseLayout>
     </>
   );
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await fetch(
+    'http://localhost:5000/api/products?offset=0&limit=20&sortBy=latest'
+  );
+  const products = await response.json();
+  return {
+    props: { products },
+  };
+};
