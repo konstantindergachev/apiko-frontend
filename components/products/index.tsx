@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { IProducts } from '@/interfaces/products';
-import like from '@/images/like.svg';
-import styles from './products.module.css';
 import { Card } from '@/components/shared/card';
+import like from '@/images/like.svg';
+
+import styles from './styles.module.css';
 
 export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
   return (
