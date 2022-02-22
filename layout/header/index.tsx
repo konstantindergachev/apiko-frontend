@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Modal from '@/components/shared/modal';
+import { Login } from '@/components/login';
+
 import logo from '@/images/logo.svg';
 import { menu } from './config';
-
 import styles from './styles.module.css';
-import Modal from '@/components/shared/modal';
 
 export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -48,20 +49,7 @@ export const Header: React.FC = (): JSX.Element => {
         )}
         <Modal isOpen={isModalOpen} onClose={handleModalOpen()}>
           {isAccount ? (
-            <>
-              <h3>login</h3>
-              <form>
-                <input type="text" placeholder="Email" />
-                <input type="text" placeholder="Password" />
-                <button type="submit">log in</button>
-              </form>
-              <p>
-                I already have no account,{' '}
-                <button type="button" onClick={handleAccount(false)}>
-                  register now
-                </button>
-              </p>
-            </>
+            <Login handleAccount={handleAccount} />
           ) : (
             <>
               <h3>register</h3>
