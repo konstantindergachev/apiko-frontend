@@ -1,10 +1,7 @@
+import { IAccount } from '@/interfaces/forms';
 import React, { useState } from 'react';
 
-interface IForm {
-  handleAccount: (isAccount: boolean) => () => void; //MouseEventHandler<HTNLButtonElement>
-}
-
-export const Login: React.FC<IForm> = ({ handleAccount }): JSX.Element => {
+export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const [user, setUser] = useState({ email: '', password: '' });
   const [requestError, setRequestError] = useState<string>('');
 
@@ -26,8 +23,8 @@ export const Login: React.FC<IForm> = ({ handleAccount }): JSX.Element => {
       if (data.error) {
         setRequestError(data.error);
       }
-    } catch (error) {
-      setRequestError(error);
+    } catch (error: any) {
+      setRequestError(error.message);
     }
   };
 
