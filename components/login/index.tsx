@@ -1,12 +1,12 @@
-import { IAccount, IFields } from '@/interfaces/forms';
+import { IAccount, ILoginFields } from '@/interfaces/forms';
 import React, { useState } from 'react';
 import { Error } from '@/components/shared/error';
 import { loginSchema } from './validate';
 
 export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
-  const [user, setUser] = useState<IFields>({ email: '', password: '' });
+  const [user, setUser] = useState<ILoginFields>({ email: '', password: '' });
   const [requestError, setRequestError] = useState<string>('');
-  const [inputError, setInputError] = useState<IFields>({ email: '', password: '' });
+  const [inputError, setInputError] = useState<ILoginFields>({ email: '', password: '' });
 
   const validate = (field: string) => async () => {
     try {

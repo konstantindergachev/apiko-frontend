@@ -7,6 +7,7 @@ import { Login } from '@/components/login';
 import logo from '@/images/logo.svg';
 import { menu } from './config';
 import styles from './styles.module.css';
+import { Register } from '@/components/register';
 
 export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -51,22 +52,7 @@ export const Header: React.FC = (): JSX.Element => {
           {isAccount ? (
             <Login handleAccount={handleAccount} />
           ) : (
-            <>
-              <h3>register</h3>
-              <form>
-                <input type="text" placeholder="Full name" />
-                <input type="text" placeholder="Email" />
-                <input type="text" placeholder="Phone number" />
-                <input type="text" placeholder="Password" />
-                <button type="submit">register</button>
-              </form>
-              <p>
-                I already have an account,{' '}
-                <button type="button" onClick={handleAccount(true)}>
-                  log in
-                </button>
-              </p>
-            </>
+            <Register handleAccount={handleAccount} />
           )}
         </Modal>
       </nav>
