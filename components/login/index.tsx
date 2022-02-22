@@ -1,5 +1,6 @@
 import { IAccount } from '@/interfaces/forms';
 import React, { useState } from 'react';
+import { Error } from '@/components/shared/error';
 
 export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const [user, setUser] = useState({ email: '', password: '' });
@@ -30,7 +31,7 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
 
   return (
     <>
-      {requestError && <p style={{ color: 'red' }}>{requestError}</p>}
+      {requestError && <Error message={requestError} />}
       <h3>login</h3>
       <form onSubmit={handleSubmit}>
         <input
