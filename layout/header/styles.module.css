@@ -18,11 +18,17 @@
   margin-left: 30px;
 }
 
-.header nav a:nth-child(3) {
+.header nav button {
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+  position: relative;
   margin-left: 40px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-.header nav a:nth-child(4)::before {
+.header nav button:last-child::before {
   content: '';
   background: #fd7114;
   position: absolute;
@@ -30,5 +36,5 @@
   left: 0;
   height: 100%;
   width: 2px;
-  margin-left: -15px;
+  margin-left: -20px;
 }
