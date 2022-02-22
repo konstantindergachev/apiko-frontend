@@ -12,7 +12,7 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const handleSubmit = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('http://localhost:3000/api/user/login', {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -20,8 +20,8 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
         },
       });
       const data = await response.json();
-      if (data.error) {
-        setRequestError(data.error);
+      if (data.message) {
+        setRequestError(data.message);
       }
     } catch (error: any) {
       setRequestError(error.message);
