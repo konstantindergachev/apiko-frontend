@@ -1,5 +1,6 @@
 import { IAccount, ILoginFields } from '@/interfaces/forms';
 import React, { useState } from 'react';
+import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
 import { loginSchema } from './validate';
 
@@ -46,24 +47,24 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
       <h3>login</h3>
       <form onSubmit={handleSubmit}>
         {inputError.email && <Error message={inputError.email} />}
-        <input
+        <Input
           type="email"
           name="email"
           placeholder="Email"
           value={user.email}
           onChange={handleChange}
-          onBlur={validate('email')}
-          onKeyPress={validate('email')}
+          onBlur={validate}
+          onKeyPress={validate}
         />
         {inputError.password && <Error message={inputError.password} />}
-        <input
+        <Input
           type="password"
           name="password"
           placeholder="Password"
           value={user.password}
           onChange={handleChange}
-          onBlur={validate('password')}
-          onKeyPress={validate('password')}
+          onBlur={validate}
+          onKeyPress={validate}
         />
         <button type="submit">log in</button>
       </form>

@@ -1,5 +1,6 @@
 import { IAccount, IRegistrationFields } from '@/interfaces/forms';
 import React, { useState } from 'react';
+import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
 import { registerSchema } from './validate';
 
@@ -58,54 +59,54 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
       <h3>register</h3>
       <form onSubmit={handleSubmit}>
         {inputError.fullname && <Error message={inputError.fullname} />}
-        <input
+        <Input
           type="text"
           name="fullname"
           placeholder="Full name"
           value={user.fullname}
           onChange={handleChange}
-          onBlur={validate('fullname')}
-          onKeyPress={validate('fullname')}
+          onBlur={validate}
+          onKeyPress={validate}
         />
         {inputError.email && <Error message={inputError.email} />}
-        <input
+        <Input
           type="email"
           name="email"
           placeholder="Email"
           value={user.email}
           onChange={handleChange}
-          onBlur={validate('email')}
-          onKeyPress={validate('email')}
+          onBlur={validate}
+          onKeyPress={validate}
         />
         {inputError.phone && <Error message={inputError.phone} />}
-        <input
+        <Input
           type="text"
           name="phone"
           placeholder="Phone number"
           value={user.phone}
           onChange={handleChange}
-          onBlur={validate('phone')}
-          onKeyPress={validate('phone')}
+          onBlur={validate}
+          onKeyPress={validate}
         />
         {inputError.password && <Error message={inputError.password} />}
-        <input
+        <Input
           type="password"
           name="password"
           placeholder="Password"
           value={user.password}
           onChange={handleChange}
-          onBlur={validate('password')}
-          onKeyPress={validate('password')}
+          onBlur={validate}
+          onKeyPress={validate}
         />
         {inputError.password_confirm && <Error message={inputError.password_confirm} />}
-        <input
+        <Input
           type="password"
           name="password_confirm"
           placeholder="Password confirm"
           value={user.password_confirm}
           onChange={handleChange}
-          onBlur={validate('password_confirm')}
-          onKeyPress={validate('password_confirm')}
+          onBlur={validate}
+          onKeyPress={validate}
         />
         <button type="submit">register</button>
       </form>
