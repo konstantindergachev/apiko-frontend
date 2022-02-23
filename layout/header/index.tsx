@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -64,11 +64,11 @@ export const Header: React.FC = (): JSX.Element => {
                 </a>
               </Link>
             ) : (
-              <>
-                <button type="button" key={route.name} onClick={handleModalOpen(route.name)}>
+              <React.Fragment key={route.name}>
+                <button type="button" onClick={handleModalOpen(route.name)}>
                   {route.name}
                 </button>
-              </>
+              </React.Fragment>
             )
           )}
         {storedFullname && <p>Welcome, {storedFullname}!</p>}

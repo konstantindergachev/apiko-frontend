@@ -3,9 +3,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 209px;
+  width: 250px;
   min-height: 212px;
   margin: 5px;
+  padding: 4px;
 
   background: var(--main-color);
   border: var(--card-border);
