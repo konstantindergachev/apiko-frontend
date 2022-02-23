@@ -1,0 +1,36 @@
+.block {
+  position: relative;
+}
+.block input {
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.7;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #a7a5a5;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.block label {
+  color: #6c757d;
+  padding: 0 4px;
+  position: absolute;
+  top: 7px;
+  left: 10px;
+  transition: transform 0.2s, color 0.2s;
+  transform-origin: 0% 0%;
+  pointer-events: none;
+}
+
+.block input:focus ~ label,
+.block input:not(:placeholder-shown) ~ label {
+  transform: translateY(-15px) scale(0.75);
+  background: #ffffff;
+}
+
+.block input:focus {
+  color: #284b63;
+  border-color: #284b63;
+}
+.block input:focus + label {
+  color: #284b63;
+}

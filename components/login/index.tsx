@@ -49,6 +49,7 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
         {inputError.email && <Error message={inputError.email} />}
         <Input
           type="email"
+          id="email"
           name="email"
           placeholder="Email"
           value={user.email}
@@ -59,6 +60,7 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
         {inputError.password && <Error message={inputError.password} />}
         <Input
           type="password"
+          id="password"
           name="password"
           placeholder="Password"
           value={user.password}

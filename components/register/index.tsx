@@ -61,6 +61,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
         {inputError.fullname && <Error message={inputError.fullname} />}
         <Input
           type="text"
+          id="fullname"
           name="fullname"
           placeholder="Full name"
           value={user.fullname}
@@ -71,6 +72,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
         {inputError.email && <Error message={inputError.email} />}
         <Input
           type="email"
+          id="email"
           name="email"
           placeholder="Email"
           value={user.email}
@@ -81,6 +83,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
         {inputError.phone && <Error message={inputError.phone} />}
         <Input
           type="text"
+          id="phone"
           name="phone"
           placeholder="Phone number"
           value={user.phone}
@@ -91,6 +94,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
         {inputError.password && <Error message={inputError.password} />}
         <Input
           type="password"
+          id="password"
           name="password"
           placeholder="Password"
           value={user.password}
@@ -101,6 +105,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
         {inputError.password_confirm && <Error message={inputError.password_confirm} />}
         <Input
           type="password"
+          id="password_confirm"
           name="password_confirm"
           placeholder="Password confirm"
           value={user.password_confirm}
