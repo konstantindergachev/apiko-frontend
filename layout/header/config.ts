@@ -25,4 +25,9 @@ export const menu = [
     name: 'Log in',
     guard: (isAuth: boolean) => !isAuth,
   },
+  {
+    path: '/logout',
+    name: 'Log out',
+    guard: (isAuth: boolean) => isAuth,
+  },
 ];

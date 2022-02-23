@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Link from 'next/link';
 import Image from 'next/image';
 import Modal from '@/components/shared/modal';
@@ -7,15 +7,19 @@ import { Login } from '@/components/login';
 
 import logo from '@/images/logo.svg';
 import { menu } from './config';
-import styles from './styles.module.css';
 import { Register } from '@/components/register';
-import { selectUsername } from '../../store';
+import { Error } from '@/components/shared/error';
+import { baseUsername, selectUsername } from '../../store';
+
+import styles from './styles.module.css';
 
 export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAccount, setIsAccount] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const storedFullname = useRecoilValue(selectUsername);
+  const setUsername = useSetRecoilState(baseUsername);
 
   const handleAccount = (isAccount: boolean) => (): void => {
     setIsAccount(isAccount);
@@ -25,8 +29,19 @@ export const Header: React.FC = (): JSX.Element => {
     setIsModalOpen(!isModalOpen);
     if (menuName === 'Register') {
       handleAccount(false)();
+    } else if (menuName === 'Log out') {
+      onExit();
     } else {
       handleAccount(true)();
+    }
+  };
+
+  const onExit = async () => {
+    try {
+      await fetch(`http://localhost:3000/api/user/logout`);
+      setUsername(() => ({ fullname: '' }));
+    } catch (error: any) {
+      setError(error.message);
     }
   };
 
@@ -57,6 +72,7 @@ export const Header: React.FC = (): JSX.Element => {
             )
           )}
         {storedFullname && <p>Welcome, {storedFullname}!</p>}
+        {error && <Error message={error} />}
         <Modal isOpen={!storedFullname && isModalOpen} onClose={handleModalOpen()}>
           {isAccount ? (
             <Login handleAccount={handleAccount} />
