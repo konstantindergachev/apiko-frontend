@@ -1,13 +1,18 @@
 import { IAccount, ILoginFields } from '@/interfaces/forms';
+import { IResponse, IResponseError } from '@/interfaces/responses';
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
 import { loginSchema } from './validate';
+import { baseUsername } from '../../store';
 
 export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const [user, setUser] = useState<ILoginFields>({ email: '', password: '' });
   const [requestError, setRequestError] = useState<string>('');
   const [inputError, setInputError] = useState<ILoginFields>({ email: '', password: '' });
+
+  const setUsername = useSetRecoilState(baseUsername);
 
   const validate = (field: string) => async () => {
     try {
@@ -32,10 +37,11 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
           'Content-Type': 'application/json',
         },
       });
-      const data = await response.json();
+      const data: IResponse & IResponseError = await response.json();
       if (data.message) {
         setRequestError(data.message);
       }
+      setUsername(() => ({ fullname: data.account.fullname }));
     } catch (error: any) {
       setRequestError(error.message);
     }

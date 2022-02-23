@@ -18,9 +18,11 @@ export const menu = [
   {
     path: '/register',
     name: 'Register',
+    guard: (isAuth: boolean) => !isAuth,
   },
   {
     path: '/login',
     name: 'Log in',
+    guard: (isAuth: boolean) => !isAuth,
   },
 ];

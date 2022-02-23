@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import Link from 'next/link';
 import Image from 'next/image';
 import Modal from '@/components/shared/modal';
@@ -8,10 +9,13 @@ import logo from '@/images/logo.svg';
 import { menu } from './config';
 import styles from './styles.module.css';
 import { Register } from '@/components/register';
+import { selectUsername } from '../../store';
 
 export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAccount, setIsAccount] = useState<boolean>(false);
+
+  const storedFullname = useRecoilValue(selectUsername);
 
   const handleAccount = (isAccount: boolean) => (): void => {
     setIsAccount(isAccount);
@@ -35,20 +39,25 @@ export const Header: React.FC = (): JSX.Element => {
       </Link>
 
       <nav>
-        {menu.map((item) =>
-          item.component ? (
-            <Link key={item.name} href={item.path}>
-              <a>
-                <Image src={item.img} alt={item.name} width={18} height={18} />
-              </a>
-            </Link>
-          ) : (
-            <button type="button" key={item.name} onClick={handleModalOpen(item.name)}>
-              {item.name}
-            </button>
-          )
-        )}
-        <Modal isOpen={isModalOpen} onClose={handleModalOpen()}>
+        {menu
+          .filter((route) => (route['guard'] ? route.guard(!!storedFullname) : route))
+          .map((route) =>
+            route.component ? (
+              <Link key={route.name} href={route.path}>
+                <a>
+                  <Image src={route.img} alt={route.name} width={18} height={18} />
+                </a>
+              </Link>
+            ) : (
+              <>
+                <button type="button" key={route.name} onClick={handleModalOpen(route.name)}>
+                  {route.name}
+                </button>
+              </>
+            )
+          )}
+        {storedFullname && <p>Welcome, {storedFullname}!</p>}
+        <Modal isOpen={!storedFullname && isModalOpen} onClose={handleModalOpen()}>
           {isAccount ? (
             <Login handleAccount={handleAccount} />
           ) : (
