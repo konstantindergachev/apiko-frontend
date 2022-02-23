@@ -6,12 +6,12 @@
   font-size: 1rem;
   line-height: 1.7;
   padding: 0.25rem 0.5rem;
-  border: 1px solid #a7a5a5;
+  border: var(--input-border);
   border-radius: 4px;
   margin-bottom: 1rem;
 }
 .block label {
-  color: #6c757d;
+  color: var(--middlegray-color);
   padding: 0 4px;
   position: absolute;
   top: 7px;
@@ -24,13 +24,13 @@
 .block input:focus ~ label,
 .block input:not(:placeholder-shown) ~ label {
   transform: translateY(-15px) scale(0.75);
-  background: #ffffff;
+  background: var(--main-color);
 }
 
 .block input:focus {
-  color: #284b63;
-  border-color: #284b63;
+  color: var(--input-border-active-color);
+  outline-color: var(--input-border-active-color);
 }
 .block input:focus + label {
-  color: #284b63;
+  color: var(--input-border-active-color);
 }

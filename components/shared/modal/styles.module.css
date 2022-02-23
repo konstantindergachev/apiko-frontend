@@ -5,7 +5,7 @@
   width: 100%;
   min-height: 100%;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--modal-background-color);
 }
 
 .box {
@@ -19,8 +19,8 @@
   transform: translate(-50%, -50%);
 
   z-index: 1001;
-  background-color: #ffffff;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--main-color);
+  box-shadow: var(--box-shadow);
   border-radius: 4px;
 }
 
@@ -30,7 +30,7 @@
   top: 0rem;
   right: 1.5rem;
   cursor: pointer;
-  color: #707070;
+  color: var(--gray-color);
 }
 .content h3 {
   text-align: center;
@@ -48,8 +48,8 @@
   border: none;
   border-radius: 4px;
   padding: 0.25rem 0.5rem;
-  background: #fd7114;
-  color: #ffffff;
+  background: var(--orange-color);
+  color: var(--main-color);
   font-size: 14px;
   line-height: 1.7;
   text-transform: capitalize;
@@ -62,7 +62,7 @@
 }
 
 .content p button {
-  color: #fd7114;
+  color: var(--orange-color);
   background: none;
   border: none;
   text-transform: capitalize;

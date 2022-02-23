@@ -1,3 +1,23 @@
+:root {
+  --main-color: #ffffff;
+  --black-color: #110f21;
+  --lightgray-color: #f1f1f3;
+  --lightmiddlegray-color: #e0e0e0;
+  --middlegray-color: #a7a5a5;
+  --gray-color: #707070;
+  --orange-color: #fd7114;
+  --yellow-color: rgba(250, 184, 66, 1);
+  --red-color: #ff0000;
+  --input-border-active-color: #4682b4;
+
+  --modal-background-color: rgba(0, 0, 0, 0.7);
+  --box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+  --box-shadow-like: 0px 2px 4px rgba(0, 0, 0, 0.163407);
+
+  --input-border: 1px solid var(--middlegray-color);
+  --card-border: 1px solid var(--lightmiddlegray-color);
+}
+
 *,
 *::after,
 *::before {

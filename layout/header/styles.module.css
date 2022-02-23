@@ -2,8 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #110f21;
-  color: #ffffff;
+  background: var(--black-color);
+  color: var(--main-color);
   height: 76px;
   flex-shrink: 0;
   padding: 0 160px;
@@ -19,7 +19,7 @@
 }
 
 .header nav button {
-  color: #ffffff;
+  color: var(--main-color);
   background-color: transparent;
   border: none;
   position: relative;
@@ -30,7 +30,7 @@
 
 .header nav button:last-child::before {
   content: '';
-  background: #fd7114;
+  background: var(--orange-color);
   position: absolute;
   bottom: 0;
   left: 0;
