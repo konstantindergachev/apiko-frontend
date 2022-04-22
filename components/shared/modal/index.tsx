@@ -21,12 +21,12 @@ const Modal: React.FC<IModal> = ({ isOpen, onClose, children }): JSX.Element | n
             onKeyDown={onClose}
             role={'button'}
           ></div>
-          <div className={styles.box}>
+          <dialog open={isOpen && true} className={styles.box}>
             <div className={styles.close} onClick={onClose}>
               &#215;
             </div>
             <div className={styles.content}>{children}</div>
-          </div>
+          </dialog>
         </>,
         portalDiv
       )
