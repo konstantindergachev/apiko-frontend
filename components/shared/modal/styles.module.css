@@ -9,7 +9,7 @@
 }
 
 .box {
-  max-width: 30rem;
+  max-width: 40rem;
   width: 100%;
   padding: 4rem;
 
@@ -19,9 +19,7 @@
   transform: translate(-50%, -50%);
 
   z-index: 1001;
-  background-color: var(--main-color);
-  box-shadow: var(--box-shadow);
-  border-radius: 4px;
+  background-color: transparent;
   border: none;
 }
 
@@ -32,40 +30,4 @@
   right: 1.5rem;
   cursor: pointer;
   color: var(--gray-color);
-}
-.content h3 {
-  text-align: center;
-  text-transform: capitalize;
-  font-size: 22px;
-  line-height: 32px;
-  font-weight: 400;
-  margin-bottom: 3rem;
-}
-.content form {
-  display: flex;
-  flex-direction: column;
-}
-.content form button {
-  border: none;
-  border-radius: 4px;
-  padding: 0.25rem 0.5rem;
-  background: var(--orange-color);
-  color: var(--main-color);
-  font-size: 14px;
-  line-height: 1.7;
-  text-transform: capitalize;
-  text-align: center;
-  letter-spacing: 0.4px;
-}
-.content p {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.content p button {
-  color: var(--orange-color);
-  background: none;
-  border: none;
-  text-transform: capitalize;
-  cursor: pointer;
 }

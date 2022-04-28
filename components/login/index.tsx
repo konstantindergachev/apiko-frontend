@@ -7,6 +7,8 @@ import { Error } from '@/components/shared/error';
 import { loginSchema } from './validate';
 import { baseUsername } from '../../store';
 
+import styles from './styles.module.css';
+
 export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const [user, setUser] = useState<ILoginFields>({ email: '', password: '' });
   const [requestError, setRequestError] = useState<string>('');
@@ -49,37 +51,39 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
 
   return (
     <>
-      {requestError && <Error message={requestError} />}
-      <h3>login</h3>
-      <form onSubmit={handleSubmit}>
-        {inputError.email && <Error message={inputError.email} />}
-        <Input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
-          value={user.email}
-          onChange={handleChange}
-          onBlur={validate}
-          onKeyPress={validate}
-        />
-        {inputError.password && <Error message={inputError.password} />}
-        <Input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Password"
-          value={user.password}
-          onChange={handleChange}
-          onBlur={validate}
-          onKeyPress={validate}
-        />
-        <button type="submit">log in</button>
-      </form>
-      <p>
+      <div className={styles.content}>
+        {requestError && <Error message={requestError} />}
+        <h3>login</h3>
+        <form onSubmit={handleSubmit}>
+          {inputError.email && <Error message={inputError.email} />}
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            value={user.email}
+            onChange={handleChange}
+            onBlur={validate}
+            onKeyPress={validate}
+          />
+          {inputError.password && <Error message={inputError.password} />}
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            value={user.password}
+            onChange={handleChange}
+            onBlur={validate}
+            onKeyPress={validate}
+          />
+          <button type="submit">log in</button>
+        </form>
+      </div>
+      <p className={styles.toggler}>
         I already have no account,{' '}
         <button type="button" onClick={handleAccount(false)}>
-          register now
+          Register now
         </button>
       </p>
     </>
