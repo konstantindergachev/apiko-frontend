@@ -7,9 +7,11 @@
   height: 76px;
   flex-shrink: 0;
   padding: 0 160px;
-  text-transform: uppercase;
 }
 
+.header nav {
+  position: relative;
+}
 .header nav a {
   position: relative;
 }

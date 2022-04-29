@@ -8,15 +8,17 @@ import { Login } from '@/components/login';
 import logo from '@/images/logo.svg';
 import { menu } from './config';
 import { Register } from '@/components/register';
-import { Error } from '@/components/shared/error';
+
+import { Dropdown } from '@/components/shared/dropdown';
 import { baseUsername, selectUsername } from '../../store';
 
+import arrow from '@/images/down_arrow.svg';
 import styles from './styles.module.css';
 
 export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAccount, setIsAccount] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [isDropdown, setIsDropdown] = useState<boolean>(false);
 
   const storedFullname = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
@@ -30,18 +32,11 @@ export const Header: React.FC = (): JSX.Element => {
     if (menuName === 'Register') {
       handleAccount(false)();
     } else if (menuName === 'Log out') {
-      onExit();
+      setIsDropdown(false);
+    } else if (menuName === 'dropdown open') {
+      setIsDropdown(!isDropdown);
     } else {
       handleAccount(true)();
-    }
-  };
-
-  const onExit = async () => {
-    try {
-      await fetch(`http://localhost:3000/api/user/logout`);
-      setUsername(() => ({ fullname: '' }));
-    } catch (error: any) {
-      setError(error.message);
     }
   };
 
@@ -55,7 +50,7 @@ export const Header: React.FC = (): JSX.Element => {
 
       <nav>
         {menu
-          .filter((route) => (route['guard'] ? route.guard(!!storedFullname) : route))
+          .filter((route) => (route['guard'] ? route.guard(!!storedFullname.fullname) : route))
           .map((route) =>
             route.component ? (
               <Link key={route.name} href={route.path}>
@@ -64,16 +59,23 @@ export const Header: React.FC = (): JSX.Element => {
                 </a>
               </Link>
             ) : (
-              <React.Fragment key={route.name}>
-                <button type="button" onClick={handleModalOpen(route.name)}>
-                  {route.name}
-                </button>
-              </React.Fragment>
+              <button type="button" key={route.name} onClick={handleModalOpen(route.name)}>
+                {route.name}
+              </button>
             )
           )}
-        {storedFullname && <p>Welcome, {storedFullname}!</p>}
-        {error && <Error message={error} />}
-        <Modal isOpen={!storedFullname && isModalOpen} onClose={handleModalOpen()}>
+        {storedFullname.fullname && (
+          <>
+            <p>Welcome, {storedFullname.fullname.split(' ')[0]}!</p>
+            <button type="button" onClick={handleModalOpen('dropdown open')}>
+              <Image src={arrow} alt={'drop down arrow'} width={10} height={10} />
+            </button>
+          </>
+        )}
+        {isDropdown && storedFullname.fullname && (
+          <Dropdown user={storedFullname} setUsername={setUsername} />
+        )}
+        <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
           {isAccount ? (
             <Login handleAccount={handleAccount} />
           ) : (

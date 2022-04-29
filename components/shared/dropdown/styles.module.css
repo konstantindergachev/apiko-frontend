@@ -1,0 +1,31 @@
+.dropdown {
+  position: absolute;
+  right: 0%;
+  top: 200%;
+  width: 90%;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  color: var(--gray-color);
+  background: var(--main-color);
+  box-shadow: var(--box-shadow-like);
+  border-radius: 4px;
+  z-index: 1000;
+}
+.dropdown li {
+  padding: 0 16px;
+  margin: 10px 0;
+}
+.dropdown li:nth-child(2) {
+  color: var(--middlegray-color);
+}
+.btn:before {
+  position: relative !important;
+}
+.btn {
+  color: var(--orange-color) !important;
+  text-transform: none !important;
+  margin-left: 0 !important;
+  padding-left: 20px;
+  width: 100%;
+  text-align: left;
+}
