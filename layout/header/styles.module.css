@@ -30,7 +30,7 @@
   cursor: pointer;
 }
 
-.header nav button:last-child::before {
+.header nav button:nth-child(4)::before {
   content: '';
   background: var(--orange-color);
   position: absolute;
@@ -45,4 +45,16 @@
   text-transform: capitalize;
   display: inline;
   margin-left: 30px;
+}
+
+.btn:before {
+  position: relative !important;
+}
+.btn {
+  color: var(--orange-color) !important;
+  text-transform: none !important;
+  margin-left: 0 !important;
+  width: 100%;
+  text-align: left;
+  transition: background 0.3s ease-out;
 }

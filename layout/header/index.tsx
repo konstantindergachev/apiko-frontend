@@ -5,13 +5,14 @@ import Image from 'next/image';
 import Modal from '@/components/shared/modal';
 import { Login } from '@/components/login';
 
-import logo from '@/images/logo.svg';
 import { menu } from './config';
 import { Register } from '@/components/register';
 
 import { Dropdown } from '@/components/shared/dropdown';
+import { Error } from '@/components/shared/error';
 import { baseUsername, selectUsername } from '../../store';
 
+import logo from '@/images/logo.svg';
 import arrow from '@/images/down_arrow.svg';
 import styles from './styles.module.css';
 
@@ -19,6 +20,7 @@ export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAccount, setIsAccount] = useState<boolean>(false);
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const storedFullname = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
@@ -40,6 +42,17 @@ export const Header: React.FC = (): JSX.Element => {
     }
   };
 
+  const onExit = async () => {
+    try {
+      await fetch(`http://localhost:3000/api/user/logout`);
+      setUsername(() => ({ fullname: '', email: '' }));
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
+
+  const { fullname } = storedFullname;
+
   return (
     <header className={styles.header}>
       <Link href="/">
@@ -50,7 +63,7 @@ export const Header: React.FC = (): JSX.Element => {
 
       <nav>
         {menu
-          .filter((route) => (route['guard'] ? route.guard(!!storedFullname.fullname) : route))
+          .filter((route) => (route['guard'] ? route.guard(!!fullname) : route))
           .map((route) =>
             route.component ? (
               <Link key={route.name} href={route.path}>
@@ -64,18 +77,29 @@ export const Header: React.FC = (): JSX.Element => {
               </button>
             )
           )}
-        {storedFullname.fullname && (
+        {fullname && (
           <>
-            <p>Welcome, {storedFullname.fullname.split(' ')[0]}!</p>
+            <p>Welcome, {fullname.split(' ')[0]}!</p>
             <button type="button" onClick={handleModalOpen('dropdown open')}>
               <Image src={arrow} alt={'drop down arrow'} width={10} height={10} />
             </button>
           </>
         )}
-        {isDropdown && storedFullname.fullname && (
-          <Dropdown user={storedFullname} setUsername={setUsername} />
+        {isDropdown && fullname && (
+          <Dropdown>
+            {Object.values(storedFullname).map((val) => (
+              <li key={val}>{val}</li>
+            ))}
+            <hr />
+            <li>
+              <button onClick={onExit} className={styles.btn}>
+                Log out
+              </button>
+            </li>
+            {error && <Error message={error} />}
+          </Dropdown>
         )}
-        <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
+        <Modal isOpen={!fullname && isModalOpen} onClose={handleModalOpen()}>
           {isAccount ? (
             <Login handleAccount={handleAccount} />
           ) : (

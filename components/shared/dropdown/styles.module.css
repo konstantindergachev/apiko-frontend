@@ -18,14 +18,3 @@
 .dropdown li:nth-child(2) {
   color: var(--middlegray-color);
 }
-.btn:before {
-  position: relative !important;
-}
-.btn {
-  color: var(--orange-color) !important;
-  text-transform: none !important;
-  margin-left: 0 !important;
-  padding-left: 20px;
-  width: 100%;
-  text-align: left;
-}
