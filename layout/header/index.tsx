@@ -10,6 +10,7 @@ import { Register } from '@/components/register';
 
 import { Dropdown } from '@/components/shared/dropdown';
 import { Error } from '@/components/shared/error';
+import { DropdownItem } from '@/components/shared/dropdown-item';
 import { baseUsername, selectUsername } from '../../store';
 
 import logo from '@/images/logo.svg';
@@ -88,14 +89,14 @@ export const Header: React.FC = (): JSX.Element => {
         {isDropdown && fullname && (
           <Dropdown>
             {Object.values(storedFullname).map((val) => (
-              <li key={val}>{val}</li>
+              <DropdownItem key={val}>{val}</DropdownItem>
             ))}
             <hr />
-            <li>
+            <DropdownItem>
               <button onClick={onExit} className={styles.btn}>
                 Log out
               </button>
-            </li>
+            </DropdownItem>
             {error && <Error message={error} />}
           </Dropdown>
         )}
