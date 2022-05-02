@@ -1,0 +1,84 @@
+.panel {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  background: var(--main-color);
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+  padding: 12px 27px;
+  margin: 25px 0 15px;
+}
+
+.panel fieldset {
+  border: none;
+  position: relative;
+  max-width: 290px;
+  width: 100%;
+}
+.panel fieldset span {
+  position: absolute !important;
+  width: 20px !important;
+  height: 20px !important;
+  top: 50%;
+  left: 11px;
+  transform: translate(-2%, -50%);
+}
+
+.panel fieldset input {
+  background: var(--lightgray-color);
+
+  border: var(--input-border);
+  box-sizing: border-box;
+  border-radius: 5px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 26px;
+  width: 100%;
+  height: 37px;
+  padding-left: 35px;
+}
+.panel fieldset input:focus {
+  border: 2px solid var(--input-border-active-color);
+  outline: 0;
+}
+.panel fieldset select {
+  background-color: var(--lightgray-color);
+  border: var(--input-border);
+  border-radius: 5px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 26px;
+  width: 100%;
+  height: 37px;
+  padding-left: 35px;
+
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.panel fieldset select.classic {
+  background-image: linear-gradient(45deg, transparent 50%, var(--gray-color) 50%),
+    linear-gradient(135deg, var(--gray-color) 50%, transparent 50%),
+    linear-gradient(to right, var(--middlegray-color), var(--middlegray-color));
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+}
+.panel fieldset select.classic:focus {
+  background-image: linear-gradient(45deg, var(--input-border-active-color) 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, var(--input-border-active-color) 50%),
+    linear-gradient(to right, var(--middlegray-color), var(--middlegray-color));
+  background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+  border: 2px solid var(--input-border-active-color);
+  outline: 0;
+}

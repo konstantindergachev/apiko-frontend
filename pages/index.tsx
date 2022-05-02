@@ -3,6 +3,7 @@ import { Products } from '@/components/products';
 import { BaseLayout } from '@/layout/base-layout';
 import { IProducts } from '@/interfaces/products';
 import AppHead from '@/layout/head';
+import { Panel } from '@/components/panel';
 
 const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   return (
@@ -10,6 +11,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
       <AppHead title="Home" />
       <BaseLayout>
         <main>
+          <Panel />
           <Products products={products} />
         </main>
       </BaseLayout>
