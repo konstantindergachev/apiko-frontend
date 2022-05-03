@@ -1,16 +1,22 @@
+import React from 'react';
 import Image from 'next/image';
+import { IPanel } from '@/interfaces/panel';
 import magnifier from '@/images/magnifier.svg';
 import category from '@/images/category.svg';
 import sort from '@/images/sort.svg';
-
 import styles from './styles.module.css';
 
-export const Panel: React.FC = (): JSX.Element => {
+export const Panel: React.FC<IPanel> = ({ onSearch, searchField }): JSX.Element => {
   return (
     <section className={styles.panel}>
       <fieldset>
         <Image src={magnifier} alt={'magnifier'} width={20} height={20} />
-        <input type="text" placeholder="Search products by name" />
+        <input
+          type="text"
+          placeholder="Search products by name"
+          onChange={onSearch}
+          value={searchField}
+        />
       </fieldset>
       <fieldset>
         <Image src={category} alt={'category'} width={20} height={20} />
