@@ -6,7 +6,11 @@ import category from '@/images/category.svg';
 import sort from '@/images/sort.svg';
 import styles from './styles.module.css';
 
-export const Panel: React.FC<IPanel> = ({ onSearch, searchField }): JSX.Element => {
+export const Panel: React.FC<IPanel> = ({
+  onSearch,
+  searchField,
+  chooseProductsByCategory,
+}): JSX.Element => {
   return (
     <section className={styles.panel}>
       <fieldset>
@@ -20,15 +24,15 @@ export const Panel: React.FC<IPanel> = ({ onSearch, searchField }): JSX.Element 
       </fieldset>
       <fieldset>
         <Image src={category} alt={'category'} width={20} height={20} />
-        <select className={styles.classic}>
+        <select className={styles.classic} onClick={chooseProductsByCategory}>
           <option value="Chose Category">Choose Category</option>
-          <option value="All">All</option>
-          <option value="eiusmod et">eiusmod et</option>
-          <option value="cillum nostrud">cillum nostrud</option>
-          <option value="esse ipsum">esse ipsum</option>
-          <option value="esse irure">esse irure</option>
-          <option value="cupidatat nostrud">cupidatat nostrud</option>
-          <option value="sint excepteur">sint excepteur</option>
+          <option value={0}>All</option>
+          <option value={1}>eiusmod et</option>
+          <option value={2}>cillum nostrud</option>
+          <option value={3}>esse ipsum</option>
+          <option value={4}>esse irure</option>
+          <option value={5}>cupidatat nostrud</option>
+          <option value={6}>sint excepteur</option>
         </select>
       </fieldset>
       <fieldset>

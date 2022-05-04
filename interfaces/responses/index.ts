@@ -13,3 +13,20 @@ export interface IResponse {
 export interface IResponseError {
   message: string;
 }
+
+interface IProductsByCategory {
+  id: number;
+  title: string;
+  price: string;
+  picture: string;
+  description: string;
+  favorite: true;
+  created_at: string;
+  category: { id: number; name: string };
+}
+export interface IProductsByCategoryResponse {
+  products: IProductsByCategory[];
+}
+export interface IProductsByCategoryResponseError {
+  message: string;
+}
