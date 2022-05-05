@@ -1,16 +1,36 @@
 import { useState } from 'react';
 import Image from 'next/image';
+import { useRecoilValue } from 'recoil';
 import { IProducts } from '@/interfaces/products';
 import { Card } from '@/components/shared/card';
 import { LikeButton } from '@/components/like';
+import Modal from '@/components/shared/modal';
+import { Login } from '@/components/login';
+import { Register } from '@/components/register';
+import { selectUsername } from '../../store';
 
 import styles from './styles.module.css';
 
 export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
+  const storedFullname = useRecoilValue(selectUsername);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [ids, setIds] = useState<number[]>([]);
+  const [preAccount, setPreAccount] = useState<boolean>(true);
+  const [isAccount, setIsAccount] = useState<boolean>(false);
+
+  const handleAccount = (isAccount: boolean) => (): void => {
+    setPreAccount(false);
+    setIsAccount(isAccount);
+  };
+
+  const handleModalOpen = () => (): void => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   const handleProductLike = (productId: number) => (): void => {
-    if (ids.includes(productId)) {
+    if (!storedFullname.fullname) {
+      setIsModalOpen(true);
+    } else if (ids.includes(productId)) {
       const filteredIds = ids.filter((id) => id !== productId);
       setIds([...filteredIds]);
     } else {
@@ -38,6 +58,20 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
           </Card>
         );
       })}
+      <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
+        {preAccount ? (
+          <div className={styles.like}>
+            <h3>To continue please  register or log in</h3>
+            <button onClick={handleAccount(true)}>Continue to sign in</button>
+            <button onClick={handleAccount(false)}>Continue to register</button>
+            <button onClick={handleModalOpen()}>Continue as guest</button>
+          </div>
+        ) : isAccount ? (
+          <Login handleAccount={handleAccount} />
+        ) : (
+          <Register handleAccount={handleAccount} />
+        )}
+      </Modal>
     </section>
   );
 };
