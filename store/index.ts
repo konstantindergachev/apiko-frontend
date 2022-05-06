@@ -2,7 +2,7 @@ import { atom, selector } from 'recoil';
 
 export const baseUsername = atom({
   key: 'baseUsername',
-  default: { fullname: '', email: '' },
+  default: { id: 0, fullname: '', email: '' },
 });
 
 export const selectUsername = selector({

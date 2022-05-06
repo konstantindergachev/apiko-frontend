@@ -46,7 +46,7 @@ export const Header: React.FC = (): JSX.Element => {
   const onExit = async () => {
     try {
       await fetch(`http://localhost:3000/api/user/logout`);
-      setUsername(() => ({ fullname: '', email: '' }));
+      setUsername(() => ({ id: 0, fullname: '', email: '' }));
     } catch (error: any) {
       setError(error.message);
     }

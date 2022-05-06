@@ -43,7 +43,11 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
       if (data.message) {
         setRequestError(data.message);
       }
-      setUsername(() => ({ fullname: data.account.fullname, email: data.account.email }));
+      setUsername(() => ({
+        id: data.account.id,
+        fullname: data.account.fullname,
+        email: data.account.email,
+      }));
     } catch (error: any) {
       setRequestError(error.message);
     }

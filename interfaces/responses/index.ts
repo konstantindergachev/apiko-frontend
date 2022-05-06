@@ -30,3 +30,11 @@ export interface IProductsByCategoryResponse {
 export interface IProductsByCategoryResponseError {
   message: string;
 }
+
+export interface IProductFavoriteResponse {
+  message: string;
+}
+
+export interface IProductFavoriteResponseError {
+  message: string;
+}
