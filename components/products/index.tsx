@@ -34,15 +34,31 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
     if (!storedFullname.fullname) {
       setIsModalOpen(true);
     } else if (ids.includes(productId)) {
+      removeLike(productId, storedFullname.id);
       const filteredIds = ids.filter((id) => id !== productId);
       setIds([...filteredIds]);
     } else {
-      fetchData(productId, storedFullname.id);
+      addLike(productId, storedFullname.id);
       setIds([...ids, productId]);
     }
   };
 
-  const fetchData = async (productId: number, userId: number) => {
+  const removeLike = async (productId: number, userId: number) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/favorites/remove?productId=${productId}&userId=${userId}`
+      );
+      const data: IResponse & IResponseError = await response.json();
+
+      if (data.message) {
+        setRequestError(data.message);
+      }
+    } catch (error: any) {
+      console.log('error: ', error.message); //FIXME:
+    }
+  };
+
+  const addLike = async (productId: number, userId: number) => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/favorites/add?productId=${productId}&userId=${userId}`
