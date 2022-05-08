@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { IProducts } from '@/interfaces/products';
+import { IProduct, IProducts } from '@/interfaces/products';
 import { Card } from '@/components/shared/card';
 import { LikeButton } from '@/components/like';
 import Modal from '@/components/shared/modal';
 import { Login } from '@/components/login';
 import { Register } from '@/components/register';
+import { Error } from '@/components/shared/error';
+import { Success } from '@/components/shared/success';
 import { IResponse, IResponseError } from '@/interfaces/responses';
 import { selectUsername } from '../../store';
 
 import styles from './styles.module.css';
-import { Error } from '../shared/error';
-
 export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
   const storedFullname = useRecoilValue(selectUsername);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -20,6 +20,17 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
   const [preAccount, setPreAccount] = useState<boolean>(true);
   const [isAccount, setIsAccount] = useState<boolean>(false);
   const [requestError, setRequestError] = useState<string>('');
+  const [requestSuccess, setRequestSuccess] = useState<string>('');
+
+  useEffect(() => {
+    const productsId: number[] = [];
+    products.forEach((product: IProduct) => {
+      if (product.favorite) {
+        productsId.push(product.id);
+      }
+    });
+    setIds([...productsId]);
+  }, []);
 
   const handleAccount = (isAccount: boolean) => (): void => {
     setPreAccount(false);
@@ -51,10 +62,10 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
       const data: IResponse & IResponseError = await response.json();
 
       if (data.message) {
-        setRequestError(data.message);
+        setRequestSuccess(data.message);
       }
     } catch (error: any) {
-      console.log('error: ', error.message); //FIXME:
+      setRequestError(error.message);
     }
   };
 
@@ -66,16 +77,17 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
       const data: IResponse & IResponseError = await response.json();
 
       if (data.message) {
-        setRequestError(data.message);
+        setRequestSuccess(data.message);
       }
     } catch (error: any) {
-      console.log('error: ', error.message); //FIXME:
+      setRequestError(error.message);
     }
   };
 
   return (
     <>
       {requestError && <Error message={requestError} />}
+      {requestSuccess && <Success message={requestSuccess} />}
       <section className={styles.products}>
         {products.map((product) => {
           return (

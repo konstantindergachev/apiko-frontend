@@ -8,7 +8,7 @@ export interface IProduct {
   price: string;
   picture: string;
   description: string;
-  favofite: boolean;
+  favorite: boolean;
   created_at: string;
   category: ICategory;
 }

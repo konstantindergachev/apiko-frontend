@@ -1,0 +1,10 @@
+.text {
+  color: var(--main-color);
+  background-color: var(--green-color);
+  border-radius: 4px;
+  font-weight: 400;
+  text-transform: capitalize;
+  text-align: center;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
