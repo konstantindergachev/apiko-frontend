@@ -110,7 +110,7 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
         <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
           {preAccount ? (
             <div className={styles.like}>
-              <h3>To continue please  register or log in</h3>
+              <h3>To continue please register or log in</h3>
               <button onClick={handleAccount(true)}>Continue to sign in</button>
               <button onClick={handleAccount(false)}>Continue to register</button>
               <button onClick={handleModalOpen()}>Continue as guest</button>

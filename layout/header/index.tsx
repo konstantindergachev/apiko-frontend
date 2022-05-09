@@ -4,10 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Modal from '@/components/shared/modal';
 import { Login } from '@/components/login';
-
-import { menu } from './config';
 import { Register } from '@/components/register';
-
 import { Dropdown } from '@/components/shared/dropdown';
 import { Error } from '@/components/shared/error';
 import { DropdownItem } from '@/components/shared/dropdown-item';
@@ -15,6 +12,7 @@ import { baseUsername, selectUsername } from '../../store';
 
 import logo from '@/images/logo.svg';
 import arrow from '@/images/down_arrow.svg';
+import { menu } from './config';
 import styles from './styles.module.css';
 
 export const Header: React.FC = (): JSX.Element => {
@@ -23,7 +21,7 @@ export const Header: React.FC = (): JSX.Element => {
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  const storedFullname = useRecoilValue(selectUsername);
+  const account = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
 
   const handleAccount = (isAccount: boolean) => (): void => {
@@ -47,12 +45,13 @@ export const Header: React.FC = (): JSX.Element => {
     try {
       await fetch(`http://localhost:3000/api/user/logout`);
       setUsername(() => ({ id: 0, fullname: '', email: '' }));
+      setIsModalOpen(false);
     } catch (error: any) {
       setError(error.message);
     }
   };
 
-  const { fullname } = storedFullname;
+  const user = { fullname: account.fullname, email: account.email };
 
   return (
     <header className={styles.header}>
@@ -64,7 +63,7 @@ export const Header: React.FC = (): JSX.Element => {
 
       <nav>
         {menu
-          .filter((route) => (route['guard'] ? route.guard(!!fullname) : route))
+          .filter((route) => (route['guard'] ? route.guard(!!account.fullname) : route))
           .map((route) =>
             route.component ? (
               <Link key={route.name} href={route.path}>
@@ -78,19 +77,19 @@ export const Header: React.FC = (): JSX.Element => {
               </button>
             )
           )}
-        {fullname && (
+        {account.fullname && (
           <>
-            <p>Welcome, {fullname.split(' ')[0]}!</p>
+            <p>Welcome, {account.fullname.split(' ')[0]}!</p>
             <button type="button" onClick={handleModalOpen('dropdown open')}>
               <Image src={arrow} alt={'drop down arrow'} width={10} height={10} />
             </button>
           </>
         )}
-        {isDropdown && fullname && (
+        {isDropdown && account.fullname && (
           <Dropdown>
-            {Object.values(storedFullname).map((val) => (
-              <DropdownItem key={val}>{val}</DropdownItem>
-            ))}
+            {Object.values(user).map((val) => {
+              return <DropdownItem key={val}>{val}</DropdownItem>;
+            })}
             <hr />
             <DropdownItem>
               <button onClick={onExit} className={styles.btn}>
@@ -100,7 +99,7 @@ export const Header: React.FC = (): JSX.Element => {
             {error && <Error message={error} />}
           </Dropdown>
         )}
-        <Modal isOpen={!fullname && isModalOpen} onClose={handleModalOpen()}>
+        <Modal isOpen={!account.fullname && isModalOpen} onClose={handleModalOpen()}>
           {isAccount ? (
             <Login handleAccount={handleAccount} />
           ) : (
