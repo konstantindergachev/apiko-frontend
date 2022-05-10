@@ -11,10 +11,12 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   const [searchField, setSearchField] = useState<string>('');
   const [requestError, setRequestError] = useState<string>('');
   const [productsByCategory, setProductsByCategory] = useState<IProduct[]>([]);
+  const [productsBySort, setProductsBySort] = useState<IProduct[]>([]);
 
   useEffect(() => {
-    if (productsByCategory.length !== 0) {
+    if (productsByCategory.length !== 0 || productsBySort.length !== 0) {
       setProductsByCategory([]);
+      setProductsBySort([]);
     }
   }, [searchField]);
 
@@ -52,6 +54,25 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
     }
   };
 
+  const sort = async (ev: React.FormEvent<HTMLSelectElement>): Promise<void> => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/products/sort?sortBy=${ev.currentTarget.value}`
+      );
+      const data = await response.json();
+
+      if (data?.message) {
+        setRequestError(data.message);
+        return;
+      }
+      setSearchField('');
+      setProductsBySort(data.products);
+      setRequestError('');
+    } catch (error: any) {
+      setRequestError(error.message);
+    }
+  };
+
   return (
     <>
       <AppHead title="Home" />
@@ -62,9 +83,12 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
             onSearch={handleSearch}
             searchField={searchField}
             chooseProductsByCategory={chooseProductsByCategory}
+            chooseProductsBySort={sort}
           />
           {productsByCategory?.length ? (
             <Products products={productsByCategory} />
+          ) : productsBySort?.length ? (
+            <Products products={productsBySort} />
           ) : (
             <Products products={filterProducts(searchField)} />
           )}

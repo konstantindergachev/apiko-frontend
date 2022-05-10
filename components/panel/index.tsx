@@ -10,6 +10,7 @@ export const Panel: React.FC<IPanel> = ({
   onSearch,
   searchField,
   chooseProductsByCategory,
+  chooseProductsBySort,
 }): JSX.Element => {
   return (
     <section className={styles.panel}>
@@ -37,7 +38,7 @@ export const Panel: React.FC<IPanel> = ({
       </fieldset>
       <fieldset>
         <Image src={sort} alt={'sort'} width={20} height={20} />
-        <select className={styles.classic}>
+        <select className={styles.classic} onClick={chooseProductsBySort}>
           <option value="Sorting">Sorting</option>
           <option value="popular">popular</option>
           <option value="new">new</option>
