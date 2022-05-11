@@ -15,3 +15,9 @@ export interface IProduct {
 export interface IProducts {
   products: IProduct[];
 }
+
+export interface ILoadMoreSettings {
+  offset: number;
+  limit: number;
+  sortBy: string;
+}
