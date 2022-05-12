@@ -30,7 +30,7 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
       }
     });
     setIds([...productsId]);
-  }, []);
+  }, [products]);
 
   const handleAccount = (isAccount: boolean) => (): void => {
     setPreAccount(false);
