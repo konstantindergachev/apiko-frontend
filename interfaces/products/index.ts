@@ -15,6 +15,17 @@ export interface IProduct {
 export interface IProducts {
   products: IProduct[];
 }
+export interface IOneProduct {
+  product: {
+    id: number;
+    title: string;
+    price: string;
+    picture: string;
+    description: string;
+    favorite: boolean;
+    category: ICategory;
+  };
+}
 
 export interface ILoadMoreSettings {
   offset: number;

@@ -55,7 +55,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   };
 
   const filterProducts = (searchField: string) => {
-    return loadMoreProducts.filter((product) => {
+    return loadMoreProducts.filter((product: IProduct) => {
       return product.title.toLowerCase().includes(searchField);
     });
   };

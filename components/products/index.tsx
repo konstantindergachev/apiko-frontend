@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRecoilValue } from 'recoil';
 import { IProduct, IProducts } from '@/interfaces/products';
 import { Card } from '@/components/shared/card';
@@ -89,22 +90,26 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
       {requestError && <Error message={requestError} />}
       {requestSuccess && <Success message={requestSuccess} />}
       <section className={styles.products}>
-        {products.map((product) => {
+        {products.map((product: IProduct) => {
           return (
-            <Card key={product.id}>
-              {product.picture && (
-                <Image src={product.picture} alt={product.title} width={200} height={200} />
-              )}
-              <div className={styles.content}>
-                <p>{product.title}</p>
-                <h3>$ {product.price}</h3>
-              </div>
-              <LikeButton
-                onClick={handleProductLike}
-                productId={product.id}
-                isLiked={ids.includes(product.id)}
-              />
-            </Card>
+            <Link key={product.id} href={`/product/${product.id}`}>
+              <a>
+                <Card>
+                  {product.picture && (
+                    <Image src={product.picture} alt={product.title} width={200} height={200} />
+                  )}
+                  <div className={styles.content}>
+                    <p>{product.title}</p>
+                    <h3>$ {product.price}</h3>
+                  </div>
+                  <LikeButton
+                    onClick={handleProductLike}
+                    productId={product.id}
+                    isLiked={ids.includes(product.id)}
+                  />
+                </Card>
+              </a>
+            </Link>
           );
         })}
         <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
