@@ -25,7 +25,7 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
             </div>
             <div className={styles.middle}>
               <p className={styles.price}>
-                price <span>{product.price}</span>
+                price <span>{currency}</span>
               </p>
               <div className={styles.buttons}>
                 <Button type="button" classNames={styles.countBtns} label={'-'} />

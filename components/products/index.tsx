@@ -103,7 +103,11 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
               )}
               <div className={styles.content}>
                 <p>{product.title}</p>
-                <h3>$ {product.price}</h3>
+                <h3>
+                  {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+                    +product.price
+                  )}
+                </h3>
               </div>
               <LikeButton
                 onClick={handleProductLike}
