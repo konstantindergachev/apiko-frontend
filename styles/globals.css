@@ -53,16 +53,3 @@ main {
   width: 60%;
   margin: 0 auto;
 }
-
-.loadBtn {
-  margin: 50px auto 0;
-  max-width: 150px;
-  width: 100%;
-  line-height: 36px;
-  padding: 6px 16px;
-  border: none;
-  background: var(--blue-color);
-  color: var(--main-color);
-  border-radius: 4px;
-  cursor: pointer;
-}

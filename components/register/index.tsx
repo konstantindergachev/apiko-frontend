@@ -2,6 +2,7 @@ import { IAccount, IRegistrationFields } from '@/interfaces/forms';
 import React, { useState } from 'react';
 import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
+import { Button } from '@/components/shared/button';
 import { registerSchema } from './validate';
 
 import styles from './styles.module.css';
@@ -116,14 +117,17 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
             onBlur={validate}
             onKeyPress={validate}
           />
-          <button type="submit">register</button>
+          <Button type="submit" classNames={styles.registerBtn} label={'Register'} />
         </form>
       </div>
       <p className={styles.toggler}>
         I already have an account,{' '}
-        <button type="button" onClick={handleAccount(true)}>
-          Log in
-        </button>
+        <Button
+          type="button"
+          classNames={styles.toggleBtn}
+          onClick={handleAccount(true)}
+          label={'Log in'}
+        />
       </p>
     </>
   );

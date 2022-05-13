@@ -8,6 +8,7 @@ import { Register } from '@/components/register';
 import { Dropdown } from '@/components/shared/dropdown';
 import { Error } from '@/components/shared/error';
 import { DropdownItem } from '@/components/shared/dropdown-item';
+import { Button } from '@/components/shared/button';
 import { baseUsername, selectUsername } from '../../store';
 
 import logo from '@/images/logo.svg';
@@ -72,17 +73,25 @@ export const Header: React.FC = (): JSX.Element => {
                 </a>
               </Link>
             ) : (
-              <button type="button" key={route.name} onClick={handleModalOpen(route.name)}>
-                {route.name}
-              </button>
+              <Button
+                type="button"
+                classNames={styles.navBtn}
+                key={route.name}
+                onClick={handleModalOpen(route.name)}
+                label={route.name}
+              />
             )
           )}
         {account.fullname && (
           <>
             <p>Welcome, {account.fullname.split(' ')[0]}!</p>
-            <button type="button" onClick={handleModalOpen('dropdown open')}>
+            <Button
+              type="button"
+              classNames={styles.arrowBtn}
+              onClick={handleModalOpen('dropdown open')}
+            >
               <Image src={arrow} alt={'drop down arrow'} width={10} height={10} />
-            </button>
+            </Button>
           </>
         )}
         {isDropdown && account.fullname && (
@@ -92,9 +101,7 @@ export const Header: React.FC = (): JSX.Element => {
             })}
             <hr />
             <DropdownItem>
-              <button onClick={onExit} className={styles.btn}>
-                Log out
-              </button>
+              <Button type="button" onClick={onExit} classNames={styles.btn} label={'Log out'} />
             </DropdownItem>
             {error && <Error message={error} />}
           </Dropdown>

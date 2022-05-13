@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
+import { Button } from '@/components/shared/button';
 import { loginSchema } from './validate';
 import { baseUsername } from '../../store';
 
@@ -81,14 +82,18 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
             onBlur={validate}
             onKeyPress={validate}
           />
-          <button type="submit">log in</button>
+
+          <Button type="submit" classNames={styles.loginBtn} label={'log in'} />
         </form>
       </div>
       <p className={styles.toggler}>
         I already have no account,{' '}
-        <button type="button" onClick={handleAccount(false)}>
-          Register now
-        </button>
+        <Button
+          type="button"
+          classNames={styles.toggleBtn}
+          onClick={handleAccount(false)}
+          label={'Register now'}
+        />
       </p>
     </>
   );

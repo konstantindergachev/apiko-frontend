@@ -10,6 +10,7 @@ import { Login } from '@/components/login';
 import { Register } from '@/components/register';
 import { Error } from '@/components/shared/error';
 import { Success } from '@/components/shared/success';
+import { Button } from '@/components/shared/button';
 import { IResponse, IResponseError } from '@/interfaces/responses';
 import { selectUsername } from '../../store';
 
@@ -92,33 +93,48 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
       <section className={styles.products}>
         {products.map((product: IProduct) => {
           return (
-            <Link key={product.id} href={`/product/${product.id}`}>
-              <a>
-                <Card>
-                  {product.picture && (
+            <Card>
+              {product.picture && (
+                <Link key={product.id} href={`/product/${product.id}`}>
+                  <a>
                     <Image src={product.picture} alt={product.title} width={200} height={200} />
-                  )}
-                  <div className={styles.content}>
-                    <p>{product.title}</p>
-                    <h3>$ {product.price}</h3>
-                  </div>
-                  <LikeButton
-                    onClick={handleProductLike}
-                    productId={product.id}
-                    isLiked={ids.includes(product.id)}
-                  />
-                </Card>
-              </a>
-            </Link>
+                  </a>
+                </Link>
+              )}
+              <div className={styles.content}>
+                <p>{product.title}</p>
+                <h3>$ {product.price}</h3>
+              </div>
+              <LikeButton
+                onClick={handleProductLike}
+                productId={product.id}
+                isLiked={ids.includes(product.id)}
+              />
+            </Card>
           );
         })}
         <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
           {preAccount ? (
-            <div className={styles.like}>
+            <div className={styles.likeModal}>
               <h3>To continue please register or log in</h3>
-              <button onClick={handleAccount(true)}>Continue to sign in</button>
-              <button onClick={handleAccount(false)}>Continue to register</button>
-              <button onClick={handleModalOpen()}>Continue as guest</button>
+              <Button
+                type="button"
+                classNames={styles.likeBtn}
+                onClick={handleAccount(true)}
+                label={'Continue to sign in'}
+              />
+              <Button
+                type="button"
+                classNames={styles.likeBtn}
+                onClick={handleAccount(false)}
+                label={'Continue to register'}
+              />
+              <Button
+                type="button"
+                classNames={styles.likeBtn}
+                onClick={handleModalOpen()}
+                label={'Continue as guest'}
+              />
             </div>
           ) : isAccount ? (
             <Login handleAccount={handleAccount} />

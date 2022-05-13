@@ -2,6 +2,7 @@ import { BaseLayout } from '@/layout/base-layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { IOneProduct } from '@/interfaces/products';
 import { Card } from '@/components/shared/card';
+import { Button } from '@/components/shared/button';
 import Image from 'next/image';
 
 import styles from './styles.module.css';
@@ -21,9 +22,9 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
               price <span>{product.price}</span>
             </p>
             <div className={styles.buttons}>
-              <button>-</button>
+              <Button type="button" classNames={styles.countBtns} label={'-'} />
               <span>{1}</span>
-              <button>+</button>
+              <Button type="button" classNames={styles.countBtns} label={'+'} />
             </div>
             <p>
               Items: <span>{1}</span>

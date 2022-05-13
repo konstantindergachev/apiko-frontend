@@ -35,11 +35,10 @@
   margin-top: 2rem;
 }
 
-.content p button {
+.loginBtn {
   color: var(--orange-color);
   background: none;
   border: none;
-  text-transform: capitalize;
   cursor: pointer;
 }
 
@@ -53,7 +52,7 @@
   font-size: 14px;
   line-height: 1.7;
 }
-.toggler button {
+.toggleBtn {
   border: none;
   background: transparent;
   color: var(--orange-color);
