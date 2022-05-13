@@ -3,6 +3,24 @@
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 250px;
+  min-height: 212px;
+  margin: 5px;
+  padding: 4px;
+
+  background: var(--main-color);
+  border: var(--card-border);
+  box-sizing: border-box;
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+}
+
 .products span {
   width: 100% !important;
   transition: box-shadow 0.2s ease-in;

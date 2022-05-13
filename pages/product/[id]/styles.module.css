@@ -5,15 +5,52 @@
   max-width: 1000px;
   height: 697px;
 }
+
+.card {
+  display: flex;
+  width: 420px;
+  height: 320px;
+  padding: 10px;
+
+  border: var(--card-border);
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+}
+
 .product article {
   margin-right: 15px;
 }
+
 .contentRight {
+  max-width: 300px;
+  max-height: 320px;
   margin-left: 15px;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.buttons {
-  margin: 30px 0;
+.top .title {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
 }
+.middle .price {
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 26px;
+  color: var(--black-color);
+  margin-bottom: 25px;
+}
+
+.buttons span {
+  margin: 0 10px;
+}
+
 .countBtns {
   padding: 0 10px;
   line-height: 26px;
@@ -26,32 +63,16 @@
 .countBtns:hover {
   box-shadow: var(--box-shadow-like);
 }
-.buttons span {
-  margin: 0 10px;
-}
-.contentRight h1 {
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-}
+
 .contentRight p {
   font-weight: 400;
   font-size: 15px;
   line-height: 22px;
   color: var(--gray-color);
 }
-.contentRight p:nth-child(3n) {
-  text-transform: uppercase;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 26px;
-  color: var(--black-color);
-}
 
 .contentRight p span {
+  margin-left: 20px;
   font-weight: 700;
   color: var(--black-color);
 }

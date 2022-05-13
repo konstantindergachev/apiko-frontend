@@ -93,9 +93,9 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
       <section className={styles.products}>
         {products.map((product: IProduct) => {
           return (
-            <Card>
+            <Card key={product.id} classNames={styles.card}>
               {product.picture && (
-                <Link key={product.id} href={`/product/${product.id}`}>
+                <Link href={`/product/${product.id}`}>
                   <a>
                     <Image src={product.picture} alt={product.title} width={200} height={200} />
                   </a>
