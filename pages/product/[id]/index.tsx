@@ -6,11 +6,29 @@ import { Button } from '@/components/shared/button';
 import Image from 'next/image';
 
 import styles from './styles.module.css';
+import { useEffect, useState } from 'react';
+import { numberFormat } from 'utils';
 
 const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
-  const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-    +product.price
-  );
+  const [count, setCount] = useState<number>(1);
+  const oneProductPrice = numberFormat(+product.price);
+  const [total, setTotal] = useState<number>(0);
+
+  useEffect(() => {
+    const toFixedPrice = (+product.price * count).toFixed(2);
+    setTotal(+toFixedPrice);
+  }, [total, count]);
+
+  const increment = (): void => {
+    setCount(count + 1);
+  };
+  const decrement = (): void => {
+    if (count === 1) {
+      return;
+    }
+    setCount(count - 1);
+  };
+
   return (
     <BaseLayout>
       <main>
@@ -25,20 +43,30 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
             </div>
             <div className={styles.middle}>
               <p className={styles.price}>
-                price <span>{currency}</span>
+                price <span>{oneProductPrice}</span>
               </p>
               <div className={styles.buttons}>
-                <Button type="button" classNames={styles.countBtns} label={'-'} />
-                <span>{1}</span>
-                <Button type="button" classNames={styles.countBtns} label={'+'} />
+                <Button
+                  type="button"
+                  classNames={styles.countBtns}
+                  label={'-'}
+                  onClick={decrement}
+                />
+                <span>{count}</span>
+                <Button
+                  type="button"
+                  classNames={styles.countBtns}
+                  label={'+'}
+                  onClick={increment}
+                />
               </div>
             </div>
             <div className={styles.bottom}>
               <p>
-                Items:<span>{1}</span>
+                Items:<span>{count}</span>
               </p>
               <p>
-                Total: <span>{currency}</span>
+                Total: <span>{numberFormat(total)}</span>
               </p>
             </div>
           </div>
