@@ -4,19 +4,24 @@ import { IOneProduct } from '@/interfaces/products';
 import { Card } from '@/components/shared/card';
 import { Button } from '@/components/shared/button';
 import Image from 'next/image';
+import { useSetRecoilState } from 'recoil';
 
 import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
 import { numberFormat } from 'utils';
+import { productsCount } from 'store';
 
 const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
   const [count, setCount] = useState<number>(1);
   const oneProductPrice = numberFormat(+product.price);
   const [total, setTotal] = useState<number>(0);
 
+  const setProductsCount = useSetRecoilState(productsCount);
+
   useEffect(() => {
     const toFixedPrice = (+product.price * count).toFixed(2);
     setTotal(+toFixedPrice);
+    setProductsCount(() => ({ count }));
   }, [total, count]);
 
   const increment = (): void => {

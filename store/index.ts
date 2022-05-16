@@ -12,3 +12,16 @@ export const selectUsername = selector({
     return user;
   },
 });
+
+export const productsCount = atom({
+  key: 'productsCount',
+  default: { count: 0 },
+});
+
+export const selectProductsCount = selector({
+  key: 'selectProductsCount',
+  get: ({ get }) => {
+    const count = get(productsCount);
+    return count;
+  },
+});

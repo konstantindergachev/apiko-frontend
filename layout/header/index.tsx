@@ -9,7 +9,8 @@ import { Dropdown } from '@/components/shared/dropdown';
 import { Error } from '@/components/shared/error';
 import { DropdownItem } from '@/components/shared/dropdown-item';
 import { Button } from '@/components/shared/button';
-import { baseUsername, selectUsername } from '../../store';
+import { baseUsername, selectUsername, selectProductsCount } from 'store';
+import { IMenu } from '@/interfaces/menu';
 
 import logo from '@/images/logo.svg';
 import arrow from '@/images/down_arrow.svg';
@@ -24,6 +25,27 @@ export const Header: React.FC = (): JSX.Element => {
 
   const account = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
+  const productsCount = useRecoilValue(selectProductsCount);
+
+  const getMenuIcon = (route: IMenu): JSX.Element => {
+    if (route.name === 'Basket') {
+      return (
+        <Link key={route.name} href={route.path}>
+          <a>
+            <Image src={route.img} alt={route.name} width={18} height={18} />
+            {productsCount.count > 0 && <span className={styles.count}>{productsCount.count}</span>}
+          </a>
+        </Link>
+      );
+    }
+    return (
+      <Link key={route.name} href={route.path}>
+        <a>
+          <Image src={route.img} alt={route.name} width={18} height={18} />
+        </a>
+      </Link>
+    );
+  };
 
   const handleAccount = (isAccount: boolean) => (): void => {
     setIsAccount(isAccount);
@@ -67,11 +89,7 @@ export const Header: React.FC = (): JSX.Element => {
           .filter((route) => (route['guard'] ? route.guard(!!account.fullname) : route))
           .map((route) =>
             route.component ? (
-              <Link key={route.name} href={route.path}>
-                <a>
-                  <Image src={route.img} alt={route.name} width={18} height={18} />
-                </a>
-              </Link>
+              getMenuIcon(route)
             ) : (
               <Button
                 type="button"
