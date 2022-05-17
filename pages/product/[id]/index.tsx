@@ -1,20 +1,27 @@
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BaseLayout } from '@/layout/base-layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { IOneProduct } from '@/interfaces/products';
 import { Card } from '@/components/shared/card';
 import { Button } from '@/components/shared/button';
-import Image from 'next/image';
-import { useSetRecoilState } from 'recoil';
+import Modal from '@/components/shared/modal';
+import { Login } from '@/components/login';
+import { Register } from '@/components/register';
+import { productsCount, selectUsername } from 'store';
 
-import styles from './styles.module.css';
-import { useEffect, useState } from 'react';
 import { numberFormat } from 'utils';
-import { productsCount } from 'store';
+import styles from './styles.module.css';
 
 const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
   const [count, setCount] = useState<number>(1);
   const oneProductPrice = numberFormat(+product.price);
   const [total, setTotal] = useState<number>(0);
+  const storedFullname = useRecoilValue(selectUsername);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [preAccount, setPreAccount] = useState<boolean>(true);
+  const [isAccount, setIsAccount] = useState<boolean>(false);
 
   const setProductsCount = useSetRecoilState(productsCount);
 
@@ -33,8 +40,21 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
     setCount(count - 1);
   };
 
+  const handleModalOpen = () => (): void => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleAccount = (isAccount: boolean) => (): void => {
+    setPreAccount(false);
+    setIsAccount(isAccount);
+  };
+
   const addToCart = (): void => {
-    setProductsCount(() => ({ count }));
+    if (!storedFullname.fullname) {
+      setIsModalOpen(true);
+    } else {
+      setProductsCount(() => ({ count }));
+    }
   };
 
   return (
@@ -89,6 +109,35 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
             <Button type="button" classNames={styles.addBtn} label={'Buy now'} />
           </div>
         </section>
+        <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
+          {preAccount ? (
+            <div className={styles.addModal}>
+              <h3>To continue please register or log in</h3>
+              <Button
+                type="button"
+                classNames={styles.addBtn}
+                onClick={handleAccount(true)}
+                label={'Continue to sign in'}
+              />
+              <Button
+                type="button"
+                classNames={styles.addBtn}
+                onClick={handleAccount(false)}
+                label={'Continue to register'}
+              />
+              <Button
+                type="button"
+                classNames={styles.addBtn}
+                onClick={handleModalOpen()}
+                label={'Continue as guest'}
+              />
+            </div>
+          ) : isAccount ? (
+            <Login handleAccount={handleAccount} />
+          ) : (
+            <Register handleAccount={handleAccount} />
+          )}
+        </Modal>
       </main>
     </BaseLayout>
   );
