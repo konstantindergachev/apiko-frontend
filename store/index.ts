@@ -13,15 +13,14 @@ export const selectUsername = selector({
   },
 });
 
-export const productsCount = atom({
-  key: 'productsCount',
-  default: { count: 0 },
+export const baseProduct = atom({
+  key: 'baseProduct',
+  default: { id: 0, count: 0 },
 });
 
-export const selectProductsCount = selector({
-  key: 'selectProductsCount',
+export const selectProduct = selector({
+  key: 'selectProduct',
   get: ({ get }) => {
-    const count = get(productsCount);
-    return count;
+    return get(baseProduct);
   },
 });

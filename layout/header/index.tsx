@@ -9,7 +9,7 @@ import { Dropdown } from '@/components/shared/dropdown';
 import { Error } from '@/components/shared/error';
 import { DropdownItem } from '@/components/shared/dropdown-item';
 import { Button } from '@/components/shared/button';
-import { baseUsername, selectUsername, selectProductsCount } from 'store';
+import { baseUsername, selectUsername, selectProduct } from 'store';
 import { IMenu } from '@/interfaces/menu';
 
 import logo from '@/images/logo.svg';
@@ -25,7 +25,7 @@ export const Header: React.FC = (): JSX.Element => {
 
   const account = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
-  const productsCount = useRecoilValue(selectProductsCount);
+  const recoilProduct = useRecoilValue(selectProduct);
 
   const getMenuIcon = (route: IMenu): JSX.Element => {
     if (route.name === 'Basket') {
@@ -33,7 +33,7 @@ export const Header: React.FC = (): JSX.Element => {
         <Link key={route.name} href={route.path}>
           <a>
             <Image src={route.img} alt={route.name} width={18} height={18} />
-            {productsCount.count > 0 && <span className={styles.count}>{productsCount.count}</span>}
+            {recoilProduct.count > 0 && <span className={styles.count}>{recoilProduct.count}</span>}
           </a>
         </Link>
       );

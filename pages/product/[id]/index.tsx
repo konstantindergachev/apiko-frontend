@@ -9,7 +9,7 @@ import { Button } from '@/components/shared/button';
 import Modal from '@/components/shared/modal';
 import { Login } from '@/components/login';
 import { Register } from '@/components/register';
-import { productsCount, selectUsername } from 'store';
+import { baseProduct, selectProduct, selectUsername } from 'store';
 
 import { numberFormat } from 'utils';
 import styles from './styles.module.css';
@@ -23,7 +23,8 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
   const [preAccount, setPreAccount] = useState<boolean>(true);
   const [isAccount, setIsAccount] = useState<boolean>(false);
 
-  const setProductsCount = useSetRecoilState(productsCount);
+  const setProductsCount = useSetRecoilState(baseProduct);
+  const recoilProduct = useRecoilValue(selectProduct);
 
   useEffect(() => {
     const toFixedPrice = (+product.price * count).toFixed(2);
@@ -49,12 +50,16 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
     setIsAccount(isAccount);
   };
 
-  const addToCart = (): void => {
+  const addToCart = (id: number) => (): void => {
     if (!storedFullname.fullname) {
       setIsModalOpen(true);
-    } else {
-      setProductsCount((prev) => ({ count: prev.count + count }));
     }
+
+    if (recoilProduct.id === id && recoilProduct.count > 0) {
+      setProductsCount(() => ({ id, count }));
+      return;
+    }
+    setProductsCount((prev) => ({ id, count: prev.count + count }));
   };
 
   return (
@@ -103,7 +108,7 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
               type="button"
               classNames={styles.addBtn}
               label={'Add to cart'}
-              onClick={addToCart}
+              onClick={addToCart(product.id)}
             />
             <Button type="button" classNames={styles.addBtn} label={'Add to favorites'} />
             <Button type="button" classNames={styles.addBtn} label={'Buy now'} />
