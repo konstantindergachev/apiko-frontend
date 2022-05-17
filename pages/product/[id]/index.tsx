@@ -53,7 +53,7 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
     if (!storedFullname.fullname) {
       setIsModalOpen(true);
     } else {
-      setProductsCount(() => ({ count }));
+      setProductsCount((prev) => ({ count: prev.count + count }));
     }
   };
 
