@@ -21,7 +21,6 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
   useEffect(() => {
     const toFixedPrice = (+product.price * count).toFixed(2);
     setTotal(+toFixedPrice);
-    setProductsCount(() => ({ count }));
   }, [total, count]);
 
   const increment = (): void => {
@@ -32,6 +31,10 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
       return;
     }
     setCount(count - 1);
+  };
+
+  const addToCart = (): void => {
+    setProductsCount(() => ({ count }));
   };
 
   return (
@@ -74,6 +77,16 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
                 Total: <span>{numberFormat(total)}</span>
               </p>
             </div>
+          </div>
+          <div className={styles.btns}>
+            <Button
+              type="button"
+              classNames={styles.addBtn}
+              label={'Add to cart'}
+              onClick={addToCart}
+            />
+            <Button type="button" classNames={styles.addBtn} label={'Add to favorites'} />
+            <Button type="button" classNames={styles.addBtn} label={'Buy now'} />
           </div>
         </section>
       </main>
