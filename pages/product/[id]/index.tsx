@@ -9,10 +9,11 @@ import { Button } from '@/components/shared/button';
 import Modal from '@/components/shared/modal';
 import { Login } from '@/components/login';
 import { Register } from '@/components/register';
-import { baseProduct, selectProduct, selectUsername } from 'store';
+import { baseBasket, baseProduct, selectProduct, selectUsername } from 'store';
 
 import { numberFormat } from 'utils';
 import styles from './styles.module.css';
+import Link from 'next/link';
 
 const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
   const [count, setCount] = useState<number>(1);
@@ -25,6 +26,7 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
 
   const setProductsCount = useSetRecoilState(baseProduct);
   const recoilProduct = useRecoilValue(selectProduct);
+  const setProductsToBasket = useSetRecoilState(baseBasket);
 
   useEffect(() => {
     const toFixedPrice = (+product.price * count).toFixed(2);
@@ -60,6 +62,10 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
       return;
     }
     setProductsCount((prev) => ({ id, count: prev.count + count }));
+
+    setProductsToBasket((prev) => {
+      return [...prev, product];
+    });
   };
 
   return (
@@ -111,7 +117,9 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
               onClick={addToCart(product.id)}
             />
             <Button type="button" classNames={styles.addBtn} label={'Add to favorites'} />
-            <Button type="button" classNames={styles.addBtn} label={'Buy now'} />
+            <Link href={'/basket'}>
+              <a className={styles.addBtn}>Buy now</a>
+            </Link>
           </div>
         </section>
         <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>

@@ -1,4 +1,5 @@
 import { atom, selector } from 'recoil';
+import { IProduct } from '@/interfaces/products';
 
 export const baseUsername = atom({
   key: 'baseUsername',
@@ -22,5 +23,17 @@ export const selectProduct = selector({
   key: 'selectProduct',
   get: ({ get }) => {
     return get(baseProduct);
+  },
+});
+
+export const baseBasket = atom({
+  key: 'baseBasket',
+  default: [] as IProduct[],
+});
+
+export const selectBasket = selector({
+  key: 'selectBasket',
+  get: ({ get }) => {
+    return get(baseBasket);
   },
 });

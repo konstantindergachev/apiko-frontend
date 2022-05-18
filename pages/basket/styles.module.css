@@ -1,0 +1,98 @@
+.section {
+  margin-top: 70px;
+}
+.section h1 {
+  margin-bottom: 32px;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 37px;
+
+  letter-spacing: 0.4px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 560px;
+  height: 160px;
+  padding: 10px 22px;
+
+  border: var(--card-border);
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+  margin-bottom: 23px;
+}
+
+.basketMiddle {
+  max-width: 250px;
+  width: 100%;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.basketMiddle h2 {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+}
+.basketMiddle span {
+  margin: 0 10px;
+}
+.basketRight {
+  position: relative;
+  height: 90%;
+  padding: 19px 0 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.basketRight::before {
+  content: '';
+  background: var(--lightmiddlegray-color);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: inherit;
+  width: 2px;
+  margin-left: -20px;
+}
+.basketRight h4 {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
+  margin-bottom: 7px;
+}
+.basketRight span {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: 0.5px;
+}
+.btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start;
+}
+
+.removeBtn {
+  border: none;
+  background-color: transparent;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.countBtns {
+  padding: 0 10px;
+  line-height: 26px;
+  font-size: 13px;
+  border: none;
+  border-radius: 50%;
+  transition: box-shadow 0.2s ease-in;
+  cursor: pointer;
+}
+.countBtns:hover {
+  box-shadow: var(--box-shadow-like);
+}
