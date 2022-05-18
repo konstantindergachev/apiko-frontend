@@ -11,6 +11,7 @@ export interface IProduct {
   favorite: boolean;
   created_at?: string;
   category: ICategory;
+  quantity: number;
 }
 export interface IProducts {
   products: IProduct[];
@@ -24,6 +25,7 @@ export interface IOneProduct {
     description: string;
     favorite: boolean;
     category: ICategory;
+    quantity: number;
   };
 }
 

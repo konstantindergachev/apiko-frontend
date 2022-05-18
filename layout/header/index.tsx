@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,7 +9,7 @@ import { Dropdown } from '@/components/shared/dropdown';
 import { Error } from '@/components/shared/error';
 import { DropdownItem } from '@/components/shared/dropdown-item';
 import { Button } from '@/components/shared/button';
-import { baseUsername, selectUsername, selectProduct } from 'store';
+import { baseUsername, selectUsername, selectBasket } from 'store';
 import { IMenu } from '@/interfaces/menu';
 
 import logo from '@/images/logo.svg';
@@ -21,11 +21,17 @@ export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAccount, setIsAccount] = useState<boolean>(false);
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
+  const [productCount, setProductCount] = useState<number>(0);
   const [error, setError] = useState<string>('');
 
   const account = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
-  const recoilProduct = useRecoilValue(selectProduct);
+  const basketProducts = useRecoilValue(selectBasket);
+
+  useEffect(() => {
+    const count = basketProducts.reduce((acc, cur) => acc + cur.quantity, 0);
+    setProductCount(count);
+  }, [basketProducts]);
 
   const getMenuIcon = (route: IMenu): JSX.Element => {
     if (route.name === 'Basket') {
@@ -33,7 +39,9 @@ export const Header: React.FC = (): JSX.Element => {
         <Link key={route.name} href={route.path}>
           <a>
             <Image src={route.img} alt={route.name} width={18} height={18} />
-            {recoilProduct.count > 0 && <span className={styles.count}>{recoilProduct.count}</span>}
+            {account.fullname && productCount > 0 && (
+              <span className={styles.count}>{productCount}</span>
+            )}
           </a>
         </Link>
       );

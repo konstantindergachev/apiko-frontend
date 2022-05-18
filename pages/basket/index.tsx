@@ -1,10 +1,11 @@
-import { useState } from 'react';
 import Image from 'next/image';
 import { BaseLayout } from '@/layout/base-layout';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { selectBasket } from 'store';
 import { Card } from '@/components/shared/card';
 import { Button } from '@/components/shared/button';
+import { baseBasket } from 'store';
+import { IProduct } from '@/interfaces/products';
 
 import { numberFormat } from 'utils';
 import trash from '@/images/trash.svg';
@@ -12,16 +13,33 @@ import styles from './styles.module.css';
 
 const Basket: React.FC = (): JSX.Element => {
   const basketProducts = useRecoilValue(selectBasket);
-  const [count, setCount] = useState<number>(1);
+  const setBasketProducts = useSetRecoilState(baseBasket);
 
-  const increment = (): void => {
-    setCount(count + 1);
+  const increment = (id: number) => (): void => {
+    const products = basketProducts.map((prod: IProduct) => {
+      const _prod = { ...prod };
+      if (_prod.id === id) {
+        _prod.quantity = prod.quantity + 1;
+        return _prod;
+      }
+      return _prod;
+    });
+    setBasketProducts(() => [...products]);
   };
-  const decrement = (): void => {
-    if (count === 1) {
-      return;
-    }
-    setCount(count - 1);
+  const decrement = (id: number) => (): void => {
+    const products = basketProducts.map((prod) => {
+      if (prod.quantity === 1) {
+        return prod;
+      }
+
+      const _prod = { ...prod };
+      if (_prod.id === id) {
+        _prod.quantity = prod.quantity - 1;
+        return _prod;
+      }
+      return _prod;
+    });
+    setBasketProducts(() => [...products]);
   };
 
   const remove = (): void => {
@@ -34,7 +52,7 @@ const Basket: React.FC = (): JSX.Element => {
         <section className={styles.section}>
           <h1>My cart</h1>
           {basketProducts.map((prod) => (
-            <Card classNames={styles.card}>
+            <Card key={prod.id} classNames={styles.card}>
               <div className={styles.basketLeft}>
                 <Image src={prod.picture} width={140} height={140} />
               </div>
@@ -48,14 +66,14 @@ const Basket: React.FC = (): JSX.Element => {
                     type="button"
                     classNames={styles.countBtns}
                     label={'-'}
-                    onClick={decrement}
+                    onClick={decrement(prod.id)}
                   />
-                  <span>{count}</span>
+                  <span>{prod.quantity}</span>
                   <Button
                     type="button"
                     classNames={styles.countBtns}
                     label={'+'}
-                    onClick={increment}
+                    onClick={increment(prod.id)}
                   />
                 </div>
               </div>

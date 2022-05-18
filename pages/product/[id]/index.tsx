@@ -63,8 +63,9 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
     }
     setProductsCount((prev) => ({ id, count: prev.count + count }));
 
+    const productWithQuantity = { ...product, quantity: count };
     setProductsToBasket((prev) => {
-      return [...prev, product];
+      return [...prev, productWithQuantity];
     });
   };
 
