@@ -1,7 +1,14 @@
 .section {
   margin-top: 70px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr 0.35fr;
+  grid-template-areas:
+    'title title'
+    'left right';
 }
 .section h1 {
+  grid-area: title;
   margin-bottom: 32px;
   font-weight: 400;
   font-size: 25px;
@@ -14,7 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 560px;
+  max-width: 560px;
   height: 160px;
   padding: 10px 22px;
 
@@ -24,6 +31,24 @@
   margin-bottom: 23px;
 }
 
+.left {
+  grid-area: left;
+}
+.right {
+  position: relative;
+  height: 100%;
+  grid-area: right;
+}
+.right::before {
+  content: '';
+  background: var(--lightmiddlegray-color);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: inherit;
+  width: 2px;
+  margin-left: -40px;
+}
 .basketMiddle {
   max-width: 250px;
   width: 100%;
@@ -95,4 +120,46 @@
 }
 .countBtns:hover {
   box-shadow: var(--box-shadow-like);
+}
+
+.summary {
+  margin: 20px 0 30px;
+  display: flex;
+  flex-direction: column;
+}
+.summary p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: 0.4px;
+  color: var(--gray-color);
+  display: flex;
+  justify-content: space-between;
+}
+.summary span {
+  color: var(--black-color);
+}
+
+.confirmBtn {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 4px;
+  background: var(--orange-color);
+  color: var(--main-color);
+  padding: 0.25rem 0.5rem;
+  font-size: 14px;
+  line-height: 1.7;
+  text-transform: capitalize;
+  text-align: center;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+}
+
+.confirmBtn:last-child {
+  margin-top: 18px;
+  display: block;
+  background: var(--main-color);
+  color: var(--orange-color);
+  border: 1px solid var(--orange-color);
 }
