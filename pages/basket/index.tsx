@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { BaseLayout } from '@/layout/base-layout';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -35,6 +35,15 @@ const Basket: React.FC = (): JSX.Element => {
     address: '',
   });
   const [requestError, setRequestError] = useState<string>('');
+  const [productCount, setProductCount] = useState<number>(0);
+  const [totalCost, setTotalCost] = useState<number>(0);
+
+  useEffect(() => {
+    const count = basketProducts.reduce((acc, cur) => acc + cur.quantity, 0);
+    const total = basketProducts.reduce((acc, cur) => acc + Number(cur.price) * cur.quantity, 0);
+    setProductCount(count);
+    setTotalCost(total);
+  }, [basketProducts]);
 
   const increment = (id: number) => (): void => {
     const products = basketProducts.map((prod: IProduct) => {
@@ -198,10 +207,10 @@ const Basket: React.FC = (): JSX.Element => {
               {inputError.address && <Error message={inputError.address} />}
               <div className={styles.summary}>
                 <p>
-                  Items: <span>{3}</span>
+                  Items: <span>{productCount}</span>
                 </p>
                 <p>
-                  Total: <span>{numberFormat(3)}</span>
+                  Total: <span>{numberFormat(totalCost)}</span>
                 </p>
               </div>
               <Button
