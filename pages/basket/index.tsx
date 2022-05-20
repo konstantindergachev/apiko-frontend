@@ -15,6 +15,7 @@ import { numberFormat } from 'utils';
 import trash from '@/images/trash.svg';
 import { orderSchema } from './validate';
 import styles from './styles.module.css';
+import { Select } from '@/components/shared/select';
 
 const Basket: React.FC = (): JSX.Element => {
   const basketProducts = useRecoilValue(selectBasket);
@@ -66,7 +67,7 @@ const Basket: React.FC = (): JSX.Element => {
     console.log('product removed'); //TODO:Remove the console.log
   };
 
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     setUser((oldState) => ({ ...oldState, [ev.target.name]: ev.target.value }));
   };
 
@@ -163,6 +164,16 @@ const Basket: React.FC = (): JSX.Element => {
                 onKeyPress={validate}
               />
               {inputError.phone && <Error message={inputError.phone} />}
+              <Select
+                name="country"
+                id="country"
+                placeholder="Country"
+                value={user.country}
+                onChange={handleChange}
+                onBlur={validate}
+                onKeyPress={validate}
+              />
+              {inputError.country && <Error message={inputError.country} />}
               <Input
                 type="text"
                 id="city"

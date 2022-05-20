@@ -1,4 +1,4 @@
-import { string, object, ref } from 'yup';
+import { string, object } from 'yup';
 import { MESSAGES, CHARCOUNT } from './constants';
 
 const trimString = string().trim();
@@ -11,6 +11,7 @@ export const orderSchema = object().shape({
   phone: trimString
     .required(MESSAGES.PHONE_NUMBER_IS_REQUIRED)
     .matches(phoneRegExp, MESSAGES.PHONE_NUMBER_IS_NOT_VALID),
+  country: trimString.required(),
   city: trimString
     .min(CHARCOUNT.CITY_MIN, MESSAGES.CITY_MIN)
     .max(CHARCOUNT.CITY_MAX, MESSAGES.CITY_MAX)
