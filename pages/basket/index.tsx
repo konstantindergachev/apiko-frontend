@@ -72,8 +72,10 @@ const Basket: React.FC = (): JSX.Element => {
     setBasketProducts(() => [...products]);
   };
 
-  const remove = (): void => {
-    console.log('product removed'); //TODO:Remove the console.log
+  const remove = (id: number) => (): void => {
+    setBasketProducts((prev) => {
+      return prev.filter((prod) => prod.id !== id);
+    });
   };
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -122,7 +124,7 @@ const Basket: React.FC = (): JSX.Element => {
                 <div className={styles.basketMiddle}>
                   <h2>{prod.title}</h2>
                   <div className={styles.btns}>
-                    <Button type="button" classNames={styles.removeBtn} onClick={remove}>
+                    <Button type="button" classNames={styles.removeBtn} onClick={remove(prod.id)}>
                       <Image src={trash} alt={'trash can'} width={20} height={20} />
                     </Button>
                     <Button
