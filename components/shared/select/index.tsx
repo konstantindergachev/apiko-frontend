@@ -18,6 +18,14 @@ interface IOption {
   value: string;
 }
 
+const style: { [key: string]: React.CSSProperties } = {
+  container: {
+    top: '-8px',
+    fontSize: '0.8rem',
+    transform: 'none',
+  },
+};
+
 export const Select: React.FC<IProps> = ({
   name,
   id,
@@ -43,7 +51,10 @@ export const Select: React.FC<IProps> = ({
           </option>
         ))}
       </select>
-      <label htmlFor={id}>{placeholder}</label>
+
+      <label htmlFor={id} style={value ? style.container : {}}>
+        {placeholder}
+      </label>
     </div>
   );
 };

@@ -14,23 +14,21 @@
 .block label {
   color: var(--middlegray-color);
   background-color: var(--main-color);
-  font-size: 0.8rem;
   padding: 0 4px;
   position: absolute;
-  top: -8px;
+  top: 8px;
   left: 10px;
-  transition: color 0.2s, outline-color 0.2s;
+  transition: transform 0.2s, color 0.2s, outline-color 0.2s;
   transform-origin: 0% 0%;
   pointer-events: none;
 }
 
-.block select:focus {
+.block select:focus ~ label {
+  transform: translateY(-15px) scale(0.75);
   color: var(--input-border-active-color);
   outline-color: var(--input-border-active-color);
 }
-.block select:focus + label {
+.block select:focus {
+  outline-color: var(--input-border-active-color);
   color: var(--input-border-active-color);
-  top: -8px;
-  border-color: var(--main-color);
-  font-size: 0.8rem;
 }
