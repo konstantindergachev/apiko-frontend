@@ -16,6 +16,7 @@ import trash from '@/images/trash.svg';
 import { orderSchema } from './validate';
 import styles from './styles.module.css';
 import { Select } from '@/components/shared/select';
+import Modal from '@/components/shared/modal';
 
 const Basket: React.FC = (): JSX.Element => {
   const basketProducts = useRecoilValue(selectBasket);
@@ -37,6 +38,7 @@ const Basket: React.FC = (): JSX.Element => {
   const [requestError, setRequestError] = useState<string>('');
   const [productCount, setProductCount] = useState<number>(0);
   const [totalCost, setTotalCost] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const count = basketProducts.reduce((acc, cur) => acc + cur.quantity, 0);
@@ -108,6 +110,10 @@ const Basket: React.FC = (): JSX.Element => {
     } catch (error: any) {
       setRequestError(error.message);
     }
+  };
+
+  const confirm = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   return (
@@ -219,6 +225,7 @@ const Basket: React.FC = (): JSX.Element => {
                 type="button"
                 classNames={styles.confirmBtn}
                 label={'Confirms the purchase'}
+                onClick={confirm}
               />
               <Link href="/">
                 <a className={styles.confirmBtn}>Continue shopping</a>
@@ -226,6 +233,18 @@ const Basket: React.FC = (): JSX.Element => {
             </form>
           </div>
         </section>
+        <Modal isOpen={isModalOpen} onClose={confirm}>
+          <div className={styles.modalContent}>
+            <h3>Thank you for your purchase</h3>
+            <p>We will send you a notification when your order arrives to you</p>
+            <Link href="/">
+              <a className={styles.confirmBtn}>Continue shopping</a>
+            </Link>
+            <Link href="/account">
+              <a className={styles.confirmBtn}>View order history</a>
+            </Link>
+          </div>
+        </Modal>
       </main>
     </BaseLayout>
   );
