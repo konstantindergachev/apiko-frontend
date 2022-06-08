@@ -91,32 +91,42 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
       {requestError && <Error message={requestError} />}
       {requestSuccess && <Success message={requestSuccess} />}
       <section className={styles.products}>
-        {products.map((product: IProduct) => {
-          return (
-            <Card key={product.id} classNames={styles.card}>
-              {product.picture && (
-                <Link href={`/product/${product.id}`}>
-                  <a>
-                    <Image src={product.picture} alt={product.title} width={200} height={200} />
-                  </a>
-                </Link>
-              )}
-              <div className={styles.content}>
-                <p>{product.title}</p>
-                <h3>
-                  {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-                    +product.price
-                  )}
-                </h3>
-              </div>
-              <LikeButton
-                onClick={handleProductLike}
-                productId={product.id}
-                isLiked={ids.includes(product.id)}
-              />
-            </Card>
-          );
-        })}
+        {products.length ? (
+          products.map((product: IProduct) => {
+            return (
+              <Card key={product.id} classNames={styles.card}>
+                {product.picture && (
+                  <Link href={`/product/${product.id}`}>
+                    <a>
+                      <Image src={product.picture} alt={product.title} width={200} height={200} />
+                    </a>
+                  </Link>
+                )}
+                <div className={styles.content}>
+                  <p>{product.title}</p>
+                  <h3>
+                    {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+                      +product.price
+                    )}
+                  </h3>
+                </div>
+                <LikeButton
+                  onClick={handleProductLike}
+                  productId={product.id}
+                  isLiked={ids.includes(product.id)}
+                />
+              </Card>
+            );
+          })
+        ) : (
+          <div className={styles.noResults}>
+            <h3>No Results Found</h3>
+            <p>
+              We did not find any article that matches this search Make sure that the search text is
+              entered correctly Try using other search criteria
+            </p>
+          </div>
+        )}
         <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
           {preAccount ? (
             <div className={styles.likeModal}>

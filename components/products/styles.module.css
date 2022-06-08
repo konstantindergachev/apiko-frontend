@@ -29,6 +29,30 @@
   box-shadow: var(--box-shadow-like);
 }
 
+.noResults {
+  max-width: 300px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 210px auto 0;
+}
+
+.noResults h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.noResults p {
+  font-size: 15px;
+  line-height: 22px;
+  text-align: center;
+}
+
 .content {
   padding: 10px;
 }
