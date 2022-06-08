@@ -11,6 +11,8 @@
 
 .header nav {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 .header nav a {
   position: relative;
@@ -64,6 +66,18 @@
   text-transform: capitalize;
   display: inline;
   margin-left: 30px;
+}
+.header nav div {
+  margin-left: 30px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--orange-color);
+  border-radius: 50%;
+  background-color: var(--lightmiddlegray-color);
+  color: var(--black-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn {

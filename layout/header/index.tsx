@@ -11,6 +11,7 @@ import { DropdownItem } from '@/components/shared/dropdown-item';
 import { Button } from '@/components/shared/button';
 import { baseUsername, selectUsername, selectBasket } from 'store';
 import { IMenu } from '@/interfaces/menu';
+import { takeFirstChar, takeFirstWord } from 'utils';
 
 import logo from '@/images/logo.svg';
 import arrow from '@/images/down_arrow.svg';
@@ -24,7 +25,7 @@ export const Header: React.FC = (): JSX.Element => {
   const [productCount, setProductCount] = useState<number>(0);
   const [error, setError] = useState<string>('');
 
-  const account = useRecoilValue(selectUsername);
+  const { id, ...account } = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
   const basketProducts = useRecoilValue(selectBasket);
 
@@ -82,8 +83,6 @@ export const Header: React.FC = (): JSX.Element => {
     }
   };
 
-  const user = { fullname: account.fullname, email: account.email };
-
   return (
     <header className={styles.header}>
       <Link href="/">
@@ -110,7 +109,8 @@ export const Header: React.FC = (): JSX.Element => {
           )}
         {account.fullname && (
           <>
-            <p>Welcome, {account.fullname.split(' ')[0]}!</p>
+            <p>Welcome, {takeFirstWord(account.fullname)}!</p>
+            <div>{takeFirstChar(account.fullname)}</div>
             <Button
               type="button"
               classNames={styles.arrowBtn}
@@ -122,7 +122,7 @@ export const Header: React.FC = (): JSX.Element => {
         )}
         {isDropdown && account.fullname && (
           <Dropdown>
-            {Object.values(user).map((val) => {
+            {Object.values(account).map((val) => {
               return <DropdownItem key={val}>{val}</DropdownItem>;
             })}
             <hr />

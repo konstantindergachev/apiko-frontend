@@ -93,7 +93,7 @@ const Basket: React.FC = (): JSX.Element => {
     }
   };
 
-  const handleSubmit = async (ev: React.SyntheticEvent): Promise<void> => {
+  const getOrder = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
       const response = await fetch('http://localhost:3000/api/user/order', {
@@ -157,7 +157,7 @@ const Basket: React.FC = (): JSX.Element => {
           </div>
 
           <div className={styles.right}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={getOrder}>
               {requestError && <Error message={requestError} />}
               <Input
                 type="text"
