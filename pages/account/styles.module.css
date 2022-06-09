@@ -1,0 +1,74 @@
+.account {
+  height: 100%;
+  outline: 1px dashed tomato;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top {
+  outline: 1px dotted steelblue;
+}
+
+.top div {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background-color: var(--lightmiddlegray-color);
+  color: var(--black-color);
+  font-size: 24px;
+  line-height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 62px auto 8px;
+}
+
+.top p {
+  font-size: 22px;
+  line-height: 32px;
+}
+
+.middle {
+  outline: 1px dotted seagreen;
+}
+.middle {
+  margin-top: 22px;
+}
+.tabs {
+  display: flex;
+}
+.tab {
+  text-transform: capitalize;
+  background-color: transparent;
+  border: var(--input-border);
+  padding: 30px 40px;
+
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--black-color);
+}
+
+.tab.active {
+  background-color: var(--orange-color);
+  color: var(--main-color);
+  position: relative;
+}
+.tab.active::after {
+  content: '▾';
+  font-size: 28px;
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translate(-50%, -120%);
+  color: var(--orange-color);
+}
+.tabContent {
+  border: var(--input-border);
+}
+.tabContent h4 {
+  font-weight: 300;
+  text-align: center;
+  height: 100%;
+  margin: 50px auto;
+}
