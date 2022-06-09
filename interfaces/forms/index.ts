@@ -14,3 +14,17 @@ export interface IRegistrationFields {
   password: string;
   password_confirm: string;
 }
+
+export interface IInfoFields {
+  fullname: string;
+  phone: string;
+  country: string;
+  city: string;
+  address: string;
+}
+
+export interface IChangePasswordFields {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
