@@ -29,6 +29,7 @@
 }
 .tabs {
   display: flex;
+  justify-content: center;
 }
 .tab {
   text-transform: capitalize;
@@ -115,4 +116,37 @@
 
 .card div p span {
   color: var(--black-color);
+}
+
+.favoritesWrap {
+  display: flex;
+  margin-top: 3.75rem;
+}
+.favoriteCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 250px;
+  min-height: 212px;
+  margin: 0 5px 5px;
+  padding: 4px;
+
+  background: var(--main-color);
+  border: var(--card-border);
+  box-sizing: border-box;
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+}
+
+.favoriteCard p {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
+}
+.favoriteCard h4 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  letter-spacing: 0.5px;
 }

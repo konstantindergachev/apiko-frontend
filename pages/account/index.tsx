@@ -1,6 +1,10 @@
+import type { GetServerSideProps, NextPage } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { selectUsername } from 'store';
+import { parse } from 'cookie';
 import { numberFormat, takeFirstChar } from 'utils';
 import { Button } from '@/components/shared/button';
 import { Input } from '@/components/shared/input';
@@ -8,13 +12,15 @@ import { Select } from '@/components/shared/select';
 import { BaseLayout } from '@/layout/base-layout';
 import { Error } from '@/components/shared/error';
 import { Card } from '@/components/shared/card';
+import { LikeButton } from '@/components/like';
+import { IChangePasswordFields, IInfoFields } from '@/interfaces/forms';
+import { IFavorite, IFavorites } from '@/interfaces/favorites';
 import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
 import styles from './styles.module.css';
-import { IChangePasswordFields, IInfoFields } from '@/interfaces/forms';
 
-const Account: React.FC = (): JSX.Element => {
+const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
   const { id, ...account } = useRecoilValue(selectUsername);
   const [tabIndex, setTabIndex] = useState<number>(2);
   const [user, setUser] = useState<IInfoFields>({
@@ -42,6 +48,9 @@ const Account: React.FC = (): JSX.Element => {
     newPassword: '',
     confirmPassword: '',
   });
+
+  const [loadFavorites] = useState<IFavorite[]>(favorites);
+  const [ids] = useState<number[]>([]);
 
   const handleTabs = (tabIndex: number) => (): void => {
     setTabIndex(tabIndex);
@@ -89,6 +98,10 @@ const Account: React.FC = (): JSX.Element => {
     } catch (error: any) {
       setRequestError(error.message);
     }
+  };
+
+  const handleProductLike = (productId: number) => (): void => {
+    console.log('productId', productId); //FIXME:
   };
 
   return (
@@ -274,7 +287,41 @@ const Account: React.FC = (): JSX.Element => {
                   </Card>
                 </div>
               ) : tabIndex === 3 ? (
-                <h4>Favorites</h4>
+                <div className={styles.favoritesWrap}>
+                  {loadFavorites.length &&
+                    loadFavorites.map((favorite) => {
+                      return (
+                        <Card key={favorite.id} classNames={styles.favoriteCard}>
+                          {favorite.product.picture && (
+                            <Link href={`/product/${favorite.product.id}`}>
+                              <a>
+                                <Image
+                                  src={favorite.product.picture}
+                                  alt={favorite.product.title}
+                                  width={400}
+                                  height={250}
+                                />
+                              </a>
+                            </Link>
+                          )}
+                          <div className={styles.content}>
+                            <p>{favorite.product.title}</p>
+                            <h4>
+                              {new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                              }).format(+favorite.product.price)}
+                            </h4>
+                            <LikeButton
+                              onClick={handleProductLike}
+                              productId={favorite.product.id}
+                              isLiked={ids.includes(favorite.product.id)}
+                            />
+                          </div>
+                        </Card>
+                      );
+                    })}
+                </div>
               ) : null}
             </div>
           </div>
@@ -285,3 +332,31 @@ const Account: React.FC = (): JSX.Element => {
 };
 
 export default Account;
+
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+}): Promise<{
+  props: IFavorites;
+}> => {
+  let cookie;
+  let token;
+  if (req.headers.cookie) {
+    cookie = parse(req.headers.cookie);
+    token = cookie.token;
+  }
+  const baseProductLimit = 6;
+  const response = await fetch(
+    `${process.env.API_URL}/favorite/favorites?offset=0&limit=${baseProductLimit}&sortBy=latest`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const favorites = await response.json();
+
+  return {
+    props: { favorites },
+  };
+};
