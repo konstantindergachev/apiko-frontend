@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { selectUsername } from 'store';
-import { takeFirstChar } from 'utils';
+import { numberFormat, takeFirstChar } from 'utils';
 import { Button } from '@/components/shared/button';
 import { Input } from '@/components/shared/input';
 import { Select } from '@/components/shared/select';
 import { BaseLayout } from '@/layout/base-layout';
 import { Error } from '@/components/shared/error';
+import { Card } from '@/components/shared/card';
 import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
@@ -240,7 +241,38 @@ const Account: React.FC = (): JSX.Element => {
                   </div>
                 </>
               ) : tabIndex === 2 ? (
-                <h4>Order</h4>
+                <div className={styles.cardWrap}>
+                  <Card classNames={styles.card}>
+                    <div>
+                      <p>
+                        Order ID: <span>33333</span>
+                      </p>
+                      <p>
+                        Price: <span>{numberFormat(775.19)}</span>
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        Date: <span>10.06.2022</span>
+                      </p>
+                    </div>
+                  </Card>
+                  <Card classNames={styles.card}>
+                    <div>
+                      <p>
+                        Order ID: <span>33334</span>
+                      </p>
+                      <p>
+                        Price: <span>{numberFormat(875.29)}</span>
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        Date: <span>11.06.2022</span>
+                      </p>
+                    </div>
+                  </Card>
+                </div>
               ) : tabIndex === 3 ? (
                 <h4>Favorites</h4>
               ) : null}

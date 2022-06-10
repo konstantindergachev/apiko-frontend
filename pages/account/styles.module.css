@@ -47,12 +47,12 @@
   position: relative;
 }
 .tab.active::after {
-  content: '▾';
+  content: '\2666';
   font-size: 28px;
   position: absolute;
-  top: 120%;
+  top: 117%;
   left: 50%;
-  transform: translate(-50%, -120%);
+  transform: translate(-50%, -117%);
   color: var(--orange-color);
 }
 .tabContent h3 {
@@ -77,4 +77,42 @@
   text-align: center;
   letter-spacing: 0.4px;
   cursor: pointer;
+}
+.cardWrap {
+  margin-top: 3.125rem;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 1.25rem;
+  padding: 20px;
+
+  background: var(--main-color);
+  border: var(--card-border);
+  box-sizing: border-box;
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+}
+
+.card div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card div p {
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--gray-color);
+
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card div p span {
+  color: var(--black-color);
 }
