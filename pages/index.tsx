@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage, GetServerSideProps } from 'next';
+import { useRecoilValue } from 'recoil';
+import { selectFavorites } from 'store';
+import { addFavoritesToAll } from 'utils';
 import { Products } from '@/components/products';
 import { BaseLayout } from '@/layout/base-layout';
 import { ILoadMoreSettings, IProduct, IProducts } from '@/interfaces/products';
@@ -13,6 +16,7 @@ import styles from './styles.module.css';
 const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   const [searchField, setSearchField] = useState<string>('');
   const [requestError, setRequestError] = useState<string>('');
+  const favorites = useRecoilValue(selectFavorites);
 
   const [loadMoreSettings, setLoadMoreSettings] = useState<ILoadMoreSettings>({
     offset: 0,
@@ -33,7 +37,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
             setRequestError(data.message);
             return;
           }
-          setLoadMoreProducts(data.products);
+          setLoadMoreProducts(addFavoritesToAll(data.products, favorites));
           setRequestError('');
         } catch (error: any) {
           setRequestError(error.message);
@@ -41,6 +45,10 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
       })();
     }
   }, [loadMoreSettings]);
+
+  useEffect(() => {
+    setLoadMoreProducts(addFavoritesToAll(products, favorites));
+  }, [favorites]);
 
   const loadMore = (num: number) => (): void => {
     setLoadMoreSettings((old) => ({

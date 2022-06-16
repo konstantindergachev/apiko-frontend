@@ -1,3 +1,6 @@
+import { IFavorite } from '@/interfaces/favorites';
+import { IProduct } from '@/interfaces/products';
+
 export const numberFormat = (numb: number): string => {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(numb);
 };
@@ -11,4 +14,16 @@ export const takeFirstChar = (str: string): string => {
     .split(' ')
     .map((word) => word.charAt(0))
     .join('');
+};
+
+export const addFavoritesToAll = (products: IProduct[], favorites: IFavorite[]): IProduct[] => {
+  const productsWithFavorites = products.map((product: IProduct) => {
+    favorites.forEach((favorite) => {
+      if (product.id === favorite.product.id) {
+        product.favorite = true;
+      }
+    });
+    return product;
+  });
+  return productsWithFavorites;
 };

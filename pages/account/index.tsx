@@ -1,9 +1,9 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { selectUsername } from 'store';
+import { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { baseFavorites, selectUsername } from 'store';
 import { parse } from 'cookie';
 import { numberFormat, takeFirstChar } from 'utils';
 import { Button } from '@/components/shared/button';
@@ -50,7 +50,11 @@ const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
   });
 
   const [loadFavorites] = useState<IFavorite[]>(favorites);
-  const [ids] = useState<number[]>([]);
+  const setFavorite = useSetRecoilState(baseFavorites);
+
+  useEffect(() => {
+    setFavorite(() => [...favorites]);
+  }, []);
 
   const handleTabs = (tabIndex: number) => (): void => {
     setTabIndex(tabIndex);
@@ -315,7 +319,7 @@ const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
                             <LikeButton
                               onClick={handleProductLike}
                               productId={favorite.product.id}
-                              isLiked={ids.includes(favorite.product.id)}
+                              isLiked={favorite.product.favorite}
                             />
                           </div>
                         </Card>
