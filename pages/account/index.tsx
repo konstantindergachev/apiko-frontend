@@ -13,15 +13,17 @@ import { BaseLayout } from '@/layout/base-layout';
 import { Error } from '@/components/shared/error';
 import { Card } from '@/components/shared/card';
 import { LikeButton } from '@/components/like';
+import { Success } from '@/components/shared/success';
 import { IChangePasswordFields, IInfoFields } from '@/interfaces/forms';
 import { IFavorite, IFavorites } from '@/interfaces/favorites';
+import { IResponse, IResponseError } from '@/interfaces/responses';
 import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
 import styles from './styles.module.css';
 
 const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
-  const { id, ...account } = useRecoilValue(selectUsername);
+  const { id: userId, ...account } = useRecoilValue(selectUsername);
   const [tabIndex, setTabIndex] = useState<number>(2);
   const [user, setUser] = useState<IInfoFields>({
     fullname: '',
@@ -49,12 +51,24 @@ const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
     confirmPassword: '',
   });
 
-  const [loadFavorites] = useState<IFavorite[]>(favorites);
+  const [loadFavorites, setLoadFavorites] = useState<IFavorite[]>(favorites);
   const setFavorite = useSetRecoilState(baseFavorites);
+  const [ids, setIds] = useState<number[]>([]);
+  const [requestSuccess, setRequestSuccess] = useState<string>('');
 
   useEffect(() => {
     setFavorite(() => [...favorites]);
-  }, []);
+  }, [favorites]);
+
+  useEffect(() => {
+    const favoritesId: number[] = [];
+    favorites.forEach((favorite: IFavorite) => {
+      if (favorite.product.id) {
+        favoritesId.push(favorite.product.id);
+      }
+    });
+    setIds([...favoritesId]);
+  }, [favorites]);
 
   const handleTabs = (tabIndex: number) => (): void => {
     setTabIndex(tabIndex);
@@ -105,7 +119,29 @@ const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
   };
 
   const handleProductLike = (productId: number) => (): void => {
-    console.log('productId', productId); //FIXME:
+    if (ids.includes(productId)) {
+      removeLike(productId, userId);
+      const filteredIds = ids.filter((id) => id !== productId);
+      setIds([...filteredIds]);
+      setLoadFavorites((oldFavorites) =>
+        oldFavorites.filter((oldFavorite) => oldFavorite.product.id !== productId)
+      );
+    }
+  };
+
+  const removeLike = async (productId: number, userId: number) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/favorites/remove?productId=${productId}&userId=${userId}`
+      );
+      const data: IResponse & IResponseError = await response.json();
+
+      if (data.message) {
+        setRequestSuccess(data.message);
+      }
+    } catch (error: any) {
+      setRequestError(error.message);
+    }
   };
 
   return (
@@ -117,6 +153,7 @@ const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
             <p>{account.fullname}</p>
           </div>
           <div className={styles.middle}>
+            {requestSuccess && <Success message={requestSuccess} />}
             <div className={styles.tabs}>
               <button
                 className={`${styles.tab} ${tabIndex === 1 && styles.active}`}
@@ -291,41 +328,43 @@ const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
                   </Card>
                 </div>
               ) : tabIndex === 3 ? (
-                <div className={styles.favoritesWrap}>
-                  {loadFavorites.length &&
-                    loadFavorites.map((favorite) => {
-                      return (
-                        <Card key={favorite.id} classNames={styles.favoriteCard}>
-                          {favorite.product.picture && (
-                            <Link href={`/product/${favorite.product.id}`}>
-                              <a>
-                                <Image
-                                  src={favorite.product.picture}
-                                  alt={favorite.product.title}
-                                  width={400}
-                                  height={250}
-                                />
-                              </a>
-                            </Link>
-                          )}
-                          <div className={styles.content}>
-                            <p>{favorite.product.title}</p>
-                            <h4>
-                              {new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD',
-                              }).format(+favorite.product.price)}
-                            </h4>
-                            <LikeButton
-                              onClick={handleProductLike}
-                              productId={favorite.product.id}
-                              isLiked={favorite.product.favorite}
-                            />
-                          </div>
-                        </Card>
-                      );
-                    })}
-                </div>
+                <>
+                  <div className={styles.favoritesWrap}>
+                    {loadFavorites.length &&
+                      loadFavorites.map((favorite) => {
+                        return (
+                          <Card key={favorite.id} classNames={styles.favoriteCard}>
+                            {favorite.product.picture && (
+                              <Link href={`/product/${favorite.product.id}`}>
+                                <a>
+                                  <Image
+                                    src={favorite.product.picture}
+                                    alt={favorite.product.title}
+                                    width={400}
+                                    height={250}
+                                  />
+                                </a>
+                              </Link>
+                            )}
+                            <div className={styles.content}>
+                              <p>{favorite.product.title}</p>
+                              <h4>
+                                {new Intl.NumberFormat('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD',
+                                }).format(+favorite.product.price)}
+                              </h4>
+                              <LikeButton
+                                onClick={handleProductLike}
+                                productId={favorite.product.id}
+                                isLiked={ids.includes(favorite.product.id)}
+                              />
+                            </div>
+                          </Card>
+                        );
+                      })}
+                  </div>
+                </>
               ) : null}
             </div>
           </div>
