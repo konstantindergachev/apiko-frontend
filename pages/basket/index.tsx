@@ -14,14 +14,17 @@ import { Error } from '@/components/shared/error';
 import { numberFormat } from 'utils';
 import trash from '@/images/trash.svg';
 import { orderSchema } from './validate';
-import styles from './styles.module.css';
 import { Select } from '@/components/shared/select';
 import Modal from '@/components/shared/modal';
+import { IInfoFields } from '@/interfaces/forms';
+import { MESSAGES } from './constants';
+
+import styles from './styles.module.css';
 
 const Basket: React.FC = (): JSX.Element => {
   const basketProducts = useRecoilValue(selectBasket);
   const setBasketProducts = useSetRecoilState(baseBasket);
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<IInfoFields>({
     fullname: '',
     phone: '',
     country: '',
@@ -82,6 +85,7 @@ const Basket: React.FC = (): JSX.Element => {
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     setUser((oldState) => ({ ...oldState, [ev.target.name]: ev.target.value }));
+    setRequestError('');
   };
 
   const validate = (field: string) => async () => {
@@ -112,8 +116,29 @@ const Basket: React.FC = (): JSX.Element => {
     }
   };
 
-  const confirm = () => {
+  const confirm = async () => {
+    const { fullname, phone, country, city, address } = user;
+    if (!fullname || !phone || !country || !city || !address) {
+      return setRequestError(MESSAGES.COMPLETE_FORM);
+    }
     setIsModalOpen(!isModalOpen);
+    if (!isModalOpen) {
+      try {
+        const response = await fetch('http://localhost:3000/api/user/account', {
+          method: 'PUT',
+          body: JSON.stringify(user),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        if (data.message) {
+          setRequestError(data.message);
+        }
+      } catch (error: any) {
+        setRequestError(error.message);
+      }
+    }
   };
 
   return (

@@ -38,3 +38,11 @@ export interface IProductFavoriteResponse {
 export interface IProductFavoriteResponseError {
   message: string;
 }
+
+export interface IAccountResponse {
+  message: string;
+}
+
+export interface IAccountResponseError {
+  message: string;
+}

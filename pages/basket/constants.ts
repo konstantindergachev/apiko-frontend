@@ -16,4 +16,5 @@ export const MESSAGES = {
   CITY_MAX: `city name must be not greater than ${CHARCOUNT.CITY_MAX} symbols`,
   ADDRESS_MIN: `address must be at least ${CHARCOUNT.ADDRESS_MIN} symbols`,
   ADDRESS_MAX: `address must be not greater than ${CHARCOUNT.ADDRESS_MAX} symbols`,
+  COMPLETE_FORM: 'you should complete the form',
 };
