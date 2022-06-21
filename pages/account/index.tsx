@@ -31,11 +31,11 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
   const { id: userId, ...account } = useRecoilValue(selectUsername);
   const [tabIndex, setTabIndex] = useState<number>(2);
   const [user, setUser] = useState<IInfoFields>({
-    fullname: userInfo.fullname || '',
-    phone: userInfo.phone || '',
-    country: userInfo.country || '',
-    city: userInfo.city || '',
-    address: userInfo.address || '',
+    fullname: '',
+    phone: '',
+    country: '',
+    city: '',
+    address: '',
   });
   const [inputInfoError, setInputInfoError] = useState({
     fullname: '',
@@ -75,12 +75,16 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
     setIds([...favoritesId]);
   }, [favorites]);
 
+  useEffect(() => {
+    setUser((old) => ({ ...old, ...userInfo }));
+  }, []);
+
   const handleTabs = (tabIndex: number) => (): void => {
     setTabIndex(tabIndex);
   };
 
   const handleChangeInfo = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
-    setUser((oldState) => ({ ...oldState, [ev.target.name]: ev.target.value }));
+    setUser((old) => ({ ...old, [ev.target.name]: ev.target.value }));
   };
 
   const validateInfo = (field: string) => async () => {
@@ -95,7 +99,17 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
   const saveInfo = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      console.log('ev', ev); //FIXME: Remove this line
+      const response = await fetch('http://localhost:3000/api/user/account', {
+        method: 'PUT',
+        body: JSON.stringify(user),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      if (data.message) {
+        setRequestError(data.message);
+      }
     } catch (error: any) {
       setRequestError(error.message);
     }
@@ -240,12 +254,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                         onKeyPress={validateInfo}
                       />
                       {inputInfoError.address && <Error message={inputInfoError.address} />}
-                      <Button
-                        type="button"
-                        classNames={styles.saveBtn}
-                        label={'Save'}
-                        onClick={confirm}
-                      />
+                      <Button type="submit" classNames={styles.saveBtn} label={'Save'} />
                     </form>
                   </div>
                   <div>
