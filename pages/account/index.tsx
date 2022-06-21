@@ -116,7 +116,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
   };
 
   const handleChangePassword = (ev: React.ChangeEvent<HTMLInputElement>): void => {
-    setPassword((oldState) => ({ ...oldState, [ev.target.name]: ev.target.value }));
+    setPassword((old) => ({ ...old, [ev.target.name]: ev.target.value }));
   };
 
   const validatePassword = (field: string) => async () => {
@@ -131,7 +131,17 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
   const changePassword = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      console.log('ev', ev); //FIXME: Remove this line
+      const response = await fetch('http://localhost:3000/api/user/password', {
+        method: 'PUT',
+        body: JSON.stringify(password),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      if (data.message) {
+        setRequestError(data.message);
+      }
     } catch (error: any) {
       setRequestError(error.message);
     }
@@ -299,12 +309,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                       {inputPasswordError.confirmPassword && (
                         <Error message={inputPasswordError.confirmPassword} />
                       )}
-                      <Button
-                        type="button"
-                        classNames={styles.saveBtn}
-                        label={'Change password'}
-                        onClick={confirm}
-                      />
+                      <Button type="submit" classNames={styles.saveBtn} label={'Change password'} />
                     </form>
                   </div>
                 </>
