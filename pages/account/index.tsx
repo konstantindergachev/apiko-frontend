@@ -22,15 +22,20 @@ import { passwordSchema } from './validate';
 
 import styles from './styles.module.css';
 
-const Account: NextPage<IFavorites> = ({ favorites }): JSX.Element => {
+interface IProps {
+  userInfo: IInfoFields;
+  favorites: IFavorite[];
+}
+
+const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
   const { id: userId, ...account } = useRecoilValue(selectUsername);
   const [tabIndex, setTabIndex] = useState<number>(2);
   const [user, setUser] = useState<IInfoFields>({
-    fullname: '',
-    phone: '',
-    country: '',
-    city: '',
-    address: '',
+    fullname: userInfo.fullname || '',
+    phone: userInfo.phone || '',
+    country: userInfo.country || '',
+    city: userInfo.city || '',
+    address: userInfo.address || '',
   });
   const [inputInfoError, setInputInfoError] = useState({
     fullname: '',
@@ -379,7 +384,7 @@ export default Account;
 export const getServerSideProps: GetServerSideProps = async ({
   req,
 }): Promise<{
-  props: IFavorites;
+  props: { userInfo: IInfoFields; favorites: IFavorites };
 }> => {
   let cookie;
   let token;
@@ -388,7 +393,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     token = cookie.token;
   }
   const baseProductLimit = 6;
-  const response = await fetch(
+  const favoritesPromise = fetch(
     `${process.env.API_URL}/favorite/favorites?offset=0&limit=${baseProductLimit}&sortBy=latest`,
     {
       method: 'GET',
@@ -397,9 +402,21 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     }
   );
-  const favorites = await response.json();
+  const accountPromise = fetch(`${process.env.API_URL}/account`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const [accountResponse, favoritesResponse] = await Promise.all([
+    accountPromise,
+    favoritesPromise,
+  ]);
+  const userInfo = await accountResponse.json();
+  const favorites = await favoritesResponse.json();
 
   return {
-    props: { favorites },
+    props: { userInfo, favorites },
   };
 };
