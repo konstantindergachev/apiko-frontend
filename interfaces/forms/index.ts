@@ -18,9 +18,9 @@ export interface IRegistrationFields {
 export interface IInfoFields {
   fullname: string;
   phone: string;
-  country: string;
-  city: string;
-  address: string;
+  country?: string;
+  city?: string;
+  address?: string;
 }
 
 export interface IChangePasswordFields {

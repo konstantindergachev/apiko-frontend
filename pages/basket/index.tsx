@@ -97,12 +97,15 @@ const Basket: React.FC = (): JSX.Element => {
     }
   };
 
-  const getOrder = async (ev: React.SyntheticEvent): Promise<void> => {
-    ev.preventDefault();
+  const getOrder = async (): Promise<void> => {
+    const _basketProducts = basketProducts.map((product) => ({
+      productId: product.id,
+      quantity: product.quantity,
+    }));
     try {
       const response = await fetch('http://localhost:3000/api/user/order', {
         method: 'POST',
-        body: JSON.stringify(user),
+        body: JSON.stringify({ items: _basketProducts, shipment: user }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -116,28 +119,15 @@ const Basket: React.FC = (): JSX.Element => {
     }
   };
 
-  const confirm = async () => {
+  const confirm = async (ev: React.SyntheticEvent): Promise<void> => {
+    ev.preventDefault();
     const { fullname, phone, country, city, address } = user;
     if (!fullname || !phone || !country || !city || !address) {
       return setRequestError(MESSAGES.COMPLETE_FORM);
     }
     setIsModalOpen(!isModalOpen);
     if (!isModalOpen) {
-      try {
-        const response = await fetch('http://localhost:3000/api/user/account', {
-          method: 'PUT',
-          body: JSON.stringify(user),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await response.json();
-        if (data.message) {
-          setRequestError(data.message);
-        }
-      } catch (error: any) {
-        setRequestError(error.message);
-      }
+      getOrder();
     }
   };
 
@@ -182,7 +172,7 @@ const Basket: React.FC = (): JSX.Element => {
           </div>
 
           <div className={styles.right}>
-            <form onSubmit={getOrder}>
+            <form onSubmit={confirm}>
               {requestError && <Error message={requestError} />}
               <Input
                 type="text"
@@ -247,10 +237,9 @@ const Basket: React.FC = (): JSX.Element => {
                 </p>
               </div>
               <Button
-                type="button"
+                type="submit"
                 classNames={styles.confirmBtn}
                 label={'Confirms the purchase'}
-                onClick={confirm}
               />
               <Link href="/">
                 <a className={styles.confirmBtn}>Continue shopping</a>

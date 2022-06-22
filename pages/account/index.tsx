@@ -236,7 +236,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                         name="country"
                         id="country"
                         placeholder="Country"
-                        value={user.country}
+                        value={user.country || ''}
                         onChange={handleChangeInfo}
                         onBlur={validateInfo}
                         onKeyPress={validateInfo}
@@ -247,7 +247,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                         id="city"
                         name="city"
                         placeholder="City"
-                        value={user.city}
+                        value={user.city || ''}
                         onChange={handleChangeInfo}
                         onBlur={validateInfo}
                         onKeyPress={validateInfo}
@@ -258,7 +258,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                         id="address"
                         name="address"
                         placeholder="Address"
-                        value={user.address}
+                        value={user.address || ''}
                         onChange={handleChangeInfo}
                         onBlur={validateInfo}
                         onKeyPress={validateInfo}
