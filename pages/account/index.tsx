@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { baseFavorites, selectUsername } from 'store';
+import { baseFavorites, selectOrder, selectUsername } from 'store';
 import { parse } from 'cookie';
 import { numberFormat, takeFirstChar } from 'utils';
 import { Button } from '@/components/shared/button';
@@ -16,6 +16,7 @@ import { LikeButton } from '@/components/like';
 import { Success } from '@/components/shared/success';
 import { IChangePasswordFields, IInfoFields } from '@/interfaces/forms';
 import { IFavorite, IFavorites } from '@/interfaces/favorites';
+import { IOrder } from '@/interfaces/orders';
 import { IResponse, IResponseError } from '@/interfaces/responses';
 import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
@@ -60,6 +61,8 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
   const setFavorite = useSetRecoilState(baseFavorites);
   const [ids, setIds] = useState<number[]>([]);
   const [requestSuccess, setRequestSuccess] = useState<string>('');
+  const order = useRecoilValue(selectOrder);
+  const [orders] = useState<IOrder[]>([order]);
 
   useEffect(() => {
     setFavorite(() => [...favorites]);
@@ -314,38 +317,27 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                   </div>
                 </>
               ) : tabIndex === 2 ? (
-                <div className={styles.cardWrap}>
-                  <Card classNames={styles.card}>
-                    <div>
-                      <p>
-                        Order ID: <span>33333</span>
-                      </p>
-                      <p>
-                        Price: <span>{numberFormat(775.19)}</span>
-                      </p>
+                orders.map((order: IOrder) => {
+                  return (
+                    <div key={order.id} className={styles.cardWrap}>
+                      <Card classNames={styles.card}>
+                        <div>
+                          <p>
+                            Order ID: <span>{order.id}</span>
+                          </p>
+                          <p>
+                            Price: <span>{numberFormat(order.total)}</span>
+                          </p>
+                        </div>
+                        <div>
+                          <p>
+                            Customer ID: <span>{order.user.id}</span>
+                          </p>
+                        </div>
+                      </Card>
                     </div>
-                    <div>
-                      <p>
-                        Date: <span>10.06.2022</span>
-                      </p>
-                    </div>
-                  </Card>
-                  <Card classNames={styles.card}>
-                    <div>
-                      <p>
-                        Order ID: <span>33334</span>
-                      </p>
-                      <p>
-                        Price: <span>{numberFormat(875.29)}</span>
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        Date: <span>11.06.2022</span>
-                      </p>
-                    </div>
-                  </Card>
-                </div>
+                  );
+                })
               ) : tabIndex === 3 ? (
                 <>
                   <div className={styles.favoritesWrap}>

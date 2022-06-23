@@ -29,7 +29,7 @@ export default async (
       return res.status(data.statusCode).json({ message: data.message });
     }
 
-    return res.status(200).json({ message: data.message });
+    return res.status(200).json({ message: data.message, order: data.order });
   } catch (error: any) {
     const status = 500;
     res.status(status).json({ message: error.message });

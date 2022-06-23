@@ -1,6 +1,7 @@
 import { atom, selector } from 'recoil';
 import { IProduct } from '@/interfaces/products';
 import { IFavorite } from '@/interfaces/favorites';
+import { IOrder } from '@/interfaces/orders';
 
 export const baseUsername = atom({
   key: 'baseUsername',
@@ -48,5 +49,17 @@ export const selectFavorites = selector({
   key: 'selectFavorites',
   get: ({ get }) => {
     return get(baseFavorites);
+  },
+});
+
+export const baseOrder = atom({
+  key: 'baseOrder',
+  default: {} as IOrder,
+});
+
+export const selectOrder = selector({
+  key: 'selectOrder',
+  get: ({ get }) => {
+    return get(baseOrder);
   },
 });

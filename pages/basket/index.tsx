@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { BaseLayout } from '@/layout/base-layout';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { selectBasket } from 'store';
+import { baseOrder, selectBasket } from 'store';
 import { Card } from '@/components/shared/card';
 import { Button } from '@/components/shared/button';
 import { baseBasket } from 'store';
@@ -24,6 +24,7 @@ import styles from './styles.module.css';
 const Basket: React.FC = (): JSX.Element => {
   const basketProducts = useRecoilValue(selectBasket);
   const setBasketProducts = useSetRecoilState(baseBasket);
+  const setOrder = useSetRecoilState(baseOrder);
   const [user, setUser] = useState<IInfoFields>({
     fullname: '',
     phone: '',
@@ -113,13 +114,14 @@ const Basket: React.FC = (): JSX.Element => {
       const data = await response.json();
       if (data.message) {
         setRequestError(data.message);
+        setOrder(data.order);
       }
     } catch (error: any) {
       setRequestError(error.message);
     }
   };
 
-  const confirm = async (ev: React.SyntheticEvent): Promise<void> => {
+  const confirm = (ev: React.SyntheticEvent): void => {
     ev.preventDefault();
     const { fullname, phone, country, city, address } = user;
     if (!fullname || !phone || !country || !city || !address) {
@@ -129,6 +131,10 @@ const Basket: React.FC = (): JSX.Element => {
     if (!isModalOpen) {
       getOrder();
     }
+  };
+
+  const close = (): void => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -200,7 +206,7 @@ const Basket: React.FC = (): JSX.Element => {
                 name="country"
                 id="country"
                 placeholder="Country"
-                value={user.country}
+                value={user.country || ''}
                 onChange={handleChange}
                 onBlur={validate}
                 onKeyPress={validate}
@@ -211,7 +217,7 @@ const Basket: React.FC = (): JSX.Element => {
                 id="city"
                 name="city"
                 placeholder="City"
-                value={user.city}
+                value={user.city || ''}
                 onChange={handleChange}
                 onBlur={validate}
                 onKeyPress={validate}
@@ -222,7 +228,7 @@ const Basket: React.FC = (): JSX.Element => {
                 id="address"
                 name="address"
                 placeholder="Address"
-                value={user.address}
+                value={user.address || ''}
                 onChange={handleChange}
                 onBlur={validate}
                 onKeyPress={validate}
@@ -247,7 +253,7 @@ const Basket: React.FC = (): JSX.Element => {
             </form>
           </div>
         </section>
-        <Modal isOpen={isModalOpen} onClose={confirm}>
+        <Modal isOpen={isModalOpen} onClose={close}>
           <div className={styles.modalContent}>
             <h3>Thank you for your purchase</h3>
             <p>We will send you a notification when your order arrives to you</p>
