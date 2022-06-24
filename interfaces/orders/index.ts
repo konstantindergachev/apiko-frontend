@@ -1,6 +1,7 @@
 export interface IOrder {
   id: number;
   total: number;
+  created_at: Date;
   items: {
     quantity: number;
     orderedPrice: number;

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { baseFavorites, selectOrder, selectUsername } from 'store';
 import { parse } from 'cookie';
-import { numberFormat, takeFirstChar } from 'utils';
+import { dateFormat, numberFormat, takeFirstChar } from 'utils';
 import { Button } from '@/components/shared/button';
 import { Input } from '@/components/shared/input';
 import { Select } from '@/components/shared/select';
@@ -332,6 +332,9 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                         <div>
                           <p>
                             Customer ID: <span>{order.user.id}</span>
+                          </p>
+                          <p>
+                            Date: <span>{dateFormat(order.created_at)}</span>
                           </p>
                         </div>
                       </Card>

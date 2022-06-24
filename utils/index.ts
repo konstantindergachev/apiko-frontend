@@ -5,6 +5,11 @@ export const numberFormat = (numb: number): string => {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(numb);
 };
 
+export const dateFormat = (date: Date): string => {
+  const _date = new Date(date);
+  return new Intl.DateTimeFormat('en-US').format(_date);
+};
+
 export const takeFirstWord = (str: string): string => {
   return str.split(' ')[0];
 };
