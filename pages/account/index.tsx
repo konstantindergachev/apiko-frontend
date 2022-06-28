@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { baseFavorites, selectOrder, selectUsername } from 'store';
+import { baseFavorites, selectUsername } from 'store';
 import { parse } from 'cookie';
 import { dateFormat, numberFormat, takeFirstChar } from 'utils';
 import { Button } from '@/components/shared/button';
@@ -26,9 +26,10 @@ import styles from './styles.module.css';
 interface IProps {
   userInfo: IInfoFields;
   favorites: IFavorite[];
+  orders: IOrder[];
 }
 
-const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
+const Account: NextPage<IProps> = ({ userInfo, favorites, orders }): JSX.Element => {
   const { id: userId, ...account } = useRecoilValue(selectUsername);
   const [tabIndex, setTabIndex] = useState<number>(2);
   const [user, setUser] = useState<IInfoFields>({
@@ -61,8 +62,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
   const setFavorite = useSetRecoilState(baseFavorites);
   const [ids, setIds] = useState<number[]>([]);
   const [requestSuccess, setRequestSuccess] = useState<string>('');
-  const order = useRecoilValue(selectOrder);
-  const [orders] = useState<IOrder[]>([order]);
+  const [loadOrders] = useState<IOrder[]>([...orders]);
 
   useEffect(() => {
     setFavorite(() => [...favorites]);
@@ -317,7 +317,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites }): JSX.Element => {
                   </div>
                 </>
               ) : tabIndex === 2 ? (
-                orders.map((order: IOrder) => {
+                loadOrders.map((order: IOrder) => {
                   return (
                     <div key={order.id} className={styles.cardWrap}>
                       <Card classNames={styles.card}>
@@ -393,7 +393,7 @@ export default Account;
 export const getServerSideProps: GetServerSideProps = async ({
   req,
 }): Promise<{
-  props: { userInfo: IInfoFields; favorites: IFavorites };
+  props: { userInfo: IInfoFields; favorites: IFavorites; orders: IOrder[] };
 }> => {
   let cookie;
   let token;
@@ -417,15 +417,23 @@ export const getServerSideProps: GetServerSideProps = async ({
       Authorization: `Bearer ${token}`,
     },
   });
+  const ordersPromise = fetch(`${process.env.API_URL}/orders`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  const [accountResponse, favoritesResponse] = await Promise.all([
+  const [accountResponse, favoritesResponse, ordersResponse] = await Promise.all([
     accountPromise,
     favoritesPromise,
+    ordersPromise,
   ]);
   const userInfo = await accountResponse.json();
   const favorites = await favoritesResponse.json();
+  const orders = await ordersResponse.json();
 
   return {
-    props: { userInfo, favorites },
+    props: { userInfo, favorites, orders },
   };
 };
