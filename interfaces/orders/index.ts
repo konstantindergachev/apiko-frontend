@@ -24,3 +24,20 @@ export interface IOrder {
   };
   user: { id: number };
 }
+
+export interface IItemOrder {
+  productId?: number;
+  quantity: number;
+  orderedPrice?: number;
+  product: IProduct;
+}
+
+export interface IProduct {
+  id: number;
+  title: string;
+  price: number;
+  picture: string;
+  description: string;
+  favorite: boolean;
+  created_at: Date;
+}

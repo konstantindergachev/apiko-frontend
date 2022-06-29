@@ -321,22 +321,26 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders }): JSX.Element
                   return (
                     <div key={order.id} className={styles.cardWrap}>
                       <Card classNames={styles.card}>
-                        <div>
-                          <p>
-                            Order ID: <span>{order.id}</span>
-                          </p>
-                          <p>
-                            Price: <span>{numberFormat(order.total)}</span>
-                          </p>
-                        </div>
-                        <div>
-                          <p>
-                            Customer ID: <span>{order.user.id}</span>
-                          </p>
-                          <p>
-                            Date: <span>{dateFormat(order.created_at)}</span>
-                          </p>
-                        </div>
+                        <Link href={`/order/${order.id}`}>
+                          <a>
+                            <div>
+                              <p>
+                                Order ID: <span>{order.id}</span>
+                              </p>
+                              <p>
+                                Price: <span>{numberFormat(order.total)}</span>
+                              </p>
+                            </div>
+                            <div>
+                              <p>
+                                Customer ID: <span>{order.user.id}</span>
+                              </p>
+                              <p>
+                                Date: <span>{dateFormat(order.created_at)}</span>
+                              </p>
+                            </div>
+                          </a>
+                        </Link>
                       </Card>
                     </div>
                   );
