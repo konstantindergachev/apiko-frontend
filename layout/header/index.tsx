@@ -17,6 +17,7 @@ import logo from '@/images/logo.svg';
 import arrow from '@/images/down_arrow.svg';
 import { menu } from './config';
 import styles from './styles.module.css';
+import { useRouter } from 'next/router';
 
 export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -28,6 +29,7 @@ export const Header: React.FC = (): JSX.Element => {
   const { id, ...account } = useRecoilValue(selectUsername);
   const setUsername = useSetRecoilState(baseUsername);
   const basketProducts = useRecoilValue(selectBasket);
+  const router = useRouter();
 
   useEffect(() => {
     const count = basketProducts.reduce((acc, cur) => acc + cur.quantity, 0);
@@ -75,6 +77,7 @@ export const Header: React.FC = (): JSX.Element => {
 
   const onExit = async () => {
     try {
+      router.push('/');
       await fetch(`http://localhost:3000/api/user/logout`);
       setUsername(() => ({ id: 0, fullname: '', email: '' }));
       setIsModalOpen(false);
@@ -126,6 +129,16 @@ export const Header: React.FC = (): JSX.Element => {
               return <DropdownItem key={val}>{val}</DropdownItem>;
             })}
             <hr />
+            <DropdownItem>
+              <Link
+                href={{
+                  pathname: '/account',
+                  query: { tabIdx: 1 },
+                }}
+              >
+                <a>settings</a>
+              </Link>
+            </DropdownItem>
             <DropdownItem>
               <Button type="button" onClick={onExit} classNames={styles.btn} label={'Log out'} />
             </DropdownItem>

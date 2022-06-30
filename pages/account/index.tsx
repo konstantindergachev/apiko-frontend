@@ -22,16 +22,19 @@ import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
 import styles from './styles.module.css';
+import { useRouter } from 'next/router';
 
 interface IProps {
   userInfo: IInfoFields;
   favorites: IFavorite[];
   orders: IOrder[];
+  tabIdx: number;
 }
 
-const Account: NextPage<IProps> = ({ userInfo, favorites, orders }): JSX.Element => {
+const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }): JSX.Element => {
+  const router = useRouter();
   const { id: userId, ...account } = useRecoilValue(selectUsername);
-  const [tabIndex, setTabIndex] = useState<number>(2);
+  const [tabIndex, setTabIndex] = useState<number>(Number(router.query?.tabIdx) || tabIdx);
   const [user, setUser] = useState<IInfoFields>({
     fullname: '',
     phone: '',
