@@ -351,7 +351,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
               ) : tabIndex === 3 ? (
                 <>
                   <div className={styles.favoritesWrap}>
-                    {loadFavorites.length &&
+                    {loadFavorites.length ? (
                       loadFavorites.map((favorite) => {
                         return (
                           <Card key={favorite.id} classNames={styles.favoriteCard}>
@@ -383,7 +383,10 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                             </div>
                           </Card>
                         );
-                      })}
+                      })
+                    ) : (
+                      <Error message="You don't have any favorites" />
+                    )}
                   </div>
                 </>
               ) : null}
