@@ -1,3 +1,7 @@
+.message {
+  margin-top: 50px;
+}
+
 .product {
   display: flex;
   justify-content: space-between;

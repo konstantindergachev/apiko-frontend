@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BaseLayout } from '@/layout/base-layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { IOneProduct } from '@/interfaces/products';
+import { IResponse, IResponseError } from '@/interfaces/responses';
 import { Card } from '@/components/shared/card';
 import { Button } from '@/components/shared/button';
 import Modal from '@/components/shared/modal';
 import { Login } from '@/components/login';
 import { Register } from '@/components/register';
 import { baseBasket, baseProduct, selectProduct, selectUsername } from 'store';
+import { Error } from '@/components/shared/error';
+import { Success } from '@/components/shared/success';
 
 import { numberFormat } from 'utils';
 import styles from './styles.module.css';
-import Link from 'next/link';
 
 const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
   const [count, setCount] = useState<number>(1);
@@ -23,6 +26,8 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [preAccount, setPreAccount] = useState<boolean>(true);
   const [isAccount, setIsAccount] = useState<boolean>(false);
+  const [requestError, setRequestError] = useState<string>('');
+  const [requestSuccess, setRequestSuccess] = useState<string>('');
 
   const setProductsCount = useSetRecoilState(baseProduct);
   const recoilProduct = useRecoilValue(selectProduct);
@@ -69,9 +74,34 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
     });
   };
 
+  const addLike = (productId: number, userId: number) => async (): Promise<void> => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/favorites/add?productId=${productId}&userId=${userId}`
+      );
+      const data: IResponse & IResponseError = await response.json();
+
+      if (data.message) {
+        setRequestSuccess(data.message);
+      }
+    } catch (error: any) {
+      setRequestError(error.message);
+    }
+  };
+
   return (
     <BaseLayout>
       <main>
+        {requestError && (
+          <div className={styles.message}>
+            <Error message={requestError} />
+          </div>
+        )}
+        {requestSuccess && (
+          <div className={styles.message}>
+            <Success message={requestSuccess} />
+          </div>
+        )}
         <section className={styles.product}>
           <Card classNames={styles.card}>
             <Image src={product.picture} alt={product.title} width={420} height={320} />
@@ -117,7 +147,12 @@ const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
               label={'Add to cart'}
               onClick={addToCart(product.id)}
             />
-            <Button type="button" classNames={styles.addBtn} label={'Add to favorites'} />
+            <Button
+              type="button"
+              classNames={styles.addBtn}
+              label={'Add to favorites'}
+              onClick={addLike(product.id, storedFullname.id)}
+            />
             <Link href={'/basket'}>
               <a className={styles.addBtn}>Buy now</a>
             </Link>

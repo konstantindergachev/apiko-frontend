@@ -385,7 +385,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                         );
                       })
                     ) : (
-                      <Error message="You don't have any favorites" />
+                      <Error message={"You don't have any favorites"} />
                     )}
                   </div>
                 </>
