@@ -2,18 +2,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   background: var(--black-color);
   color: var(--main-color);
-  height: 76px;
+  min-height: 76px;
   flex-shrink: 0;
   padding: 0 160px;
+}
+
+.header > a {
+  flex: 1 0 auto;
+  max-width: 100%;
 }
 
 .header nav {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: end;
+  flex: 1 0 auto;
+  max-width: 100%;
 }
+
 .header nav a {
   position: relative;
 }
@@ -102,4 +112,18 @@
   text-transform: capitalize;
   display: inline-block;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 5px;
+  }
+
+  .header > a {
+    text-align: center;
+  }
+  .header nav {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }

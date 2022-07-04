@@ -2,6 +2,7 @@
   position: absolute;
   right: 0%;
   top: 60px;
+  max-width: 250px;
   width: 100%;
   height: inherit;
   font-size: 13px;

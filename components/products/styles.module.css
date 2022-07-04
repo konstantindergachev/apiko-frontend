@@ -96,3 +96,9 @@
 .likeBtn:not(:last-child) {
   margin-bottom: 20px;
 }
+
+@media (max-width: 600px) {
+  .products {
+    justify-content: space-evenly;
+  }
+}

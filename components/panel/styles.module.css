@@ -1,6 +1,6 @@
 .panel {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 
   background: var(--main-color);
@@ -15,6 +15,9 @@
   position: relative;
   max-width: 290px;
   width: 100%;
+}
+.panel fieldset:not(:last-child) {
+  margin-bottom: 10px;
 }
 .panel fieldset span {
   position: absolute !important;
