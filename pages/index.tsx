@@ -10,6 +10,7 @@ import AppHead from '@/layout/head';
 import { Panel } from '@/components/panel';
 import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
+import { PRODUCT_LIMIT } from './constants';
 
 import styles from './styles.module.css';
 
@@ -20,13 +21,15 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
 
   const [loadMoreSettings, setLoadMoreSettings] = useState<ILoadMoreSettings>({
     offset: 0,
-    limit: 6,
+    limit: PRODUCT_LIMIT,
     sortBy: 'latest',
   });
-  const [loadMoreProducts, setLoadMoreProducts] = useState<IProduct[]>(products);
+  const [loadMoreProducts, setLoadMoreProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
-    if (loadMoreSettings.limit > loadMoreProducts.length) {
+    const productsFromLocalStorage = localStorage.getItem('products');
+    const cachedProducts = productsFromLocalStorage ? JSON.parse(productsFromLocalStorage) : [];
+    if (loadMoreSettings.limit > cachedProducts.length) {
       (async () => {
         try {
           const response = await fetch(
@@ -37,6 +40,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
             setRequestError(data.message);
             return;
           }
+          localStorage.setItem('products', JSON.stringify(data.products));
           setLoadMoreProducts(addFavoritesToAll(data.products, favorites));
           setRequestError('');
         } catch (error: any) {
@@ -47,6 +51,15 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   }, [loadMoreSettings]);
 
   useEffect(() => {
+    const productsFromLocalStorage = localStorage.getItem('products');
+    const cachedProducts = productsFromLocalStorage ? JSON.parse(productsFromLocalStorage) : [];
+    if (cachedProducts.length > 0) {
+      setLoadMoreSettings((old) => ({
+        ...old,
+        limit: cachedProducts.length,
+      }));
+      return setLoadMoreProducts(addFavoritesToAll(cachedProducts, favorites));
+    }
     setLoadMoreProducts(addFavoritesToAll(products, favorites));
   }, [favorites]);
 
@@ -132,7 +145,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
           type="button"
           classNames={styles.btn}
           label="Load more..."
-          onClick={loadMore(loadMoreSettings.limit)}
+          onClick={loadMore(PRODUCT_LIMIT)}
         />
       </BaseLayout>
     </>
@@ -144,7 +157,7 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async (): Promise<{
   props: IProducts;
 }> => {
-  const baseProductLimit = 6;
+  const baseProductLimit = PRODUCT_LIMIT;
   const response = await fetch(
     `${process.env.API_URL}/products?offset=0&limit=${baseProductLimit}&sortBy=latest`
   );
