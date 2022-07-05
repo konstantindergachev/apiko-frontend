@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { NextPage, GetServerSideProps } from 'next';
 import { useRecoilValue } from 'recoil';
 import { selectFavorites } from 'store';
-import { addFavoritesToAll } from 'utils';
+import { addFavoritesToAll, cacheProducts } from 'utils';
 import { Products } from '@/components/products';
 import { BaseLayout } from '@/layout/base-layout';
 import { ILoadMoreSettings, IProduct, IProducts } from '@/interfaces/products';
@@ -27,9 +27,8 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   const [loadMoreProducts, setLoadMoreProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
-    const productsFromLocalStorage = localStorage.getItem('products');
-    const cachedProducts = productsFromLocalStorage ? JSON.parse(productsFromLocalStorage) : [];
-    if (loadMoreSettings.limit > cachedProducts.length) {
+    const localStorageProducts = cacheProducts.get('products');
+    if (loadMoreSettings.limit > localStorageProducts.length) {
       (async () => {
         try {
           const response = await fetch(
@@ -37,10 +36,9 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
           );
           const data = await response.json();
           if (data?.message) {
-            setRequestError(data.message);
-            return;
+            return setRequestError(data.message);
           }
-          localStorage.setItem('products', JSON.stringify(data.products));
+          cacheProducts.set('products', data.products);
           setLoadMoreProducts(addFavoritesToAll(data.products, favorites));
           setRequestError('');
         } catch (error: any) {
@@ -51,14 +49,13 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   }, [loadMoreSettings]);
 
   useEffect(() => {
-    const productsFromLocalStorage = localStorage.getItem('products');
-    const cachedProducts = productsFromLocalStorage ? JSON.parse(productsFromLocalStorage) : [];
-    if (cachedProducts.length > 0) {
+    const localStorageProducts = cacheProducts.get('products');
+    if (localStorageProducts.length > 0) {
       setLoadMoreSettings((old) => ({
         ...old,
-        limit: cachedProducts.length,
+        limit: localStorageProducts.length,
       }));
-      return setLoadMoreProducts(addFavoritesToAll(cachedProducts, favorites));
+      return setLoadMoreProducts(addFavoritesToAll(localStorageProducts, favorites));
     }
     setLoadMoreProducts(addFavoritesToAll(products, favorites));
   }, [favorites]);
@@ -93,11 +90,11 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
       const data = await response.json();
 
       if (data?.message) {
-        setRequestError(data.message);
-        return;
+        return setRequestError(data.message);
       }
       setSearchField('');
       setLoadMoreProducts(data.products);
+      cacheProducts.set('products', data.products);
       setRequestError('');
     } catch (error: any) {
       setRequestError(error.message);
@@ -112,11 +109,11 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
       const data = await response.json();
 
       if (data?.message) {
-        setRequestError(data.message);
-        return;
+        return setRequestError(data.message);
       }
       setSearchField('');
       setLoadMoreProducts(data.products);
+      cacheProducts.set('products', data.products);
       setRequestError('');
     } catch (error: any) {
       setRequestError(error.message);

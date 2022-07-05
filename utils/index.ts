@@ -32,3 +32,13 @@ export const addFavoritesToAll = (products: IProduct[], favorites: IFavorite[]):
   });
   return productsWithFavorites;
 };
+
+export const cacheProducts = {
+  get(key: string): IProduct[] {
+    const products = localStorage.getItem(key);
+    return products ? JSON.parse(products) : [];
+  },
+  set(key: string, target: IProduct[]): void {
+    localStorage.setItem(key, JSON.stringify(target));
+  },
+};
