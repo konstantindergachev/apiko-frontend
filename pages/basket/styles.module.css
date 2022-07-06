@@ -191,3 +191,39 @@
   line-height: 22px;
   color: var(--gray-color);
 }
+
+@media (max-width: 600px) {
+  .section {
+    margin-top: 25px;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'title'
+      'left'
+      'right';
+  }
+
+  .section h1 {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .section form {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    padding: 10px 14px;
+  }
+  .basketMiddle {
+    align-items: center;
+  }
+  .basketMiddle .btns {
+    align-self: center;
+  }
+
+  .basketRight::before {
+    margin-left: -15px;
+  }
+  .confirmBtn {
+    align-self: center;
+  }
+}
