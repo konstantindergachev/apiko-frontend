@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
   max-width: 782px;
-  height: 697px;
+  min-height: 697px;
   margin: 0 auto;
   flex-wrap: wrap;
 }
@@ -125,6 +125,21 @@
   color: var(--main-color);
 }
 
-.addBtn:not(:last-child) {
-  margin-bottom: 20px;
+@media (max-width: 600px) {
+  .product {
+    justify-content: center;
+    margin: 40px 0 0;
+  }
+  .contentRight {
+    margin: 40px 0;
+    text-align: center;
+  }
+  .btns {
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+  }
+  .addBtn {
+    margin-bottom: 20px;
+  }
 }
