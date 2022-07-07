@@ -1,6 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { baseFavorites, selectUsername } from 'store';
@@ -22,7 +23,6 @@ import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
 import styles from './styles.module.css';
-import { useRouter } from 'next/router';
 
 interface IProps {
   userInfo: IInfoFields;
@@ -87,6 +87,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
 
   const handleTabs = (tabIndex: number) => (): void => {
     setTabIndex(tabIndex);
+    router.push(`account?tabIdx=${tabIndex}`);
   };
 
   const handleChangeInfo = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {

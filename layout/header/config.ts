@@ -4,7 +4,7 @@ import basket from '../../images/basket.svg';
 
 export const menu = [
   {
-    path: '/heart',
+    path: '/account?tabIdx=3',
     name: 'Heart',
     component: Image,
     img: heart,
