@@ -215,6 +215,11 @@
   }
   .basketMiddle {
     align-items: center;
+    justify-content: space-evenly;
+  }
+  .basketMiddle h2 {
+    word-wrap: break-word;
+    width: 100px;
   }
   .basketMiddle .btns {
     align-self: center;

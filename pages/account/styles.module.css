@@ -152,3 +152,16 @@
   line-height: 26px;
   letter-spacing: 0.5px;
 }
+
+@media (max-width: 600px) {
+  .tab {
+    padding: 10px 20px;
+  }
+  .tab.active::after {
+    content: '\2666';
+    font-size: 20px;
+    top: 130%;
+    left: 50%;
+    transform: translate(-50%, -130%);
+  }
+}
