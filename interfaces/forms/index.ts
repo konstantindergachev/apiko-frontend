@@ -2,11 +2,6 @@ export interface IAccount {
   handleAccount: (isAccount: boolean) => () => void; //MouseEventHandler<HTNLButtonElement>
 }
 
-export interface ILoginFields {
-  email: string;
-  password: string;
-}
-
 export interface IInfoFields {
   fullname: string;
   phone: string;

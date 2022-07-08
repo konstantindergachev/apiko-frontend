@@ -1,6 +1,6 @@
-import { IAccount, ILoginFields } from '@/interfaces/forms';
+import { IAccount, IInput } from '@/interfaces/forms';
 import { IResponse, IResponseError } from '@/interfaces/responses';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
@@ -8,12 +8,13 @@ import { Button } from '@/components/shared/button';
 import { loginSchema } from './validate';
 import { baseUsername } from '../../store';
 
+import { inputs } from './config';
 import styles from './styles.module.css';
 
 export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
-  const [user, setUser] = useState<ILoginFields>({ email: '', password: '' });
+  const [user, setUser] = useState<IInput>({ email: '', password: '' });
   const [requestError, setRequestError] = useState<string>('');
-  const [inputError, setInputError] = useState<ILoginFields>({ email: '', password: '' });
+  const [inputError, setInputError] = useState<IInput>({ email: '', password: '' });
 
   const setUsername = useSetRecoilState(baseUsername);
 
@@ -60,28 +61,23 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
         {requestError && <Error message={requestError} />}
         <h3>login</h3>
         <form onSubmit={handleSubmit}>
-          {inputError.email && <Error message={inputError.email} />}
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email"
-            value={user.email}
-            onChange={handleChange}
-            onBlur={validate}
-            onKeyPress={validate}
-          />
-          {inputError.password && <Error message={inputError.password} />}
-          <Input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            value={user.password}
-            onChange={handleChange}
-            onBlur={validate}
-            onKeyPress={validate}
-          />
+          {inputs.map((input) => {
+            return (
+              <Fragment key={input.id}>
+                {inputError[input.name] && <Error message={inputError[input.name]} />}
+                <Input
+                  type={input.type}
+                  id={input.id}
+                  name={input.name}
+                  placeholder={input.placeholder}
+                  value={user[input.name]}
+                  onChange={handleChange}
+                  onBlur={validate}
+                  onKeyPress={validate}
+                />
+              </Fragment>
+            );
+          })}
 
           <Button type="submit" classNames={styles.loginBtn} label={'log in'} />
         </form>
