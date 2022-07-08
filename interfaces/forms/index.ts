@@ -7,14 +7,6 @@ export interface ILoginFields {
   password: string;
 }
 
-export interface IRegistrationFields {
-  fullname: string;
-  email: string;
-  phone: string;
-  password: string;
-  password_confirm: string;
-}
-
 export interface IInfoFields {
   fullname: string;
   phone: string;
@@ -27,4 +19,8 @@ export interface IChangePasswordFields {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
+}
+
+export interface IInput {
+  [index: string]: string;
 }

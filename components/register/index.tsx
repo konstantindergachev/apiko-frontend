@@ -1,14 +1,15 @@
-import { IAccount, IRegistrationFields } from '@/interfaces/forms';
-import React, { useState } from 'react';
+import { IAccount, IInput } from '@/interfaces/forms';
+import React, { Fragment, useState } from 'react';
 import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
 import { registerSchema } from './validate';
 
+import { inputs } from './config';
 import styles from './styles.module.css';
 
 export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
-  const [user, setUser] = useState<IRegistrationFields>({
+  const [user, setUser] = useState<IInput>({
     fullname: '',
     email: '',
     phone: '',
@@ -16,7 +17,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
     password_confirm: '',
   });
   const [requestError, setRequestError] = useState<string>('');
-  const [inputError, setInputError] = useState<IRegistrationFields>({
+  const [inputError, setInputError] = useState<IInput>({
     fullname: '',
     email: '',
     phone: '',
@@ -62,61 +63,23 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
         {requestError && <Error message={requestError} />}
         <h3>register</h3>
         <form onSubmit={handleSubmit}>
-          {inputError.fullname && <Error message={inputError.fullname} />}
-          <Input
-            type="text"
-            id="fullname"
-            name="fullname"
-            placeholder="Full name"
-            value={user.fullname}
-            onChange={handleChange}
-            onBlur={validate}
-            onKeyPress={validate}
-          />
-          {inputError.email && <Error message={inputError.email} />}
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email"
-            value={user.email}
-            onChange={handleChange}
-            onBlur={validate}
-            onKeyPress={validate}
-          />
-          {inputError.phone && <Error message={inputError.phone} />}
-          <Input
-            type="text"
-            id="phone"
-            name="phone"
-            placeholder="Phone number"
-            value={user.phone}
-            onChange={handleChange}
-            onBlur={validate}
-            onKeyPress={validate}
-          />
-          {inputError.password && <Error message={inputError.password} />}
-          <Input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            value={user.password}
-            onChange={handleChange}
-            onBlur={validate}
-            onKeyPress={validate}
-          />
-          {inputError.password_confirm && <Error message={inputError.password_confirm} />}
-          <Input
-            type="password"
-            id="password_confirm"
-            name="password_confirm"
-            placeholder="Password confirm"
-            value={user.password_confirm}
-            onChange={handleChange}
-            onBlur={validate}
-            onKeyPress={validate}
-          />
+          {inputs.map((input) => {
+            return (
+              <Fragment key={input.id}>
+                {inputError[input.name] && <Error message={inputError[input.name]} />}
+                <Input
+                  type={input.type}
+                  id={input.id}
+                  name={input.name}
+                  placeholder={input.placeholder}
+                  value={user[input.name]}
+                  onChange={handleChange}
+                  onBlur={validate}
+                  onKeyPress={validate}
+                />
+              </Fragment>
+            );
+          })}
           <Button type="submit" classNames={styles.registerBtn} label={'Register'} />
         </form>
       </div>
