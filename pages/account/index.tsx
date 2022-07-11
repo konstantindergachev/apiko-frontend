@@ -14,14 +14,14 @@ import { Error } from '@/components/shared/error';
 import { Card } from '@/components/shared/card';
 import { LikeButton } from '@/components/like';
 import { Success } from '@/components/shared/success';
-import { IChangePasswordFields, IInfoFields, IInput } from '@/interfaces/forms';
+import { IInfoFields, IInput } from '@/interfaces/forms';
 import { IFavorite, IFavorites } from '@/interfaces/favorites';
 import { IOrder } from '@/interfaces/orders';
 import { IResponse, IResponseError } from '@/interfaces/responses';
 import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
-import { inputs } from './config';
+import { infoInputs, passwordInputs } from './config';
 import styles from './styles.module.css';
 
 interface IProps {
@@ -50,12 +50,12 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
     address: '',
   });
   const [requestError, setRequestError] = useState<string>('');
-  const [password, setPassword] = useState<IChangePasswordFields>({
+  const [password, setPassword] = useState<IInput>({
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
-  const [inputPasswordError, setInputPasswordError] = useState({
+  const [inputPasswordError, setInputPasswordError] = useState<IInput>({
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
@@ -217,7 +217,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                     <h3>My information</h3>
                     <form onSubmit={saveInfo}>
                       {requestError && <Error message={requestError} />}
-                      {inputs.map((input) => {
+                      {infoInputs.map((input) => {
                         return (
                           <Fragment key={input.id}>
                             {inputInfoError[input.name] && (
@@ -242,45 +242,25 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                   <div>
                     <h3>Change password</h3>
                     <form onSubmit={changePassword}>
-                      <Input
-                        type="password"
-                        id="currentPassword"
-                        name="currentPassword"
-                        placeholder="Current password"
-                        value={password.currentPassword}
-                        onChange={handleChangePassword}
-                        onBlur={validatePassword}
-                        onKeyPress={validatePassword}
-                      />
-                      {inputPasswordError.currentPassword && (
-                        <Error message={inputPasswordError.currentPassword} />
-                      )}
-                      <Input
-                        type="password"
-                        id="newPassword"
-                        name="newPassword"
-                        placeholder="New password"
-                        value={password.newPassword}
-                        onChange={handleChangePassword}
-                        onBlur={validatePassword}
-                        onKeyPress={validatePassword}
-                      />
-                      {inputPasswordError.newPassword && (
-                        <Error message={inputPasswordError.newPassword} />
-                      )}
-                      <Input
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        placeholder="Confirm password"
-                        value={password.confirmPassword}
-                        onChange={handleChangePassword}
-                        onBlur={validatePassword}
-                        onKeyPress={validatePassword}
-                      />
-                      {inputPasswordError.confirmPassword && (
-                        <Error message={inputPasswordError.confirmPassword} />
-                      )}
+                      {passwordInputs.map((input) => {
+                        return (
+                          <Fragment key={input.id}>
+                            {inputPasswordError[input.name] && (
+                              <Error message={inputPasswordError[input.name]} />
+                            )}
+                            <Input
+                              type={input.type}
+                              id={input.id}
+                              name={input.name}
+                              placeholder={input.placeholder}
+                              value={user[input.name]}
+                              onChange={handleChangePassword}
+                              onBlur={validatePassword}
+                              onKeyPress={validatePassword}
+                            />
+                          </Fragment>
+                        );
+                      })}
                       <Button type="submit" classNames={styles.saveBtn} label={'Change password'} />
                     </form>
                   </div>

@@ -1,7 +1,7 @@
 import { Input } from '@/components/shared/input';
 import { Select } from '@/components/shared/select';
 
-export const inputs = [
+export const infoInputs = [
   {
     type: 'text',
     id: 'fullname',
@@ -39,6 +39,33 @@ export const inputs = [
     id: 'address',
     name: 'address',
     placeholder: 'Address',
+    value: '',
+    component: Input,
+  },
+];
+
+export const passwordInputs = [
+  {
+    type: 'password',
+    id: 'currentPassword',
+    name: 'currentPassword',
+    placeholder: 'Current Password',
+    value: '',
+    component: Input,
+  },
+  {
+    type: 'password',
+    id: 'newPassword',
+    name: 'newPassword',
+    placeholder: 'New Password',
+    value: '',
+    component: Input,
+  },
+  {
+    type: 'password',
+    id: 'confirmPassword',
+    name: 'confirmPassword',
+    placeholder: 'Confirm Password',
     value: '',
     component: Input,
   },

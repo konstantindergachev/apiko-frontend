@@ -10,12 +10,6 @@ export interface IInfoFields {
   address?: string;
 }
 
-export interface IChangePasswordFields {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
-
 export interface IInput {
   [index: string]: string;
 }
