@@ -2,26 +2,26 @@ import type { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { baseFavorites, selectUsername } from 'store';
 import { parse } from 'cookie';
 import { dateFormat, numberFormat, takeFirstChar } from 'utils';
 import { Button } from '@/components/shared/button';
 import { Input } from '@/components/shared/input';
-import { Select } from '@/components/shared/select';
 import { BaseLayout } from '@/layout/base-layout';
 import { Error } from '@/components/shared/error';
 import { Card } from '@/components/shared/card';
 import { LikeButton } from '@/components/like';
 import { Success } from '@/components/shared/success';
-import { IChangePasswordFields, IInfoFields } from '@/interfaces/forms';
+import { IChangePasswordFields, IInfoFields, IInput } from '@/interfaces/forms';
 import { IFavorite, IFavorites } from '@/interfaces/favorites';
 import { IOrder } from '@/interfaces/orders';
 import { IResponse, IResponseError } from '@/interfaces/responses';
 import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
+import { inputs } from './config';
 import styles from './styles.module.css';
 
 interface IProps {
@@ -35,14 +35,14 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const router = useRouter();
   const { id: userId, ...account } = useRecoilValue(selectUsername);
   const [tabIndex, setTabIndex] = useState<number>(Number(router.query?.tabIdx) || tabIdx);
-  const [user, setUser] = useState<IInfoFields>({
+  const [user, setUser] = useState<IInput>({
     fullname: '',
     phone: '',
     country: '',
     city: '',
     address: '',
   });
-  const [inputInfoError, setInputInfoError] = useState({
+  const [inputInfoError, setInputInfoError] = useState<IInput>({
     fullname: '',
     phone: '',
     country: '',
@@ -217,60 +217,25 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                     <h3>My information</h3>
                     <form onSubmit={saveInfo}>
                       {requestError && <Error message={requestError} />}
-                      <Input
-                        type="text"
-                        id="fullname"
-                        name="fullname"
-                        placeholder="Full name"
-                        value={user.fullname}
-                        onChange={handleChangeInfo}
-                        onBlur={validateInfo}
-                        onKeyPress={validateInfo}
-                      />
-                      {inputInfoError.fullname && <Error message={inputInfoError.fullname} />}
-                      <Input
-                        type="text"
-                        id="phone"
-                        name="phone"
-                        placeholder="Phone number"
-                        value={user.phone}
-                        onChange={handleChangeInfo}
-                        onBlur={validateInfo}
-                        onKeyPress={validateInfo}
-                      />
-                      {inputInfoError.phone && <Error message={inputInfoError.phone} />}
-                      <Select
-                        name="country"
-                        id="country"
-                        placeholder="Country"
-                        value={user.country || ''}
-                        onChange={handleChangeInfo}
-                        onBlur={validateInfo}
-                        onKeyPress={validateInfo}
-                      />
-                      {inputInfoError.country && <Error message={inputInfoError.country} />}
-                      <Input
-                        type="text"
-                        id="city"
-                        name="city"
-                        placeholder="City"
-                        value={user.city || ''}
-                        onChange={handleChangeInfo}
-                        onBlur={validateInfo}
-                        onKeyPress={validateInfo}
-                      />
-                      {inputInfoError.city && <Error message={inputInfoError.city} />}
-                      <Input
-                        type="text"
-                        id="address"
-                        name="address"
-                        placeholder="Address"
-                        value={user.address || ''}
-                        onChange={handleChangeInfo}
-                        onBlur={validateInfo}
-                        onKeyPress={validateInfo}
-                      />
-                      {inputInfoError.address && <Error message={inputInfoError.address} />}
+                      {inputs.map((input) => {
+                        return (
+                          <Fragment key={input.id}>
+                            {inputInfoError[input.name] && (
+                              <Error message={inputInfoError[input.name]} />
+                            )}
+                            <Input
+                              type={input.type}
+                              id={input.id}
+                              name={input.name}
+                              placeholder={input.placeholder}
+                              value={user[input.name]}
+                              onChange={handleChangeInfo}
+                              onBlur={validateInfo}
+                              onKeyPress={validateInfo}
+                            />
+                          </Fragment>
+                        );
+                      })}
                       <Button type="submit" classNames={styles.saveBtn} label={'Save'} />
                     </form>
                   </div>
