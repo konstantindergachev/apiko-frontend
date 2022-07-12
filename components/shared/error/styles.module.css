@@ -1,4 +1,5 @@
 .text {
+  display: inline;
   color: var(--main-color);
   background-color: var(--red-color);
   border-radius: 4px;

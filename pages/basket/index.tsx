@@ -144,38 +144,42 @@ const Basket: React.FC = (): JSX.Element => {
         <section className={styles.section}>
           <h1>My cart</h1>
           <div className={styles.left}>
-            {basketProducts.map((prod) => (
-              <Card key={prod.id} classNames={styles.card}>
-                <div className={styles.basketLeft}>
-                  <Image src={prod.picture} width={140} height={140} />
-                </div>
-                <div className={styles.basketMiddle}>
-                  <h2>{prod.title}</h2>
-                  <div className={styles.btns}>
-                    <Button type="button" classNames={styles.removeBtn} onClick={remove(prod.id)}>
-                      <Image src={trash} alt={'trash can'} width={20} height={20} />
-                    </Button>
-                    <Button
-                      type="button"
-                      classNames={styles.countBtns}
-                      label={'-'}
-                      onClick={decrement(prod.id)}
-                    />
-                    <span>{prod.quantity}</span>
-                    <Button
-                      type="button"
-                      classNames={styles.countBtns}
-                      label={'+'}
-                      onClick={increment(prod.id)}
-                    />
+            {basketProducts.length ? (
+              basketProducts.map((prod) => (
+                <Card key={prod.id} classNames={styles.card}>
+                  <div className={styles.basketLeft}>
+                    <Image src={prod.picture} width={140} height={140} />
                   </div>
-                </div>
-                <div className={styles.basketRight}>
-                  <h4>Price:</h4>
-                  <span>{numberFormat(+prod.price)}</span>
-                </div>
-              </Card>
-            ))}
+                  <div className={styles.basketMiddle}>
+                    <h2>{prod.title}</h2>
+                    <div className={styles.btns}>
+                      <Button type="button" classNames={styles.removeBtn} onClick={remove(prod.id)}>
+                        <Image src={trash} alt={'trash can'} width={20} height={20} />
+                      </Button>
+                      <Button
+                        type="button"
+                        classNames={styles.countBtns}
+                        label={'-'}
+                        onClick={decrement(prod.id)}
+                      />
+                      <span>{prod.quantity}</span>
+                      <Button
+                        type="button"
+                        classNames={styles.countBtns}
+                        label={'+'}
+                        onClick={increment(prod.id)}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.basketRight}>
+                    <h4>Price:</h4>
+                    <span>{numberFormat(+prod.price)}</span>
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <Error message={'You do not have any products in the basket'} />
+            )}
           </div>
 
           <div className={styles.right}>
