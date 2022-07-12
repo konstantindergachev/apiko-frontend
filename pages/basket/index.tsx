@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { BaseLayout } from '@/layout/base-layout';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -16,23 +16,24 @@ import trash from '@/images/trash.svg';
 import { orderSchema } from './validate';
 import { Select } from '@/components/shared/select';
 import Modal from '@/components/shared/modal';
-import { IInfoFields } from '@/interfaces/forms';
+import { IInput } from '@/interfaces/forms';
 import { MESSAGES } from './constants';
 
+import { inputs } from './config';
 import styles from './styles.module.css';
 
 const Basket: React.FC = (): JSX.Element => {
   const basketProducts = useRecoilValue(selectBasket);
   const setBasketProducts = useSetRecoilState(baseBasket);
   const setOrder = useSetRecoilState(baseOrder);
-  const [user, setUser] = useState<IInfoFields>({
+  const [user, setUser] = useState<IInput>({
     fullname: '',
     phone: '',
     country: '',
     city: '',
     address: '',
   });
-  const [inputError, setInputError] = useState({
+  const [inputError, setInputError] = useState<IInput>({
     fullname: '',
     phone: '',
     country: '',
@@ -180,60 +181,39 @@ const Basket: React.FC = (): JSX.Element => {
           <div className={styles.right}>
             <form onSubmit={confirm}>
               {requestError && <Error message={requestError} />}
-              <Input
-                type="text"
-                id="fullname"
-                name="fullname"
-                placeholder="Full name"
-                value={user.fullname}
-                onChange={handleChange}
-                onBlur={validate}
-                onKeyPress={validate}
-              />
-              {inputError.fullname && <Error message={inputError.fullname} />}
-              <Input
-                type="text"
-                id="phone"
-                name="phone"
-                placeholder="Phone number"
-                value={user.phone}
-                onChange={handleChange}
-                onBlur={validate}
-                onKeyPress={validate}
-              />
-              {inputError.phone && <Error message={inputError.phone} />}
-              <Select
-                name="country"
-                id="country"
-                placeholder="Country"
-                value={user.country || ''}
-                onChange={handleChange}
-                onBlur={validate}
-                onKeyPress={validate}
-              />
-              {inputError.country && <Error message={inputError.country} />}
-              <Input
-                type="text"
-                id="city"
-                name="city"
-                placeholder="City"
-                value={user.city || ''}
-                onChange={handleChange}
-                onBlur={validate}
-                onKeyPress={validate}
-              />
-              {inputError.city && <Error message={inputError.city} />}
-              <Input
-                type="text"
-                id="address"
-                name="address"
-                placeholder="Address"
-                value={user.address || ''}
-                onChange={handleChange}
-                onBlur={validate}
-                onKeyPress={validate}
-              />
-              {inputError.address && <Error message={inputError.address} />}
+              {inputs.map((input) => {
+                if (!input.type) {
+                  return (
+                    <Fragment key={input.id}>
+                      {inputError[input.name] && <Error message={inputError[input.name]} />}
+                      <Select
+                        id={input.id}
+                        name={input.name}
+                        placeholder={input.placeholder}
+                        value={user[input.name]}
+                        onChange={handleChange}
+                        onBlur={validate}
+                        onKeyPress={validate}
+                      />
+                    </Fragment>
+                  );
+                }
+                return (
+                  <Fragment key={input.id}>
+                    {inputError[input.name] && <Error message={inputError[input.name]} />}
+                    <Input
+                      type={input.type}
+                      id={input.id}
+                      name={input.name}
+                      placeholder={input.placeholder}
+                      value={user[input.name]}
+                      onChange={handleChange}
+                      onBlur={validate}
+                      onKeyPress={validate}
+                    />
+                  </Fragment>
+                );
+              })}
               <div className={styles.summary}>
                 <p>
                   Items: <span>{productCount}</span>
