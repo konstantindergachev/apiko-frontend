@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BaseLayout } from '@/layout/base-layout';
 import { GetServerSideProps, NextPage } from 'next';
-import { IOneProduct } from '@/interfaces/products';
+import { IOneProduct, IProduct } from '@/interfaces/products';
 import { IResponse, IResponseError } from '@/interfaces/responses';
 import { Card } from '@/components/shared/card';
 import { Button } from '@/components/shared/button';
@@ -16,9 +16,10 @@ import { Error } from '@/components/shared/error';
 import { Success } from '@/components/shared/success';
 
 import { numberFormat } from 'utils';
+import * as http from '../../../utils/fetch';
 import styles from './styles.module.css';
 
-const Product: NextPage<IOneProduct> = ({ product }): JSX.Element => {
+const Product: NextPage<IProduct> = ({ ...product }): JSX.Element => {
   const [count, setCount] = useState<number>(1);
   const oneProductPrice = numberFormat(+product.price);
   const [total, setTotal] = useState<number>(0);
@@ -197,10 +198,8 @@ export default Product;
 export const getServerSideProps: GetServerSideProps = async ({
   query: { id },
 }): Promise<{ props: IOneProduct }> => {
-  const response = await fetch(`${process.env.API_URL}/products/${id}`);
-  const product = await response.json();
-
+  const product = await http.get<IOneProduct>(`${process.env.API_URL}/products/${id}`);
   return {
-    props: { product },
+    props: { ...product },
   };
 };

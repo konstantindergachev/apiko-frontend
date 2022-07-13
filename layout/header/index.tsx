@@ -78,7 +78,7 @@ export const Header: React.FC = (): JSX.Element => {
   const onExit = async () => {
     try {
       router.push('/');
-      await fetch(`http://localhost:3000/api/user/logout`);
+      await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/logout`);
       setUsername(() => ({ id: 0, fullname: '', email: '' }));
       setIsModalOpen(false);
     } catch (error: any) {

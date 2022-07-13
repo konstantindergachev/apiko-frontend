@@ -22,6 +22,7 @@ import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
 import { infoInputs, passwordInputs } from './config';
+import * as http from '../../utils/fetch';
 import styles from './styles.module.css';
 
 interface IProps {
@@ -106,7 +107,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const saveInfo = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/user/account', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/account`, {
         method: 'PUT',
         body: JSON.stringify(user),
         headers: {
@@ -138,7 +139,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const changePassword = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/user/password', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/password`, {
         method: 'PUT',
         body: JSON.stringify(password),
         headers: {
@@ -168,7 +169,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const removeLike = async (productId: number, userId: number) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/favorites/remove?productId=${productId}&userId=${userId}`
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/remove?productId=${productId}&userId=${userId}`
       );
       const data: IResponse & IResponseError = await response.json();
 
@@ -358,36 +359,21 @@ export const getServerSideProps: GetServerSideProps = async ({
     token = cookie.token;
   }
   const baseProductLimit = 6;
-  const favoritesPromise = fetch(
-    `${process.env.API_URL}/favorite/favorites?offset=0&limit=${baseProductLimit}&sortBy=latest`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const accountPromise = fetch(`${process.env.API_URL}/account`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const ordersPromise = fetch(`${process.env.API_URL}/orders`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
-  const [accountResponse, favoritesResponse, ordersResponse] = await Promise.all([
+  const accountPromise = http.get<IInfoFields>(`${process.env.API_URL}/account`, { headers });
+  const favoritesPromise = http.get<IFavorites>(
+    `${process.env.API_URL}/favorite/favorites?offset=0&limit=${baseProductLimit}&sortBy=latest`,
+    { headers }
+  );
+  const ordersPromise = http.get<IOrder[]>(`${process.env.API_URL}/orders`, { headers });
+  const [userInfo, favorites, orders] = await Promise.all([
     accountPromise,
     favoritesPromise,
     ordersPromise,
   ]);
-  const userInfo = await accountResponse.json();
-  const favorites = await favoritesResponse.json();
-  const orders = await ordersResponse.json();
 
   return {
     props: { userInfo, favorites, orders },

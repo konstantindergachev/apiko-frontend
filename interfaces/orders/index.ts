@@ -4,7 +4,7 @@ export interface IOrder {
   created_at: Date;
   items: {
     quantity: number;
-    orderedPrice: number;
+    orderedPrice?: number;
     product: {
       id: number;
       title: string;
@@ -22,6 +22,7 @@ export interface IOrder {
     city: string;
     address: string;
   };
+  products: IProduct[];
   user: { id: number };
 }
 

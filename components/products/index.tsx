@@ -59,7 +59,7 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
   const removeLike = async (productId: number, userId: number) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/favorites/remove?productId=${productId}&userId=${userId}`
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/remove?productId=${productId}&userId=${userId}`
       );
       const data: IResponse & IResponseError = await response.json();
 
@@ -74,7 +74,7 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
   const addLike = async (productId: number, userId: number) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/favorites/add?productId=${productId}&userId=${userId}`
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/add?productId=${productId}&userId=${userId}`
       );
       const data: IResponse & IResponseError = await response.json();
 

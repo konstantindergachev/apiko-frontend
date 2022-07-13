@@ -4,8 +4,9 @@ import { IItemOrder, IOrder, IProduct } from '@/interfaces/orders';
 import { BaseLayout } from '@/layout/base-layout';
 import { parse } from 'cookie';
 import { GetServerSideProps } from 'next';
-import { dateFormat, numberFormat } from 'utils';
 
+import { dateFormat, numberFormat } from 'utils';
+import * as http from '../../../utils/fetch';
 import styles from './styles.module.css';
 
 const Order: React.FC<IOrder> = ({ id, total, created_at, items, shipment }): JSX.Element => {
@@ -75,14 +76,10 @@ export const getServerSideProps: GetServerSideProps = async ({
     cookie = parse(req.headers.cookie);
     token = cookie.token;
   }
-  const response = await fetch(`${process.env.API_URL}/orders/${id}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const order = await response.json();
-
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const order = await http.get<IOrder>(`${process.env.API_URL}/orders/${id}`, { headers });
   const preResponseOrderItems = order.items.map((item: IItemOrder) => {
     order.products.forEach((product: IProduct) => {
       if (product.id === item.productId) {

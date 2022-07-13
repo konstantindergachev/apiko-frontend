@@ -105,7 +105,7 @@ const Basket: React.FC = (): JSX.Element => {
       quantity: product.quantity,
     }));
     try {
-      const response = await fetch('http://localhost:3000/api/user/order', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/order`, {
         method: 'POST',
         body: JSON.stringify({ items: _basketProducts, shipment: user }),
         headers: {

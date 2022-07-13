@@ -34,7 +34,7 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const handleSubmit = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/user/login', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/login`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {

@@ -12,6 +12,7 @@ import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
 import { PRODUCT_LIMIT } from './constants';
 
+import * as http from '../utils/fetch';
 import styles from './styles.module.css';
 
 const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
@@ -32,7 +33,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
       (async () => {
         try {
           const response = await fetch(
-            `http://localhost:3000/api/products/loadMore?offset=${loadMoreSettings.offset}&limit=${loadMoreSettings.limit}&sortBy=${loadMoreSettings.sortBy}`
+            `${process.env.NEXT_PUBLIC_PROXI_URL}/products/loadMore?offset=${loadMoreSettings.offset}&limit=${loadMoreSettings.limit}&sortBy=${loadMoreSettings.sortBy}`
           );
           const data = await response.json();
           if (data?.message) {
@@ -85,7 +86,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   ): Promise<void> => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/categories/category?categoryId=${ev.currentTarget.value}`
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/categories/category?categoryId=${ev.currentTarget.value}`
       );
       const data = await response.json();
 
@@ -104,7 +105,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   const sort = async (ev: React.FormEvent<HTMLSelectElement>): Promise<void> => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/products/sort?sortBy=${ev.currentTarget.value}`
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/products/sort?sortBy=${ev.currentTarget.value}`
       );
       const data = await response.json();
 
@@ -155,10 +156,9 @@ export const getServerSideProps: GetServerSideProps = async (): Promise<{
   props: IProducts;
 }> => {
   const baseProductLimit = PRODUCT_LIMIT;
-  const response = await fetch(
+  const products = await http.get<IProduct[]>(
     `${process.env.API_URL}/products?offset=0&limit=${baseProductLimit}&sortBy=latest`
   );
-  const products = await response.json();
   return {
     props: { products },
   };

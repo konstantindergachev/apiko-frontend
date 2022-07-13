@@ -41,7 +41,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
   const handleSubmit = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/user/register', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/register`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
