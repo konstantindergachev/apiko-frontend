@@ -77,11 +77,9 @@ const Product: NextPage<IProduct> = ({ ...product }): JSX.Element => {
 
   const addLike = (productId: number, userId: number) => async (): Promise<void> => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/favorites/add?productId=${productId}&userId=${userId}`
+      const data = await http.get<IResponse & IResponseError>(
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/add?productId=${productId}&userId=${userId}`
       );
-      const data: IResponse & IResponseError = await response.json();
-
       if (data.message) {
         setRequestSuccess(data.message);
       }
