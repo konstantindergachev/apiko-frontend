@@ -1,5 +1,5 @@
 .text {
-  display: inline;
+  width: fit-content;
   color: var(--main-color);
   background-color: var(--red-color);
   border-radius: 4px;
@@ -7,5 +7,5 @@
   text-transform: capitalize;
   text-align: center;
   padding: 5px 10px;
-  margin-bottom: 10px;
+  margin: 10px auto;
 }

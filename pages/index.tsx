@@ -32,11 +32,10 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
     if (loadMoreSettings.limit > localStorageProducts.length) {
       (async () => {
         try {
-          const response = await fetch(
+          const data = await http.get<IProducts>(
             `${process.env.NEXT_PUBLIC_PROXI_URL}/products/loadMore?offset=${loadMoreSettings.offset}&limit=${loadMoreSettings.limit}&sortBy=${loadMoreSettings.sortBy}`
           );
-          const data = await response.json();
-          if (data?.message) {
+          if (data.message) {
             return setRequestError(data.message);
           }
           cacheProducts.set('products', data.products);
@@ -139,6 +138,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
             <Products products={loadMoreProducts} />
           )}
         </main>
+        {requestError && <Error message={requestError} />}
         <Button
           type="button"
           classNames={styles.btn}

@@ -1,3 +1,7 @@
+export interface IProductsError {
+  message?: string;
+}
+
 export interface ICategory {
   id: number;
   name: string;
@@ -13,7 +17,7 @@ export interface IProduct {
   category: ICategory;
   quantity: number;
 }
-export interface IProducts {
+export interface IProducts extends IProductsError {
   products: IProduct[];
 }
 export interface IOneProduct {

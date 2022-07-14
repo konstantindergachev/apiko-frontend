@@ -1,12 +1,35 @@
+export interface IErrorResponse<T = any> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: any;
+  request?: any;
+}
+
+export interface IError {
+  code?: string;
+  request?: any;
+  response?: IErrorResponse;
+  isError: boolean;
+  toJSON: () => object;
+}
+
 async function http<T>(path: string, config: RequestInit): Promise<T> {
   const request = new Request(path, config);
   const response = await fetch(request);
 
-  if (!response.ok) {
-    throw new Error(response.statusText);
+  try {
+    return response.json();
+  } catch (error) {
+    const isError = (something: any): something is IError => {
+      return something.isError === true;
+    };
+    if (isError(error)) {
+      const message = { message: error.response?.statusText };
+      return response.json().catch(() => message);
+    }
   }
 
-  // may error if there is no body, return empty array
   return response.json().catch(() => ({}));
 }
 
