@@ -84,10 +84,9 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
     ev: React.FormEvent<HTMLSelectElement>
   ): Promise<void> => {
     try {
-      const response = await fetch(
+      const data = await http.get<IProducts>(
         `${process.env.NEXT_PUBLIC_PROXI_URL}/categories/category?categoryId=${ev.currentTarget.value}`
       );
-      const data = await response.json();
 
       if (data?.message) {
         return setRequestError(data.message);
@@ -103,10 +102,9 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
 
   const sort = async (ev: React.FormEvent<HTMLSelectElement>): Promise<void> => {
     try {
-      const response = await fetch(
+      const data = await http.get<IProducts>(
         `${process.env.NEXT_PUBLIC_PROXI_URL}/products/sort?sortBy=${ev.currentTarget.value}`
       );
-      const data = await response.json();
 
       if (data?.message) {
         return setRequestError(data.message);
