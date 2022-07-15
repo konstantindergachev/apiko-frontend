@@ -1,7 +1,9 @@
 import { parse } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { IAccountResponse, IAccountResponseError } from '@/interfaces/responses';
-
+import * as http from '../../../utils/fetch';
+import { IBasketBody } from '@/interfaces/basket';
+import { IOrderServerResponse } from '@/interfaces/api/intex';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (
   req: NextApiRequest,
@@ -15,19 +17,17 @@ export default async (
       token = cookie.token;
     }
 
-    const response = await fetch(`${process.env.API_URL}/orders`, {
-      method: 'POST',
-      body: JSON.stringify(req.body),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-    if (data.statusCode === 404) {
-      return res.status(data.statusCode).json({ message: data.message });
-    }
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+    const data = await http.post<IBasketBody, IOrderServerResponse>(
+      `${process.env.API_URL}/orders`,
+      req.body,
+      {
+        headers,
+      }
+    );
 
     return res.status(200).json({ message: data.message, order: data.order });
   } catch (error: any) {
