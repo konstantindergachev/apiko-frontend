@@ -17,7 +17,6 @@ import { Success } from '@/components/shared/success';
 import { IInfoFields, IInput } from '@/interfaces/forms';
 import { IFavorite, IFavorites } from '@/interfaces/favorites';
 import { IOrder } from '@/interfaces/orders';
-import { IResponse, IResponseError } from '@/interfaces/responses';
 import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
@@ -107,14 +106,6 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const saveInfo = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      // const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/account`, {
-      //   method: 'PUT',
-      //   body: JSON.stringify(user),
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
-      // const data = await response.json();
       const headers = {
         'Content-Type': 'application/json',
       };
@@ -147,14 +138,6 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const changePassword = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      // const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/password`, {
-      //   method: 'PUT',
-      //   body: JSON.stringify(password),
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
-      // const data = await response.json();
       const headers = {
         'Content-Type': 'application/json',
       };
@@ -184,11 +167,13 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
 
   const removeLike = async (productId: number, userId: number) => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/remove?productId=${productId}&userId=${userId}`
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const data = await http.get<{ message: string }>(
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/remove?productId=${productId}&userId=${userId}`,
+        { headers }
       );
-      const data: IResponse & IResponseError = await response.json();
-
       if (data.message) {
         setRequestSuccess(data.message);
       }
@@ -312,46 +297,44 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                   );
                 })
               ) : tabIndex === 3 ? (
-                <>
-                  <div className={styles.favoritesWrap}>
-                    {loadFavorites.length ? (
-                      loadFavorites.map((favorite) => {
-                        return (
-                          <Card key={favorite.id} classNames={styles.favoriteCard}>
-                            {favorite.product.picture && (
-                              <Link href={`/product/${favorite.product.id}`}>
-                                <a>
-                                  <Image
-                                    src={favorite.product.picture}
-                                    alt={favorite.product.title}
-                                    width={400}
-                                    height={250}
-                                  />
-                                </a>
-                              </Link>
-                            )}
-                            <div className={styles.content}>
-                              <p>{favorite.product.title}</p>
-                              <h4>
-                                {new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: 'USD',
-                                }).format(+favorite.product.price)}
-                              </h4>
-                              <LikeButton
-                                onClick={handleProductLike}
-                                productId={favorite.product.id}
-                                isLiked={ids.includes(favorite.product.id)}
-                              />
-                            </div>
-                          </Card>
-                        );
-                      })
-                    ) : (
-                      <Error message={"You don't have any favorites"} />
-                    )}
-                  </div>
-                </>
+                <div className={styles.favoritesWrap}>
+                  {loadFavorites.length ? (
+                    loadFavorites.map((favorite) => {
+                      return (
+                        <Card key={favorite.id} classNames={styles.favoriteCard}>
+                          {favorite.product.picture && (
+                            <Link href={`/product/${favorite.product.id}`}>
+                              <a>
+                                <Image
+                                  src={favorite.product.picture}
+                                  alt={favorite.product.title}
+                                  width={400}
+                                  height={250}
+                                />
+                              </a>
+                            </Link>
+                          )}
+                          <div className={styles.content}>
+                            <p>{favorite.product.title}</p>
+                            <h4>
+                              {new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                              }).format(+favorite.product.price)}
+                            </h4>
+                            <LikeButton
+                              onClick={handleProductLike}
+                              productId={favorite.product.id}
+                              isLiked={ids.includes(favorite.product.id)}
+                            />
+                          </div>
+                        </Card>
+                      );
+                    })
+                  ) : (
+                    <Error message={"You don't have any favorites"} />
+                  )}
+                </div>
               ) : null}
             </div>
           </div>
