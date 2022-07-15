@@ -14,7 +14,11 @@ export default async (req: NextApiRequest, res: NextApiResponse<IResponse | IRes
     });
 
     const data = await response.json();
+
     if (data.statusCode === 404) {
+      return res.status(data.statusCode).json({ message: data.message });
+    }
+    if (data.statusCode === 400) {
       return res.status(data.statusCode).json({ message: data.message });
     }
 

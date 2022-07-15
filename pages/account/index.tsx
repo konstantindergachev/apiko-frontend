@@ -107,14 +107,22 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const saveInfo = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/account`, {
-        method: 'PUT',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/account`, {
+      //   method: 'PUT',
+      //   body: JSON.stringify(user),
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+      // const data = await response.json();
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const data = await http.post<IInput, { message: string }>(
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/user/account`,
+        user,
+        { headers }
+      );
       if (data.message) {
         setRequestError(data.message);
       }
@@ -139,14 +147,22 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
   const changePassword = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/password`, {
-        method: 'PUT',
-        body: JSON.stringify(password),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/password`, {
+      //   method: 'PUT',
+      //   body: JSON.stringify(password),
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+      // const data = await response.json();
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const data = await http.post<IInput, { message: string }>(
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/user/password`,
+        password,
+        { headers }
+      );
       if (data.message) {
         setRequestError(data.message);
       }

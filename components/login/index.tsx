@@ -43,7 +43,7 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
       });
       const data: IResponse & IResponseError = await response.json();
       if (data.message) {
-        setRequestError(data.message);
+        return setRequestError(data.message);
       }
       setUsername(() => ({
         id: data.account.id,
