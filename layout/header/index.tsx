@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import Modal from '@/components/shared/modal';
 import { Login } from '@/components/login';
 import { Register } from '@/components/register';
@@ -12,12 +13,12 @@ import { Button } from '@/components/shared/button';
 import { baseUsername, selectUsername, selectBasket } from 'store';
 import { IMenu } from '@/interfaces/menu';
 import { takeFirstChar, takeFirstWord } from 'utils';
+import * as http from '../../utils/fetch';
 
 import logo from '@/images/logo.svg';
 import arrow from '@/images/down_arrow.svg';
 import { menu } from './config';
 import styles from './styles.module.css';
-import { useRouter } from 'next/router';
 
 export const Header: React.FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -77,9 +78,9 @@ export const Header: React.FC = (): JSX.Element => {
 
   const onExit = async () => {
     try {
-      router.push('/');
-      await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/logout`);
+      await http.get<{ message: string }>(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/logout`);
       setUsername(() => ({ id: 0, fullname: '', email: '' }));
+      router.push('/');
       setIsModalOpen(false);
     } catch (error: any) {
       setError(error.message);
