@@ -230,7 +230,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                               id={input.id}
                               name={input.name}
                               placeholder={input.placeholder}
-                              value={user[input.name]}
+                              value={user[input.name] || ''}
                               onChange={handleChangeInfo}
                               onBlur={validateInfo}
                               onKeyPress={validateInfo}
@@ -255,7 +255,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                               id={input.id}
                               name={input.name}
                               placeholder={input.placeholder}
-                              value={user[input.name]}
+                              value={user[input.name] || ''}
                               onChange={handleChangePassword}
                               onBlur={validatePassword}
                               onKeyPress={validatePassword}

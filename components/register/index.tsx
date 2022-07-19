@@ -4,6 +4,8 @@ import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
 import { registerSchema } from './validate';
+import { IResponse, IResponseError } from '@/interfaces/responses';
+import * as http from '../../utils/fetch';
 
 import { inputs } from './config';
 import styles from './styles.module.css';
@@ -41,14 +43,14 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
   const handleSubmit = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/register`, {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const data = await http.post<IInput, IResponse & IResponseError>(
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/user/register`,
+        user,
+        { headers }
+      );
       if (data.message) {
         setRequestError(data.message);
       }
