@@ -7,6 +7,7 @@ import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
 import { loginSchema } from './validate';
 import { baseUsername } from '../../store';
+import * as http from '../../utils/fetch';
 
 import { inputs } from './config';
 import styles from './styles.module.css';
@@ -34,14 +35,14 @@ export const Login: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const handleSubmit = async (ev: React.SyntheticEvent): Promise<void> => {
     ev.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/login`, {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data: IResponse & IResponseError = await response.json();
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const data = await http.post<IInput, IResponse & IResponseError>(
+        `${process.env.NEXT_PUBLIC_PROXI_URL}/user/login`,
+        user,
+        { headers }
+      );
       if (data.message) {
         return setRequestError(data.message);
       }

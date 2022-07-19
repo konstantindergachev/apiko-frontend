@@ -11,7 +11,8 @@ export interface IResponse {
 }
 
 export interface IResponseError {
-  message: string;
+  statusCode?: number;
+  message?: string;
 }
 
 interface IProductsByCategory {
