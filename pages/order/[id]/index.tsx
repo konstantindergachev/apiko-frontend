@@ -28,7 +28,7 @@ const Order: React.FC<IOrder> = ({ id, total, created_at, items, shipment }): JS
                       width={200}
                       height={150}
                     />
-                    <div>
+                    <div className={styles.middle}>
                       <h3>{item.product.title}</h3>
                       <h4>
                         Items: <span>{item.quantity}</span>

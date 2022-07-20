@@ -14,6 +14,7 @@
 .card {
   position: relative;
   display: flex;
+  justify-content: space-between;
 
   width: 560px;
   min-height: 160px;
@@ -29,6 +30,20 @@
 
 .card > div {
   margin: 0 20px;
+  align-self: center;
+  position: relative;
+}
+
+.card > div:last-child::before {
+  content: '';
+  background: var(--lightmiddlegray-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 1px;
+  margin-left: -20px;
 }
 
 .card > div h3 {
@@ -57,21 +72,8 @@
   letter-spacing: 0.5px;
 }
 
-.card > div {
-  align-self: center;
-  position: relative;
-}
-
-.card > div:last-child::before {
-  content: '';
-  background: var(--lightmiddlegray-color);
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 1px;
-  margin-left: -20px;
+.middle {
+  flex: 1 0 auto;
 }
 
 .summary {
