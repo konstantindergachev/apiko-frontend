@@ -4,6 +4,7 @@ import { IItemOrder, IOrder, IProduct } from '@/interfaces/orders';
 import { BaseLayout } from '@/layout/base-layout';
 import { parse } from 'cookie';
 import { GetServerSideProps } from 'next';
+import AppHead from '@/layout/head';
 
 import { dateFormat, numberFormat } from 'utils';
 import * as http from '../../../utils/fetch';
@@ -11,56 +12,59 @@ import styles from './styles.module.css';
 
 const Order: React.FC<IOrder> = ({ id, total, created_at, items, shipment }): JSX.Element => {
   return (
-    <BaseLayout>
-      <main>
-        <section className={styles.order}>
-          <h1>Order details ID:{id}</h1>
-          {items.map((item: IItemOrder) => {
-            return (
-              <div key={item.product.id}>
-                <Card classNames={styles.card}>
-                  <Image
-                    src={item.product.picture}
-                    alt={item.product.title}
-                    width={200}
-                    height={150}
-                  />
-                  <div>
-                    <h3>{item.product.title}</h3>
-                    <h4>
-                      Items: <span>{item.quantity}</span>
-                    </h4>
-                  </div>
-                  <div>
-                    <h5>Price:</h5>
-                    <p>{numberFormat(item.quantity * item.product.price)}</p>
-                  </div>
-                </Card>
+    <>
+      <AppHead title="Order" />
+      <BaseLayout>
+        <main>
+          <section className={styles.order}>
+            <h1>Order details ID:{id}</h1>
+            {items.map((item: IItemOrder) => {
+              return (
+                <div key={item.product.id}>
+                  <Card classNames={styles.card}>
+                    <Image
+                      src={item.product.picture}
+                      alt={item.product.title}
+                      width={200}
+                      height={150}
+                    />
+                    <div>
+                      <h3>{item.product.title}</h3>
+                      <h4>
+                        Items: <span>{item.quantity}</span>
+                      </h4>
+                    </div>
+                    <div>
+                      <h5>Price:</h5>
+                      <p>{numberFormat(item.quantity * item.product.price)}</p>
+                    </div>
+                  </Card>
+                </div>
+              );
+            })}
+            <div className={styles.summary}>
+              <div>
+                <p>
+                  Date: <span>{dateFormat(created_at)}</span>
+                </p>
+                <p>
+                  Address: <span>{shipment.address}</span>, <span>{shipment.city}</span>,{' '}
+                  <span>{shipment.country}</span>
+                </p>
               </div>
-            );
-          })}
-          <div className={styles.summary}>
-            <div>
-              <p>
-                Date: <span>{dateFormat(created_at)}</span>
-              </p>
-              <p>
-                Address: <span>{shipment.address}</span>, <span>{shipment.city}</span>,{' '}
-                <span>{shipment.country}</span>
-              </p>
+              <div>
+                <p>
+                  Items: <span>{items.length}</span>
+                </p>
+                <p>
+                  Total: <span>{numberFormat(total)}</span>
+                </p>
+              </div>
             </div>
-            <div>
-              <p>
-                Items: <span>{items.length}</span>
-              </p>
-              <p>
-                Total: <span>{numberFormat(total)}</span>
-              </p>
-            </div>
-          </div>
-        </section>
-      </main>
-    </BaseLayout>
+          </section>
+        </main>
+      </BaseLayout>
+    </>
   );
 };
 

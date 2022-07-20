@@ -14,6 +14,7 @@ import { Register } from '@/components/register';
 import { baseBasket, baseProduct, selectProduct, selectUsername } from 'store';
 import { Error } from '@/components/shared/error';
 import { Success } from '@/components/shared/success';
+import AppHead from '@/layout/head';
 
 import { numberFormat } from 'utils';
 import * as http from '../../../utils/fetch';
@@ -89,105 +90,108 @@ const Product: NextPage<IProduct> = ({ ...product }): JSX.Element => {
   };
 
   return (
-    <BaseLayout>
-      <main>
-        {requestError && (
-          <div className={styles.message}>
-            <Error message={requestError} />
-          </div>
-        )}
-        {requestSuccess && (
-          <div className={styles.message}>
-            <Success message={requestSuccess} />
-          </div>
-        )}
-        <section className={styles.product}>
-          <Card classNames={styles.card}>
-            <Image src={product.picture} alt={product.title} width={420} height={320} />
-          </Card>
-          <div className={styles.contentRight}>
-            <div className={styles.top}>
-              <h1 className={styles.title}>{product.title}</h1>
-              <p>{product.description}</p>
+    <>
+      <AppHead title="Product" />
+      <BaseLayout>
+        <main>
+          {requestError && (
+            <div className={styles.message}>
+              <Error message={requestError} />
             </div>
-            <div className={styles.middle}>
-              <p className={styles.price}>
-                price <span>{oneProductPrice}</span>
-              </p>
-              <div className={styles.buttons}>
-                <Button
-                  type="button"
-                  classNames={styles.countBtns}
-                  label={'-'}
-                  onClick={decrement}
-                />
-                <span>{count}</span>
-                <Button
-                  type="button"
-                  classNames={styles.countBtns}
-                  label={'+'}
-                  onClick={increment}
-                />
+          )}
+          {requestSuccess && (
+            <div className={styles.message}>
+              <Success message={requestSuccess} />
+            </div>
+          )}
+          <section className={styles.product}>
+            <Card classNames={styles.card}>
+              <Image src={product.picture} alt={product.title} width={420} height={320} />
+            </Card>
+            <div className={styles.contentRight}>
+              <div className={styles.top}>
+                <h1 className={styles.title}>{product.title}</h1>
+                <p>{product.description}</p>
+              </div>
+              <div className={styles.middle}>
+                <p className={styles.price}>
+                  price <span>{oneProductPrice}</span>
+                </p>
+                <div className={styles.buttons}>
+                  <Button
+                    type="button"
+                    classNames={styles.countBtns}
+                    label={'-'}
+                    onClick={decrement}
+                  />
+                  <span>{count}</span>
+                  <Button
+                    type="button"
+                    classNames={styles.countBtns}
+                    label={'+'}
+                    onClick={increment}
+                  />
+                </div>
+              </div>
+              <div className={styles.bottom}>
+                <p>
+                  Items:<span>{count}</span>
+                </p>
+                <p>
+                  Total: <span>{numberFormat(total)}</span>
+                </p>
               </div>
             </div>
-            <div className={styles.bottom}>
-              <p>
-                Items:<span>{count}</span>
-              </p>
-              <p>
-                Total: <span>{numberFormat(total)}</span>
-              </p>
+            <div className={styles.btns}>
+              <Button
+                type="button"
+                classNames={styles.addBtn}
+                label={'Add to cart'}
+                onClick={addToCart(product.id)}
+              />
+              <Button
+                type="button"
+                classNames={styles.addBtn}
+                label={'Add to favorites'}
+                onClick={addLike(product.id, storedFullname.id)}
+              />
+              <Link href={'/basket'}>
+                <a className={styles.addBtn}>Buy now</a>
+              </Link>
             </div>
-          </div>
-          <div className={styles.btns}>
-            <Button
-              type="button"
-              classNames={styles.addBtn}
-              label={'Add to cart'}
-              onClick={addToCart(product.id)}
-            />
-            <Button
-              type="button"
-              classNames={styles.addBtn}
-              label={'Add to favorites'}
-              onClick={addLike(product.id, storedFullname.id)}
-            />
-            <Link href={'/basket'}>
-              <a className={styles.addBtn}>Buy now</a>
-            </Link>
-          </div>
-        </section>
-        <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
-          {preAccount ? (
-            <div className={styles.addModal}>
-              <h3>To continue please register or log in</h3>
-              <Button
-                type="button"
-                classNames={styles.addBtn}
-                onClick={handleAccount(true)}
-                label={'Continue to sign in'}
-              />
-              <Button
-                type="button"
-                classNames={styles.addBtn}
-                onClick={handleAccount(false)}
-                label={'Continue to register'}
-              />
-              <Button
-                type="button"
-                classNames={styles.addBtn}
-                onClick={handleModalOpen()}
-                label={'Continue as guest'}
-              />
-            </div>
-          ) : isAccount ? (
-            <Login handleAccount={handleAccount} />
-          ) : (
-            <Register handleAccount={handleAccount} />
-          )}
-        </Modal>
-      </main>
-    </BaseLayout>
+          </section>
+          <Modal isOpen={!storedFullname.fullname && isModalOpen} onClose={handleModalOpen()}>
+            {preAccount ? (
+              <div className={styles.addModal}>
+                <h3>To continue please register or log in</h3>
+                <Button
+                  type="button"
+                  classNames={styles.addBtn}
+                  onClick={handleAccount(true)}
+                  label={'Continue to sign in'}
+                />
+                <Button
+                  type="button"
+                  classNames={styles.addBtn}
+                  onClick={handleAccount(false)}
+                  label={'Continue to register'}
+                />
+                <Button
+                  type="button"
+                  classNames={styles.addBtn}
+                  onClick={handleModalOpen()}
+                  label={'Continue as guest'}
+                />
+              </div>
+            ) : isAccount ? (
+              <Login handleAccount={handleAccount} />
+            ) : (
+              <Register handleAccount={handleAccount} />
+            )}
+          </Modal>
+        </main>
+      </BaseLayout>
+    </>
   );
 };
 

@@ -19,6 +19,7 @@ import Modal from '@/components/shared/modal';
 import { IInput } from '@/interfaces/forms';
 import { IBasketBody, IBasketProduct, IOrderResponse } from '@/interfaces/basket';
 import { MESSAGES } from './constants';
+import AppHead from '@/layout/head';
 
 import { inputs } from './config';
 import * as http from '../../utils/fetch';
@@ -142,58 +143,80 @@ const Basket: React.FC = (): JSX.Element => {
   };
 
   return (
-    <BaseLayout>
-      <main>
-        <section className={styles.section}>
-          <h1>My cart</h1>
-          <div className={styles.left}>
-            {basketProducts.length ? (
-              basketProducts.map((prod) => (
-                <Card key={prod.id} classNames={styles.card}>
-                  <div className={styles.basketLeft}>
-                    <Image src={prod.picture} width={140} height={140} />
-                  </div>
-                  <div className={styles.basketMiddle}>
-                    <h2>{prod.title}</h2>
-                    <div className={styles.btns}>
-                      <Button type="button" classNames={styles.removeBtn} onClick={remove(prod.id)}>
-                        <Image src={trash} alt={'trash can'} width={20} height={20} />
-                      </Button>
-                      <Button
-                        type="button"
-                        classNames={styles.countBtns}
-                        label={'-'}
-                        onClick={decrement(prod.id)}
-                      />
-                      <span>{prod.quantity}</span>
-                      <Button
-                        type="button"
-                        classNames={styles.countBtns}
-                        label={'+'}
-                        onClick={increment(prod.id)}
-                      />
+    <>
+      <AppHead title="Basket" />
+      <BaseLayout>
+        <main>
+          <section className={styles.section}>
+            <h1>My cart</h1>
+            <div className={styles.left}>
+              {basketProducts.length ? (
+                basketProducts.map((prod) => (
+                  <Card key={prod.id} classNames={styles.card}>
+                    <div className={styles.basketLeft}>
+                      <Image src={prod.picture} width={140} height={140} />
                     </div>
-                  </div>
-                  <div className={styles.basketRight}>
-                    <h4>Price:</h4>
-                    <span>{numberFormat(+prod.price)}</span>
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <Error message={'You do not have any products in the basket'} />
-            )}
-          </div>
+                    <div className={styles.basketMiddle}>
+                      <h2>{prod.title}</h2>
+                      <div className={styles.btns}>
+                        <Button
+                          type="button"
+                          classNames={styles.removeBtn}
+                          onClick={remove(prod.id)}
+                        >
+                          <Image src={trash} alt={'trash can'} width={20} height={20} />
+                        </Button>
+                        <Button
+                          type="button"
+                          classNames={styles.countBtns}
+                          label={'-'}
+                          onClick={decrement(prod.id)}
+                        />
+                        <span>{prod.quantity}</span>
+                        <Button
+                          type="button"
+                          classNames={styles.countBtns}
+                          label={'+'}
+                          onClick={increment(prod.id)}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.basketRight}>
+                      <h4>Price:</h4>
+                      <span>{numberFormat(+prod.price)}</span>
+                    </div>
+                  </Card>
+                ))
+              ) : (
+                <Error message={'You do not have any products in the basket'} />
+              )}
+            </div>
 
-          <div className={styles.right}>
-            <form onSubmit={confirm}>
-              {requestError && <Error message={requestError} />}
-              {inputs.map((input) => {
-                if (!input.type) {
+            <div className={styles.right}>
+              <form onSubmit={confirm}>
+                {requestError && <Error message={requestError} />}
+                {inputs.map((input) => {
+                  if (!input.type) {
+                    return (
+                      <Fragment key={input.id}>
+                        {inputError[input.name] && <Error message={inputError[input.name]} />}
+                        <Select
+                          id={input.id}
+                          name={input.name}
+                          placeholder={input.placeholder}
+                          value={user[input.name]}
+                          onChange={handleChange}
+                          onBlur={validate}
+                          onKeyPress={validate}
+                        />
+                      </Fragment>
+                    );
+                  }
                   return (
                     <Fragment key={input.id}>
                       {inputError[input.name] && <Error message={inputError[input.name]} />}
-                      <Select
+                      <Input
+                        type={input.type}
                         id={input.id}
                         name={input.name}
                         placeholder={input.placeholder}
@@ -204,56 +227,41 @@ const Basket: React.FC = (): JSX.Element => {
                       />
                     </Fragment>
                   );
-                }
-                return (
-                  <Fragment key={input.id}>
-                    {inputError[input.name] && <Error message={inputError[input.name]} />}
-                    <Input
-                      type={input.type}
-                      id={input.id}
-                      name={input.name}
-                      placeholder={input.placeholder}
-                      value={user[input.name]}
-                      onChange={handleChange}
-                      onBlur={validate}
-                      onKeyPress={validate}
-                    />
-                  </Fragment>
-                );
-              })}
-              <div className={styles.summary}>
-                <p>
-                  Items: <span>{productCount}</span>
-                </p>
-                <p>
-                  Total: <span>{numberFormat(totalCost)}</span>
-                </p>
-              </div>
-              <Button
-                type="submit"
-                classNames={styles.confirmBtn}
-                label={'Confirms the purchase'}
-              />
+                })}
+                <div className={styles.summary}>
+                  <p>
+                    Items: <span>{productCount}</span>
+                  </p>
+                  <p>
+                    Total: <span>{numberFormat(totalCost)}</span>
+                  </p>
+                </div>
+                <Button
+                  type="submit"
+                  classNames={styles.confirmBtn}
+                  label={'Confirms the purchase'}
+                />
+                <Link href="/">
+                  <a className={styles.confirmBtn}>Continue shopping</a>
+                </Link>
+              </form>
+            </div>
+          </section>
+          <Modal isOpen={isModalOpen} onClose={close}>
+            <div className={styles.modalContent}>
+              <h3>Thank you for your purchase</h3>
+              <p>We will send you a notification when your order arrives to you</p>
               <Link href="/">
                 <a className={styles.confirmBtn}>Continue shopping</a>
               </Link>
-            </form>
-          </div>
-        </section>
-        <Modal isOpen={isModalOpen} onClose={close}>
-          <div className={styles.modalContent}>
-            <h3>Thank you for your purchase</h3>
-            <p>We will send you a notification when your order arrives to you</p>
-            <Link href="/">
-              <a className={styles.confirmBtn}>Continue shopping</a>
-            </Link>
-            <Link href="/account">
-              <a className={styles.confirmBtn}>View order history</a>
-            </Link>
-          </div>
-        </Modal>
-      </main>
-    </BaseLayout>
+              <Link href="/account">
+                <a className={styles.confirmBtn}>View order history</a>
+              </Link>
+            </div>
+          </Modal>
+        </main>
+      </BaseLayout>
+    </>
   );
 };
 
