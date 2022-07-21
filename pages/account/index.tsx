@@ -88,6 +88,8 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
 
   const handleTabs = (tabIndex: number) => (): void => {
     setTabIndex(tabIndex);
+    setRequestSuccess('');
+    setRequestError('');
     router.push(`account?tabIdx=${tabIndex}`);
   };
 

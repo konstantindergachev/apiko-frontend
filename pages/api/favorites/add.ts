@@ -23,8 +23,10 @@ export default async (
         },
       }
     );
-
     const data = await response.json();
+    if (data.statusCode === 401) {
+      return res.status(data.statusCode).json({ message: data.message });
+    }
     if (data.statusCode === 404) {
       return res.status(data.statusCode).json({ message: data.message });
     }

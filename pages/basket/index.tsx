@@ -1,5 +1,8 @@
 import { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
+import AppHead from '@/layout/head';
+import Link from 'next/link';
+import Modal from '@/components/shared/modal';
 import { BaseLayout } from '@/layout/base-layout';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { baseOrder, selectBasket } from 'store';
@@ -7,22 +10,19 @@ import { Card } from '@/components/shared/card';
 import { Button } from '@/components/shared/button';
 import { baseBasket } from 'store';
 import { IProduct } from '@/interfaces/products';
-import Link from 'next/link';
 import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
-
-import { numberFormat } from 'utils';
-import trash from '@/images/trash.svg';
-import { orderSchema } from './validate';
+import { Success } from '@/components/shared/success';
 import { Select } from '@/components/shared/select';
-import Modal from '@/components/shared/modal';
 import { IInput } from '@/interfaces/forms';
 import { IBasketBody, IBasketProduct, IOrderResponse } from '@/interfaces/basket';
-import { MESSAGES } from './constants';
-import AppHead from '@/layout/head';
 
+import { numberFormat } from 'utils';
+import { orderSchema } from './validate';
+import { MESSAGES } from './constants';
 import { inputs } from './config';
 import * as http from '../../utils/fetch';
+import trash from '@/images/trash.svg';
 import styles from './styles.module.css';
 
 const Basket: React.FC = (): JSX.Element => {
@@ -44,6 +44,7 @@ const Basket: React.FC = (): JSX.Element => {
     address: '',
   });
   const [requestError, setRequestError] = useState<string>('');
+  const [requestSuccess, setRequestSuccess] = useState<string>('');
   const [productCount, setProductCount] = useState<number>(0);
   const [totalCost, setTotalCost] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -118,7 +119,7 @@ const Basket: React.FC = (): JSX.Element => {
         { headers }
       );
       if (data.message) {
-        setRequestError(data.message);
+        setRequestSuccess(data.message);
         setOrder(data.order);
       }
     } catch (error: any) {
@@ -195,6 +196,7 @@ const Basket: React.FC = (): JSX.Element => {
             <div className={styles.right}>
               <form onSubmit={confirm}>
                 {requestError && <Error message={requestError} />}
+                {requestSuccess && <Success message={requestSuccess} />}
                 {inputs.map((input) => {
                   if (!input.type) {
                     return (

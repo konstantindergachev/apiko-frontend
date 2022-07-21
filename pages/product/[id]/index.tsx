@@ -82,9 +82,11 @@ const Product: NextPage<IProduct> = ({ ...product }): JSX.Element => {
         `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/add?productId=${productId}&userId=${userId}`
       );
       if (data.message) {
+        setRequestError('');
         setRequestSuccess(data.message);
       }
     } catch (error: any) {
+      setRequestSuccess('');
       setRequestError(error.message);
     }
   };
