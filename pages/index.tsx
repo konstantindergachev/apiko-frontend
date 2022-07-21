@@ -137,12 +137,14 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
           )}
         </main>
         {requestError && <Error message={requestError} />}
-        <Button
-          type="button"
-          classNames={styles.btn}
-          label="Load more..."
-          onClick={loadMore(PRODUCT_LIMIT)}
-        />
+        {loadMoreProducts.length >= loadMoreSettings.limit && (
+          <Button
+            type="button"
+            classNames={styles.btn}
+            label="Load more..."
+            onClick={loadMore(PRODUCT_LIMIT)}
+          />
+        )}
       </BaseLayout>
     </>
   );
