@@ -22,7 +22,7 @@
   align-items: center;
   justify-content: space-between;
   max-width: 560px;
-  height: 160px;
+  min-height: 160px;
   padding: 10px 22px;
 
   border: var(--card-border);
@@ -61,14 +61,14 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 26px;
+  margin-bottom: 10px;
 }
 .basketMiddle span {
   margin: 0 10px;
 }
 .basketRight {
   position: relative;
-  height: 90%;
-  padding: 19px 0 38px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,7 +87,7 @@
   font-weight: 400;
   font-size: 15px;
   line-height: 22px;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
 }
 .basketRight span {
   font-weight: 700;
@@ -192,6 +192,34 @@
   color: var(--gray-color);
 }
 
+@media (max-width: 1360px) {
+  .section {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'title'
+      'left'
+      'right';
+  }
+  .card {
+    max-width: 100%;
+  }
+  .right::before {
+    content: '';
+    background: transparent;
+    position: relative;
+    width: 0;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 930px) {
+  .basketMiddle {
+    align-items: center;
+  }
+  .basketMiddle .btns {
+    align-self: center;
+  }
+}
 @media (max-width: 600px) {
   .section {
     margin-top: 25px;
@@ -230,5 +258,32 @@
   }
   .confirmBtn {
     align-self: center;
+  }
+  .card {
+    flex-direction: column;
+  }
+  .basketLeft {
+    margin-bottom: 1rem !important;
+  }
+  .basketMiddle {
+    max-width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .basketRight {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto 0 0;
+  }
+  .basketRight > h4 {
+    margin: 0 auto 0 0;
+  }
+  .card > div:last-child::before {
+    content: '';
+    background: transparent;
+    position: relative;
+    width: 0;
+    margin-left: 0;
   }
 }

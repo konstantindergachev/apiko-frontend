@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Image from 'next/image';
 import { Card } from '@/components/shared/card';
 import { IItemOrder, IOrder, IProduct } from '@/interfaces/orders';
@@ -20,13 +21,13 @@ const Order: React.FC<IOrder> = ({ id, total, created_at, items, shipment }): JS
             <h1>Order details ID:{id}</h1>
             {items.map((item: IItemOrder) => {
               return (
-                <div key={item.product.id}>
+                <Fragment key={item.product.id}>
                   <Card classNames={styles.card}>
                     <Image
                       src={item.product.picture}
                       alt={item.product.title}
                       width={200}
-                      height={150}
+                      height={200}
                     />
                     <div className={styles.middle}>
                       <h3>{item.product.title}</h3>
@@ -39,7 +40,7 @@ const Order: React.FC<IOrder> = ({ id, total, created_at, items, shipment }): JS
                       <p>{numberFormat(item.quantity * item.product.price)}</p>
                     </div>
                   </Card>
-                </div>
+                </Fragment>
               );
             })}
             <div className={styles.summary}>

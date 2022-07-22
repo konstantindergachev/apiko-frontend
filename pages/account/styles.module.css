@@ -164,4 +164,17 @@
     left: 50%;
     transform: translate(-50%, -130%);
   }
+
+  .card div p {
+    width: 35%;
+  }
+}
+
+@media (max-width: 290px) {
+  .tab {
+    padding: 5px 15px;
+  }
+  .card div p {
+    width: 40%;
+  }
 }

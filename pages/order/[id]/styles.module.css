@@ -16,7 +16,7 @@
   display: flex;
   justify-content: space-between;
 
-  width: 560px;
+  max-width: 560px;
   min-height: 160px;
   margin: 5px;
   padding: 10px;
@@ -98,7 +98,63 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 22px;
+  text-transform: capitalize;
   color: var(--black-color);
 
   padding-left: 10px;
+}
+
+@media (max-width: 490px) {
+  .order h1 {
+    margin: 40px 0;
+  }
+  .card {
+    width: 100%;
+    flex-direction: column;
+  }
+  .card > span {
+    margin-bottom: 1rem !important;
+  }
+  .card > span > span > img {
+    height: 329px !important;
+  }
+  .card > div {
+    margin: 0 auto;
+    width: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card > div > h5 {
+    margin: 0 auto 0 0;
+  }
+  .card > div:last-child::before {
+    content: '';
+    background: transparent;
+    position: relative;
+    width: 0;
+    margin-left: 0;
+  }
+  .summary {
+    flex-direction: column;
+    margin-top: 40px;
+  }
+  .summary > div {
+    width: inherit;
+  }
+  .summary > div:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+  .summary > div > p > span:first-child {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 290px) {
+  .card > span > span > img {
+    height: 229px !important;
+  }
+  .summary > div > p > span {
+    margin-left: 0;
+  }
 }
