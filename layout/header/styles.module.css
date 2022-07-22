@@ -5,9 +5,9 @@
   flex-wrap: wrap;
   background: var(--black-color);
   color: var(--main-color);
-  min-height: 76px;
+  min-height: 4.75rem;
   flex-shrink: 0;
-  padding: 0 160px;
+  padding: 0 2rem;
 }
 
 .header > a {
@@ -29,7 +29,7 @@
 }
 
 .header nav a:not(:first-child) {
-  margin-left: 30px;
+  margin-left: 1.875rem;
 }
 
 .count {
@@ -40,8 +40,8 @@
   background-color: var(--orange-color);
   color: var(--black-color);
   border-radius: 50%;
-  padding: 0 5px;
-  font-size: 12px;
+  padding: 0 0.3125rem;
+  font-size: 0.75rem;
   display: inline-block;
 }
 
@@ -53,14 +53,14 @@
   left: 0;
   height: 100%;
   width: 2px;
-  margin-left: -20px;
+  margin-left: -1.25rem;
 }
 .navBtn {
   color: var(--main-color);
   background-color: transparent;
   border: none;
   position: relative;
-  margin-left: 40px;
+  margin-left: 2.5rem;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -68,19 +68,19 @@
 .arrowBtn {
   background-color: transparent;
   border: none;
-  margin-left: 10px;
+  margin-left: 0.625rem;
   cursor: pointer;
 }
 
 .header nav p {
   text-transform: capitalize;
   display: inline;
-  margin-left: 30px;
+  margin-left: 1.875rem;
 }
 .header nav div {
-  margin-left: 30px;
-  width: 40px;
-  height: 40px;
+  margin-left: 1.875rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 2px solid var(--orange-color);
   border-radius: 50%;
   background-color: var(--lightmiddlegray-color);
@@ -100,8 +100,8 @@
   text-align: left;
   transition: background 0.3s ease-out;
   cursor: pointer;
-  font-size: 14px;
-  line-height: 26px;
+  font-size: 0.875rem;
+  line-height: 1.625rem;
 }
 
 .header nav ul li:first-child,
@@ -116,7 +116,7 @@
 
 @media (max-width: 600px) {
   .header {
-    padding: 5px;
+    padding: 0.3125rem;
   }
 
   .header > a {

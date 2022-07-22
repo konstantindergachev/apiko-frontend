@@ -4,12 +4,12 @@
   justify-content: center;
   background: var(--lightgray-color);
   color: var(--gray-color);
-  height: 76px;
+  height: 4.75rem;
   flex-shrink: 0;
-  margin-top: 80px;
+  margin-top: 5rem;
 }
 @media (max-width: 600px) {
   .footer {
-    margin-top: 40px;
+    margin-top: 2.5rem;
   }
 }

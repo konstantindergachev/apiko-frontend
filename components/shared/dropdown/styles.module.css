@@ -1,24 +1,24 @@
 .dropdown {
   position: absolute;
   right: 0%;
-  top: 60px;
-  max-width: 250px;
+  top: 3.75rem;
+  max-width: 15.625rem;
   width: 100%;
   height: inherit;
-  font-size: 13px;
+  font-size: 0.8125rem;
   letter-spacing: 0.4px;
   color: var(--gray-color);
   background: var(--main-color);
   box-shadow: var(--box-shadow-like);
   border-radius: 4px;
   z-index: 1000;
-  padding: 10px 0;
+  padding: 0.625rem 0;
 }
 .dropdown li {
-  padding: 0 16px;
+  padding: 0 1rem;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 26px;
+  font-size: 0.875rem;
+  line-height: 1.625rem;
   transition: all 0.3s ease-out;
 }
 
@@ -28,5 +28,5 @@
 }
 
 .dropdown hr {
-  margin: 10px 0;
+  margin: 0.625rem 0;
 }

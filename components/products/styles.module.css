@@ -9,8 +9,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 250px;
-  min-height: 212px;
+  width: 15.625rem;
+  min-height: 13.25rem;
   margin: 5px;
   padding: 4px;
 
@@ -30,31 +30,31 @@
 }
 
 .noResults {
-  max-width: 300px;
+  max-width: 18.75rem;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: 210px auto 0;
+  margin: 13.125rem auto 0;
 }
 
 .noResults h3 {
   font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
   text-align: center;
   letter-spacing: 0.5px;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 .noResults p {
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 0.9375rem;
+  line-height: 1.375rem;
   text-align: center;
 }
 
 .content {
-  padding: 10px;
+  padding: 0.625rem;
 }
 
 .likeModal {
@@ -71,7 +71,7 @@
 }
 .likeModal h3 {
   font-weight: 300;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 .likeBtn {
   border: none;
@@ -79,7 +79,7 @@
   padding: 0.25rem 0.5rem;
   background: var(--orange-color);
   color: var(--main-color);
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.7;
   text-transform: capitalize;
   text-align: center;
@@ -94,7 +94,7 @@
 }
 
 .likeBtn:not(:last-child) {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 @media (max-width: 830px) {

@@ -1,5 +1,5 @@
 .section {
-  margin-top: 70px;
+  margin-top: 4.375rem;
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: 1fr 0.35fr;
@@ -9,10 +9,10 @@
 }
 .section h1 {
   grid-area: title;
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
   font-weight: 400;
-  font-size: 25px;
-  line-height: 37px;
+  font-size: 1.5625rem;
+  line-height: 2.3125rem;
 
   letter-spacing: 0.4px;
 }
@@ -21,14 +21,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 560px;
-  min-height: 160px;
-  padding: 10px 22px;
+  max-width: 35rem;
+  min-height: 10rem;
+  padding: 0.625rem 1.375rem;
 
   border: var(--card-border);
   border-radius: 4px;
   box-shadow: var(--box-shadow);
-  margin-bottom: 23px;
+  margin-bottom: 1.4375rem;
 }
 
 .left {
@@ -47,10 +47,10 @@
   left: 0;
   height: inherit;
   width: 2px;
-  margin-left: -40px;
+  margin-left: -2.5rem;
 }
 .basketMiddle {
-  max-width: 250px;
+  max-width: 15.625rem;
   width: 100%;
   height: inherit;
   display: flex;
@@ -59,12 +59,12 @@
 }
 .basketMiddle h2 {
   font-weight: 400;
-  font-size: 18px;
-  line-height: 26px;
-  margin-bottom: 10px;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
+  margin-bottom: 0.625rem;
 }
 .basketMiddle span {
-  margin: 0 10px;
+  margin: 0 0.625rem;
 }
 .basketRight {
   position: relative;
@@ -81,18 +81,18 @@
   left: 0;
   height: inherit;
   width: 2px;
-  margin-left: -20px;
+  margin-left: -1.25rem;
 }
 .basketRight h4 {
   font-weight: 400;
-  font-size: 15px;
-  line-height: 22px;
-  margin-bottom: 10px;
+  font-size: 0.9375rem;
+  line-height: 1.375rem;
+  margin-bottom: 0.625rem;
 }
 .basketRight span {
   font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
   letter-spacing: 0.5px;
 }
 .btns {
@@ -105,14 +105,14 @@
 .removeBtn {
   border: none;
   background-color: transparent;
-  margin-right: 20px;
+  margin-right: 1.25rem;
   cursor: pointer;
 }
 
 .countBtns {
-  padding: 0 10px;
-  line-height: 26px;
-  font-size: 13px;
+  padding: 0 0.625rem;
+  line-height: 1.625rem;
+  font-size: 0.8125rem;
   border: none;
   border-radius: 50%;
   transition: box-shadow 0.2s ease-in;
@@ -123,14 +123,14 @@
 }
 
 .summary {
-  margin: 20px 0 30px;
+  margin: 1.25rem 0 30px;
   display: flex;
   flex-direction: column;
 }
 .summary p {
   font-weight: 400;
-  font-size: 18px;
-  line-height: 26px;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
   letter-spacing: 0.4px;
   color: var(--gray-color);
   display: flex;
@@ -141,7 +141,7 @@
 }
 
 .confirmBtn {
-  max-width: 220px;
+  max-width: 21.25rem;
   width: 100%;
   height: 100%;
   border: none;
@@ -149,7 +149,7 @@
   background: var(--orange-color);
   color: var(--main-color);
   padding: 0.25rem 0.5rem;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.7;
   text-transform: capitalize;
   text-align: center;
@@ -158,7 +158,7 @@
 }
 
 .confirmBtn:last-child {
-  margin-top: 18px;
+  margin-top: 1.125rem;
   display: block;
   background: var(--main-color);
   color: var(--orange-color);
@@ -179,16 +179,16 @@
 .modalContent h3 {
   text-align: center;
   text-transform: capitalize;
-  font-size: 22px;
-  line-height: 32px;
+  font-size: 1.375rem;
+  line-height: 2rem;
   font-weight: 400;
   margin-bottom: 0.8rem;
 }
 .modalContent p {
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 0.9375rem;
+  line-height: 1.375rem;
   color: var(--gray-color);
 }
 
@@ -222,7 +222,7 @@
 }
 @media (max-width: 600px) {
   .section {
-    margin-top: 25px;
+    margin-top: 1.5625rem;
     grid-template-columns: 1fr;
     grid-template-areas:
       'title'
@@ -232,14 +232,14 @@
 
   .section h1 {
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
   .section form {
     display: flex;
     flex-direction: column;
   }
   .card {
-    padding: 10px 14px;
+    padding: 0.625rem 0.875rem;
   }
   .basketMiddle {
     align-items: center;
@@ -254,7 +254,7 @@
   }
 
   .basketRight::before {
-    margin-left: -15px;
+    margin-left: -0.9375rem;
   }
   .confirmBtn {
     align-self: center;

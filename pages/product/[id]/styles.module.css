@@ -1,22 +1,22 @@
 .message {
-  margin-top: 50px;
+  margin-top: 3.125rem;
 }
 
 .product {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 782px;
-  min-height: 697px;
+  max-width: 48.875rem;
+  min-height: 43.5625rem;
   margin: 0 auto;
   flex-wrap: wrap;
 }
 
 .card {
   display: flex;
-  width: 420px;
-  height: 320px;
-  padding: 10px;
+  width: 26.25rem;
+  height: 20rem;
+  padding: 0.625rem;
 
   border: var(--card-border);
   border-radius: 4px;
@@ -24,9 +24,8 @@
 }
 
 .contentRight {
-  max-width: 300px;
-  max-height: 320px;
-  height: 340px;
+  max-width: 18.75rem;
+  min-height: 21.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -34,28 +33,28 @@
 .top .title {
   text-transform: uppercase;
   font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
   letter-spacing: 0.5px;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 .middle .price {
   text-transform: uppercase;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 26px;
+  font-size: 0.875rem;
+  line-height: 1.625rem;
   color: var(--black-color);
-  margin-bottom: 25px;
+  margin-bottom: 1.5625rem;
 }
 
 .buttons span {
-  margin: 0 10px;
+  margin: 0 0.625rem;
 }
 
 .countBtns {
-  padding: 0 10px;
-  line-height: 26px;
-  font-size: 13px;
+  padding: 0 0.625rem;
+  line-height: 1.625rem;
+  font-size: 0.8125rem;
   border: none;
   border-radius: 50%;
   transition: box-shadow 0.2s ease-in;
@@ -67,13 +66,13 @@
 
 .contentRight p {
   font-weight: 400;
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 0.9375rem;
+  line-height: 1.375rem;
   color: var(--gray-color);
 }
 
 .contentRight p span {
-  margin-left: 20px;
+  margin-left: 1.25rem;
   font-weight: 700;
   color: var(--black-color);
 }
@@ -99,7 +98,7 @@
 }
 .addModal h3 {
   font-weight: 300;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .addBtn {
@@ -111,7 +110,7 @@
   padding: 0.25rem 0.5rem;
   background: var(--main-color);
   color: var(--orange-color);
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.7;
   text-transform: capitalize;
   text-align: center;
@@ -131,10 +130,10 @@
 @media (max-width: 1030px) {
   .product {
     justify-content: center;
-    margin: 40px 0 0;
+    margin: 2.5rem 0 0;
   }
   .contentRight {
-    margin: 40px 0;
+    margin: 2.5rem 0;
     text-align: center;
   }
 }
@@ -146,6 +145,6 @@
     z-index: 1000;
   }
   .addBtn {
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
   }
 }

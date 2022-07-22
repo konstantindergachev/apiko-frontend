@@ -14,8 +14,8 @@
   color: var(--middlegray-color);
   padding: 0 4px;
   position: absolute;
-  top: 7px;
-  left: 10px;
+  top: 0.4375rem;
+  left: 0.625rem;
   transition: transform 0.2s, color 0.2s;
   transform-origin: 0% 0%;
   pointer-events: none;
@@ -23,7 +23,7 @@
 
 .block input:focus ~ label,
 .block input:not(:placeholder-shown) ~ label {
-  transform: translateY(-15px) scale(0.75);
+  transform: translateY(-0.9375rem) scale(0.75);
   background: var(--main-color);
 }
 

@@ -6,9 +6,9 @@
 }
 .order h1 {
   font-weight: 500;
-  font-size: 24px;
-  line-height: 35px;
-  margin: 50px 0;
+  font-size: 1.5rem;
+  line-height: 2.1875rem;
+  margin: 3.125rem 0;
 }
 
 .card {
@@ -16,10 +16,10 @@
   display: flex;
   justify-content: space-between;
 
-  max-width: 560px;
-  min-height: 160px;
-  margin: 5px;
-  padding: 10px;
+  max-width: 35rem;
+  min-height: 10rem;
+  margin: 0.3125rem;
+  padding: 0.625rem;
 
   background: var(--main-color);
   border: var(--card-border);
@@ -29,7 +29,7 @@
 }
 
 .card > div {
-  margin: 0 20px;
+  margin: 0 1.25rem;
   align-self: center;
   position: relative;
 }
@@ -43,33 +43,33 @@
   bottom: 0;
   height: 100%;
   width: 1px;
-  margin-left: -20px;
+  margin-left: -1.25rem;
 }
 
 .card > div h3 {
   font-weight: 400;
-  font-size: 14px;
-  line-height: 26px;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
   text-transform: uppercase;
 }
 
 .card > div h4 {
   font-weight: 400;
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
   color: var(--gray-color);
 }
 .card > div h5 {
   font-weight: 400;
-  font-size: 15px;
-  line-height: 22px;
-  margin-bottom: 7px;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+  margin-bottom: 0.4375rem;
 }
 .card > div p {
   font-weight: 700;
-  font-size: 18px;
-  line-height: 26px;
-  letter-spacing: 0.5px;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
+  letter-spacing: 2px;
 }
 
 .middle {
@@ -77,36 +77,36 @@
 }
 
 .summary {
-  max-width: 560px;
+  max-width: 35rem;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 10px 0;
-  margin-top: 50px;
+  padding: 0.625rem 0;
+  margin-top: 3.125rem;
 }
 
 .summary > div > p {
   font-weight: 400;
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
   color: var(--gray-color);
   display: flex;
   justify-content: space-between;
 }
 .summary > div > p > span {
   font-weight: 500;
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
   text-transform: capitalize;
   color: var(--black-color);
 
-  padding-left: 10px;
+  padding-left: 0.625rem;
 }
 
 @media (max-width: 490px) {
   .order h1 {
-    margin: 40px 0;
+    margin: 2.5rem 0;
   }
   .card {
     width: 100%;
@@ -116,7 +116,7 @@
     margin-bottom: 1rem !important;
   }
   .card > span > span > img {
-    height: 329px !important;
+    height: 20.5625rem !important;
   }
   .card > div {
     margin: 0 auto;
@@ -137,7 +137,7 @@
   }
   .summary {
     flex-direction: column;
-    margin-top: 40px;
+    margin-top: 2.5rem;
   }
   .summary > div {
     width: inherit;
@@ -152,7 +152,10 @@
 
 @media (max-width: 290px) {
   .card > span > span > img {
-    height: 229px !important;
+    height: 14.3125rem !important;
+  }
+  .summary > div > p {
+    word-break: break-all;
   }
   .summary > div > p > span {
     margin-left: 0;
