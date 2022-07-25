@@ -9,6 +9,8 @@ import * as http from '../../utils/fetch';
 
 import { inputs } from './config';
 import styles from './styles.module.css';
+import { useSetRecoilState } from 'recoil';
+import { baseUsername } from 'store';
 
 export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => {
   const [user, setUser] = useState<IInput>({
@@ -26,6 +28,7 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
     password: '',
     password_confirm: '',
   });
+  const setUsername = useSetRecoilState(baseUsername);
 
   const validate = (field: string) => async () => {
     try {
@@ -54,6 +57,11 @@ export const Register: React.FC<IAccount> = ({ handleAccount }): JSX.Element => 
       if (data.message) {
         setRequestError(data.message);
       }
+      setUsername(() => ({
+        id: data.account.id,
+        fullname: data.account.fullname,
+        email: data.account.email,
+      }));
     } catch (error: any) {
       setRequestError(error.message);
     }

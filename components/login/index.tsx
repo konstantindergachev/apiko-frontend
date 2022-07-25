@@ -6,7 +6,7 @@ import { Input } from '@/components/shared/input';
 import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
 import { loginSchema } from './validate';
-import { baseUsername } from '../../store';
+import { baseUsername } from 'store';
 import * as http from '../../utils/fetch';
 
 import { inputs } from './config';
