@@ -18,10 +18,10 @@ async function http<T>(path: string, config: RequestInit): Promise<T> {
   const request = new Request(path, config);
   const response = await fetch(request);
 
-  if (response.status === 401) {
-    throw new Error(response.statusText);
-  }
   try {
+    if (response.status === 401) {
+      throw new Error(response.statusText);
+    }
     return response.json();
   } catch (error) {
     const isError = (something: any): something is IError => {

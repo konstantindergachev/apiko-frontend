@@ -359,7 +359,11 @@ export default Account;
 export const getServerSideProps: GetServerSideProps = async ({
   req,
 }): Promise<{
-  props: { userInfo: IInfoFields; favorites: IFavorites; orders: IOrder[] };
+  redirect?: {
+    permanent: boolean;
+    destination: string;
+  };
+  props: { userInfo?: IInfoFields; favorites?: IFavorites; orders?: IOrder[] };
 }> => {
   let cookie;
   let token;
@@ -384,6 +388,15 @@ export const getServerSideProps: GetServerSideProps = async ({
     ordersPromise,
   ]);
 
+  if (Object.keys(userInfo).length === 2) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+      props: {},
+    };
+  }
   return {
     props: { userInfo, favorites, orders },
   };
