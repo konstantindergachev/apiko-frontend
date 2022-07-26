@@ -279,24 +279,24 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                 ) : tabIndex === 2 ? (
                   loadOrders.map((order: IOrder) => {
                     return (
-                      <div key={order.id} className={styles.cardWrap}>
+                      <div key={order.order.id} className={styles.cardWrap}>
                         <Card classNames={styles.card}>
-                          <Link href={`/order/${order.id}`}>
+                          <Link href={`/order/${order.order.id}`}>
                             <a>
                               <div>
                                 <p>
-                                  Order ID: <span>{order.id}</span>
+                                  Order ID: <span>{order.order.id}</span>
                                 </p>
                                 <p>
-                                  Price: <span>{numberFormat(order.total)}</span>
+                                  Price: <span>{numberFormat(order.order.total)}</span>
                                 </p>
                               </div>
                               <div>
                                 <p>
-                                  Customer ID: <span>{order.user.id}</span>
+                                  Customer ID: <span>{order.order.user.id}</span>
                                 </p>
                                 <p>
-                                  Date: <span>{dateFormat(order.created_at)}</span>
+                                  Date: <span>{dateFormat(order.order.created_at)}</span>
                                 </p>
                               </div>
                             </a>
