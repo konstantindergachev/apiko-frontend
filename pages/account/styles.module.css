@@ -28,13 +28,6 @@
   margin-top: 1.375rem;
 }
 
-.tabContent h3 {
-  font-weight: 300;
-  text-align: left;
-  height: 100%;
-  margin: 3.125rem auto 1.875rem;
-}
-
 .saveBtn {
   width: 100%;
   height: 100%;
@@ -123,27 +116,7 @@
   line-height: 1.625rem;
 }
 
-@media (max-width: 770px) {
-  .tab.active::after {
-    content: '\2666';
-    font-size: 2.5rem;
-    top: 110%;
-    left: 50%;
-    transform: translate(-50%, -110%);
-  }
-}
 @media (max-width: 600px) {
-  .tab {
-    padding: 0.625rem 1.25rem;
-  }
-  .tab.active::after {
-    content: '\2666';
-    font-size: 1.25rem;
-    top: 130%;
-    left: 50%;
-    transform: translate(-50%, -130%);
-  }
-
   .favoriteCard {
     margin: 0 0 0.3125rem;
   }
@@ -154,9 +127,6 @@
 }
 
 @media (max-width: 290px) {
-  .tab {
-    padding: 0.3125rem 0.9375rem;
-  }
   .favoriteCard {
     width: 17rem;
   }

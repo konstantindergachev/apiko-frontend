@@ -29,3 +29,32 @@
   transform: translate(-50%, -117%);
   color: var(--orange-color);
 }
+
+@media (max-width: 770px) {
+  .tab.active::after {
+    content: '\2666';
+    font-size: 2.5rem;
+    top: 110%;
+    left: 50%;
+    transform: translate(-50%, -110%);
+  }
+}
+
+@media (max-width: 600px) {
+  .tab {
+    padding: 0.625rem 1.25rem;
+  }
+  .tab.active::after {
+    content: '\2666';
+    font-size: 1.25rem;
+    top: 130%;
+    left: 50%;
+    transform: translate(-50%, -130%);
+  }
+}
+
+@media (max-width: 290px) {
+  .tab {
+    padding: 0.3125rem 0.9375rem;
+  }
+}

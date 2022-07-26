@@ -13,6 +13,7 @@ import { BaseLayout } from '@/layout/base-layout';
 import { Error } from '@/components/shared/error';
 import { Card } from '@/components/shared/card';
 import { TabHeader } from '@/components/shared/tab-header';
+import { TabContent } from '@/components/shared/tab-content';
 import { LikeButton } from '@/components/like';
 import { Success } from '@/components/shared/success';
 import { IInfoFields, IInput } from '@/interfaces/forms';
@@ -199,7 +200,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
             <div className={styles.middle}>
               {requestSuccess && <Success message={requestSuccess} />}
               <TabHeader tabIndex={tabIndex} handleTabs={handleTabs} />
-              <div className={styles.tabContent}>
+              <TabContent>
                 {tabIndex === 1 ? (
                   <>
                     <div>
@@ -327,7 +328,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
                     )}
                   </div>
                 ) : null}
-              </div>
+              </TabContent>
             </div>
           </section>
         </main>
