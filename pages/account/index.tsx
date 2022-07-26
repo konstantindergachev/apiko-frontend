@@ -12,6 +12,7 @@ import { Input } from '@/components/shared/input';
 import { BaseLayout } from '@/layout/base-layout';
 import { Error } from '@/components/shared/error';
 import { Card } from '@/components/shared/card';
+import { TabHeader } from '@/components/shared/tab-header';
 import { LikeButton } from '@/components/like';
 import { Success } from '@/components/shared/success';
 import { IInfoFields, IInput } from '@/interfaces/forms';
@@ -197,26 +198,7 @@ const Account: NextPage<IProps> = ({ userInfo, favorites, orders, tabIdx = 2 }):
             </div>
             <div className={styles.middle}>
               {requestSuccess && <Success message={requestSuccess} />}
-              <div className={styles.tabs}>
-                <button
-                  className={`${styles.tab} ${tabIndex === 1 && styles.active}`}
-                  onClick={handleTabs(1)}
-                >
-                  edit account
-                </button>
-                <button
-                  className={`${styles.tab} ${tabIndex === 2 && styles.active}`}
-                  onClick={handleTabs(2)}
-                >
-                  order history
-                </button>
-                <button
-                  className={`${styles.tab} ${tabIndex === 3 && styles.active}`}
-                  onClick={handleTabs(3)}
-                >
-                  favourites
-                </button>
-              </div>
+              <TabHeader tabIndex={tabIndex} handleTabs={handleTabs} />
               <div className={styles.tabContent}>
                 {tabIndex === 1 ? (
                   <>

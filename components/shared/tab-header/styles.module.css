@@ -1,0 +1,31 @@
+.tabs {
+  display: flex;
+  justify-content: center;
+}
+.tab {
+  text-transform: capitalize;
+  background-color: transparent;
+  border: var(--input-border);
+  padding: 1.875rem 2.5rem;
+  min-height: 4.125rem;
+
+  font-size: 0.9375rem;
+  line-height: 1.375rem;
+  color: var(--black-color);
+  cursor: pointer;
+}
+
+.tab.active {
+  background-color: var(--orange-color);
+  color: var(--main-color);
+  position: relative;
+}
+.tab.active::after {
+  content: '\2666';
+  font-size: 2.5rem;
+  position: absolute;
+  top: 117%;
+  left: 50%;
+  transform: translate(-50%, -117%);
+  color: var(--orange-color);
+}
