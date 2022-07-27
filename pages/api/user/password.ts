@@ -4,14 +4,15 @@ import { IResponse, IResponseError } from '@/interfaces/responses';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse<IResponse | IResponseError>) => {
+  const { API_URL } = process.env;
   try {
     let cookie;
     let token;
     if (req.headers.cookie) {
       cookie = parse(req.headers.cookie);
-      token = cookie.token;
+      token = cookie.apiko;
     }
-    const response = await fetch(`${process.env.API_URL}/account/password`, {
+    const response = await fetch(`${API_URL}/account/password`, {
       method: 'PUT',
       body: JSON.stringify(req.body),
       headers: {

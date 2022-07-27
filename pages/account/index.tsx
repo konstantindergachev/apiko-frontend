@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { selectUsername } from 'store';
 import { parse } from 'cookie';
-import { takeFirstChar } from 'utils';
+import AppHead from '@/layout/head';
+import { takeFirstChar } from '@/utils/index';
 import { BaseLayout } from '@/layout/base-layout';
 import { Error } from '@/components/shared/error';
 import { TabHeader } from '@/components/shared/tab-header';
@@ -14,9 +15,7 @@ import { IInfoFields } from '@/interfaces/forms';
 import { IFavorite, IFavorites } from '@/interfaces/favorites';
 import { IOrder } from '@/interfaces/orders';
 
-import AppHead from '@/layout/head';
-
-import * as http from '../../utils/fetch';
+import * as http from '@/utils/fetch';
 import styles from './styles.module.css';
 
 interface IProps {
@@ -86,19 +85,20 @@ export const getServerSideProps: GetServerSideProps = async ({
   let token;
   if (req.headers.cookie) {
     cookie = parse(req.headers.cookie);
-    token = cookie.token;
+    token = cookie.apiko;
   }
   const baseProductLimit = 6;
+  const { API_URL } = process.env;
   const headers = {
     Authorization: `Bearer ${token}`,
   };
 
-  const accountPromise = http.get<IInfoFields>(`${process.env.API_URL}/account`, { headers });
+  const accountPromise = http.get<IInfoFields>(`${API_URL}/account`, { headers });
   const favoritesPromise = http.get<IFavorites>(
-    `${process.env.API_URL}/favorite/favorites?offset=0&limit=${baseProductLimit}&sortBy=latest`,
+    `${API_URL}/favorite/favorites?offset=0&limit=${baseProductLimit}&sortBy=latest`,
     { headers }
   );
-  const ordersPromise = http.get<IOrder[]>(`${process.env.API_URL}/orders`, { headers });
+  const ordersPromise = http.get<IOrder[]>(`${API_URL}/orders`, { headers });
   const [userInfo, favorites, orders] = await Promise.all([
     accountPromise,
     favoritesPromise,

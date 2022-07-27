@@ -9,8 +9,9 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<IProductsByCategoryResponse | IProductsByCategoryResponseError>
 ) => {
+  const { API_URL } = process.env;
   try {
-    const response = await fetch(`${process.env.API_URL}/products/sort?sortBy=${req.query.sortBy}`);
+    const response = await fetch(`${API_URL}/products/sort?sortBy=${req.query.sortBy}`);
 
     const data = await response.json();
     if (data.statusCode === 404) {

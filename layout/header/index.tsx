@@ -12,8 +12,8 @@ import { DropdownItem } from '@/components/shared/dropdown-item';
 import { Button } from '@/components/shared/button';
 import { baseUsername, selectUsername, selectBasket } from 'store';
 import { IMenu } from '@/interfaces/menu';
-import { takeFirstChar, takeFirstWord } from 'utils';
-import * as http from '../../utils/fetch';
+import { takeFirstChar, takeFirstWord } from '@/utils/index';
+import * as http from '@/utils/fetch';
 
 import logo from '@/images/logo.svg';
 import arrow from '@/images/down_arrow.svg';
@@ -77,8 +77,9 @@ export const Header: React.FC = (): JSX.Element => {
   };
 
   const onExit = async () => {
+    const { NEXT_PUBLIC_PROXI_URL } = process.env;
     try {
-      await http.get<{ message: string }>(`${process.env.NEXT_PUBLIC_PROXI_URL}/user/logout`);
+      await http.get<{ message: string }>(`${NEXT_PUBLIC_PROXI_URL}/user/logout`);
       setUsername(() => ({ id: 0, fullname: '', email: '' }));
       router.push('/');
       setIsModalOpen(false);

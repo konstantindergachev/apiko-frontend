@@ -9,25 +9,22 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<IAccountResponse | IAccountResponseError>
 ) => {
+  const { API_URL } = process.env;
   try {
     let cookie;
     let token;
     if (req.headers.cookie) {
       cookie = parse(req.headers.cookie);
-      token = cookie.token;
+      token = cookie.apiko;
     }
 
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     };
-    const data = await http.post<IBasketBody, IOrderServerResponse>(
-      `${process.env.API_URL}/orders`,
-      req.body,
-      {
-        headers,
-      }
-    );
+    const data = await http.post<IBasketBody, IOrderServerResponse>(`${API_URL}/orders`, req.body, {
+      headers,
+    });
 
     return res.status(200).json({ message: data.message, order: data.order });
   } catch (error: any) {

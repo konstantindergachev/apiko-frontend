@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { NextPage, GetServerSideProps } from 'next';
 import { useRecoilValue } from 'recoil';
 import { selectFavorites } from 'store';
-import { addFavoritesToAll, cacheProducts } from 'utils';
+import { addFavoritesToAll, cacheProducts } from '@/utils/index';
 import { Products } from '@/components/products';
 import { BaseLayout } from '@/layout/base-layout';
 import { ILoadMoreSettings, IProduct, IProducts } from '@/interfaces/products';
@@ -12,7 +12,7 @@ import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
 import { PRODUCT_LIMIT } from './constants';
 
-import * as http from '../utils/fetch';
+import * as http from '@/utils/fetch';
 import styles from './styles.module.css';
 
 const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
@@ -26,6 +26,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
     sortBy: 'latest',
   });
   const [loadMoreProducts, setLoadMoreProducts] = useState<IProduct[]>([]);
+  const { NEXT_PUBLIC_PROXI_URL } = process.env;
 
   useEffect(() => {
     const localStorageProducts = cacheProducts.get('products');
@@ -33,7 +34,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
       (async () => {
         try {
           const data = await http.get<IProducts>(
-            `${process.env.NEXT_PUBLIC_PROXI_URL}/products/loadMore?offset=${loadMoreSettings.offset}&limit=${loadMoreSettings.limit}&sortBy=${loadMoreSettings.sortBy}`
+            `${NEXT_PUBLIC_PROXI_URL}/products/loadMore?offset=${loadMoreSettings.offset}&limit=${loadMoreSettings.limit}&sortBy=${loadMoreSettings.sortBy}`
           );
           if (data.message) {
             return setRequestError(data.message);
@@ -85,7 +86,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   ): Promise<void> => {
     try {
       const data = await http.get<IProducts>(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/categories/category?categoryId=${ev.currentTarget.value}`
+        `${NEXT_PUBLIC_PROXI_URL}/categories/category?categoryId=${ev.currentTarget.value}`
       );
 
       if (data?.message) {
@@ -103,7 +104,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   const sort = async (ev: React.FormEvent<HTMLSelectElement>): Promise<void> => {
     try {
       const data = await http.get<IProducts>(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/products/sort?sortBy=${ev.currentTarget.value}`
+        `${NEXT_PUBLIC_PROXI_URL}/products/sort?sortBy=${ev.currentTarget.value}`
       );
 
       if (data?.message) {
@@ -155,9 +156,10 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async (): Promise<{
   props: IProducts;
 }> => {
+  const { API_URL } = process.env;
   const baseProductLimit = PRODUCT_LIMIT;
   const products = await http.get<IProduct[]>(
-    `${process.env.API_URL}/products?offset=0&limit=${baseProductLimit}&sortBy=latest`
+    `${API_URL}/products?offset=0&limit=${baseProductLimit}&sortBy=latest`
   );
   return {
     props: { products },

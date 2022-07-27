@@ -7,8 +7,8 @@ import { parse } from 'cookie';
 import { GetServerSideProps } from 'next';
 import AppHead from '@/layout/head';
 
-import { dateFormat, numberFormat } from 'utils';
-import * as http from '../../../utils/fetch';
+import { dateFormat, numberFormat } from '@/utils/index';
+import * as http from '@/utils/fetch';
 import styles from './styles.module.css';
 
 const Order: React.FC<{ order: IOrder }> = ({ order }): JSX.Element => {
@@ -86,12 +86,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   let token;
   if (req.headers.cookie) {
     cookie = parse(req.headers.cookie);
-    token = cookie.token;
+    token = cookie.apiko;
   }
+  const { API_URL } = process.env;
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  const order = await http.get<IOrder>(`${process.env.API_URL}/orders/${id}`, { headers });
+  const order = await http.get<IOrder>(`${API_URL}/orders/${id}`, { headers });
 
   if (Object.keys(order).length === 2) {
     return {

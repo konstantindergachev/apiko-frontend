@@ -14,9 +14,9 @@ import { orderSchema } from 'pages/basket/validate';
 import { passwordSchema } from './validate';
 
 import { baseFavorites, selectUsername } from 'store';
-import { dateFormat, numberFormat } from 'utils';
+import { dateFormat, numberFormat } from '@/utils/index';
 import { infoInputs, passwordInputs } from './config';
-import * as http from '../../../utils/fetch';
+import * as http from '@/utils/fetch';
 import styles from './styles.module.css';
 
 interface IProps {
@@ -71,6 +71,8 @@ export const TabContent: React.FC<IProps> = ({
     address: '',
   });
 
+  const { NEXT_PUBLIC_PROXI_URL } = process.env;
+
   const handleChangeInfo = (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     setUser((old) => ({ ...old, [ev.target.name]: ev.target.value }));
   };
@@ -89,7 +91,7 @@ export const TabContent: React.FC<IProps> = ({
         'Content-Type': 'application/json',
       };
       const data = await http.post<IInput, { message: string }>(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/user/account`,
+        `${NEXT_PUBLIC_PROXI_URL}/user/account`,
         user,
         { headers }
       );
@@ -131,7 +133,7 @@ export const TabContent: React.FC<IProps> = ({
         'Content-Type': 'application/json',
       };
       const data = await http.post<IInput, { message: string }>(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/user/password`,
+        `${NEXT_PUBLIC_PROXI_URL}/user/password`,
         password,
         { headers }
       );
@@ -163,7 +165,7 @@ export const TabContent: React.FC<IProps> = ({
         'Content-Type': 'application/json',
       };
       const data = await http.get<{ message: string }>(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/remove?productId=${productId}&userId=${userId}`,
+        `${NEXT_PUBLIC_PROXI_URL}/favorites/remove?productId=${productId}&userId=${userId}`,
         { headers }
       );
       if (data.message) {

@@ -7,15 +7,16 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<IAccountResponse | IAccountResponseError>
 ) => {
+  const { API_URL } = process.env;
   try {
     let cookie;
     let token;
     if (req.headers.cookie) {
       cookie = parse(req.headers.cookie);
-      token = cookie.token;
+      token = cookie.apiko;
     }
 
-    const response = await fetch(`${process.env.API_URL}/account`, {
+    const response = await fetch(`${API_URL}/account`, {
       method: 'PUT',
       body: JSON.stringify(req.body),
       headers: {

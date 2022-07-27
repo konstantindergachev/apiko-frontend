@@ -1,9 +1,10 @@
 import { parse, serialize } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as http from '../../../utils/fetch';
+import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const { API_URL, TOKEN_NAME, NODE_ENV } = process.env;
   let cookie;
   let token;
   if (req.headers.cookie) {
@@ -14,16 +15,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
-  const data = await http.get<{ message: string }>(`${process.env.API_URL}/auth/logout`, {
+  const data = await http.get<{ message: string }>(`${API_URL}/auth/logout`, {
     headers,
   });
 
   res.setHeader(
     'Set-Cookie',
-    serialize('token', req.cookies.token, {
+    serialize(TOKEN_NAME ? TOKEN_NAME : 'apiko', req.cookies.apiko, {
       maxAge: 0,
       httpOnly: true,
-      secure: process.env.NODE_ENV == 'production',
+      secure: NODE_ENV == 'production',
       path: '/',
       sameSite: 'strict',
     })

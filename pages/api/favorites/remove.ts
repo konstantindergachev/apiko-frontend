@@ -7,22 +7,20 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<IProductFavoriteResponse | IProductFavoriteResponseError>
 ) => {
+  const { API_URL } = process.env;
   try {
     let cookie;
     let token;
     if (req.headers.cookie) {
       cookie = parse(req.headers.cookie);
-      token = cookie.token;
+      token = cookie.apiko;
     }
-    const response = await fetch(
-      `${process.env.API_URL}/products/${req.query.productId}/favorite`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${API_URL}/products/${req.query.productId}/favorite`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     const data = await response.json();
     if (data.statusCode === 404) {

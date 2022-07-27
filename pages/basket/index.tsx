@@ -17,11 +17,11 @@ import { Select } from '@/components/shared/select';
 import { IInput } from '@/interfaces/forms';
 import { IBasketBody, IBasketProduct, IOrderResponse } from '@/interfaces/basket';
 
-import { numberFormat } from 'utils';
+import { numberFormat } from '@/utils/index';
 import { orderSchema } from './validate';
 import { MESSAGES } from './constants';
 import { inputs } from './config';
-import * as http from '../../utils/fetch';
+import * as http from '@/utils/fetch';
 import trash from '@/images/trash.svg';
 import styles from './styles.module.css';
 
@@ -104,6 +104,7 @@ const Basket: React.FC = (): JSX.Element => {
   };
 
   const getOrder = async (): Promise<void> => {
+    const { NEXT_PUBLIC_PROXI_URL } = process.env;
     const _basketProducts: IBasketProduct[] = basketProducts.map((product) => ({
       productId: product.id,
       quantity: product.quantity,
@@ -114,7 +115,7 @@ const Basket: React.FC = (): JSX.Element => {
         'Content-Type': 'application/json',
       };
       const data = await http.post<IBasketBody, IOrderResponse>(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/user/order`,
+        `${NEXT_PUBLIC_PROXI_URL}/user/order`,
         body,
         { headers }
       );

@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { serialize } from 'cookie';
 import { IResponse, IResponseError } from '@/interfaces/responses';
-import * as http from '../../../utils/fetch';
+import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse<IResponse | IResponseError>) => {
+  const { API_URL, TOKEN_NAME, MAX_AGE, NODE_ENV } = process.env;
   try {
     const headers = {
       'Content-Type': 'application/json',
     };
     const data = await http.post<{ email: string; password: string }, IResponse & IResponseError>(
-      `${process.env.API_URL}/auth/register`,
+      `${API_URL}/auth/register`,
       req.body,
       { headers }
     );
@@ -21,11 +22,11 @@ export default async (req: NextApiRequest, res: NextApiResponse<IResponse | IRes
     if (data.token) {
       res.setHeader(
         'Set-Cookie',
-        serialize('token', data.token, {
-          maxAge: 28800,
-          expires: new Date(Date.now() + 28800 * 1000),
+        serialize(TOKEN_NAME ? TOKEN_NAME : 'apiko', data.token, {
+          maxAge: Number(MAX_AGE),
+          expires: new Date(Date.now() + Number(MAX_AGE) * 1000),
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
+          secure: NODE_ENV === 'production',
           path: '/',
           sameSite: 'strict',
         })

@@ -16,8 +16,8 @@ import { Error } from '@/components/shared/error';
 import { Success } from '@/components/shared/success';
 import AppHead from '@/layout/head';
 
-import { numberFormat } from 'utils';
-import * as http from '../../../utils/fetch';
+import { numberFormat } from '@/utils/index';
+import * as http from '@/utils/fetch';
 import styles from './styles.module.css';
 
 const Product: NextPage<IProduct> = ({ ...product }): JSX.Element => {
@@ -77,9 +77,10 @@ const Product: NextPage<IProduct> = ({ ...product }): JSX.Element => {
   };
 
   const addLike = (productId: number, userId: number) => async (): Promise<void> => {
+    const { NEXT_PUBLIC_PROXI_URL } = process.env;
     try {
       const data = await http.get<IResponse & IResponseError>(
-        `${process.env.NEXT_PUBLIC_PROXI_URL}/favorites/add?productId=${productId}&userId=${userId}`
+        `${NEXT_PUBLIC_PROXI_URL}/favorites/add?productId=${productId}&userId=${userId}`
       );
       if (data.message) {
         setRequestError('');
@@ -202,7 +203,8 @@ export default Product;
 export const getServerSideProps: GetServerSideProps = async ({
   query: { id },
 }): Promise<{ props: IOneProduct }> => {
-  const product = await http.get<IOneProduct>(`${process.env.API_URL}/products/${id}`);
+  const { API_URL } = process.env;
+  const product = await http.get<IOneProduct>(`${API_URL}/products/${id}`);
   return {
     props: { ...product },
   };

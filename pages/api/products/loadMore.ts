@@ -9,10 +9,11 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<IProductsByCategoryResponse | IProductsByCategoryResponseError>
 ) => {
+  const { API_URL } = process.env;
   try {
     const { offset, limit, sortBy } = req.query;
     const response = await fetch(
-      `${process.env.API_URL}/products?offset=${offset}&limit=${limit}&sortBy=${sortBy}`
+      `${API_URL}/products?offset=${offset}&limit=${limit}&sortBy=${sortBy}`
     );
 
     const data = await response.json();
