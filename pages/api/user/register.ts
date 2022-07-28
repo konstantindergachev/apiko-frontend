@@ -1,16 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { serialize } from 'cookie';
-import { IResponse, IResponseError } from '@/interfaces/responses';
+import { IRegister, IResponse, IResponseError } from '@/interfaces/responses';
 import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async (req: NextApiRequest, res: NextApiResponse<IResponse | IResponseError>) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { API_URL, TOKEN_NAME, MAX_AGE, NODE_ENV } = process.env;
   try {
     const headers = {
       'Content-Type': 'application/json',
     };
-    const data = await http.post<{ email: string; password: string }, IResponse & IResponseError>(
+    const data = await http.post<IRegister, IResponse & IResponseError>(
       `${API_URL}/auth/register`,
       req.body,
       { headers }

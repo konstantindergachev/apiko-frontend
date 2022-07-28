@@ -5,6 +5,19 @@ interface IUser {
   user?: { id: number };
 }
 
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
+export interface IRegister {
+  fullname: string;
+  email: string;
+  phone: string;
+  password: string;
+  password_confirm: string;
+}
+
 export interface IResponse {
   account: IUser;
   token?: string;
@@ -24,12 +37,6 @@ export interface IProductsByCategory {
   favorite: true;
   created_at: string;
   category: { id: number; name: string };
-}
-export interface IProductsByCategoryResponse {
-  products: IProductsByCategory[];
-}
-export interface IProductsByCategoryResponseError {
-  message: string;
 }
 
 export interface IProductFavoriteResponse {

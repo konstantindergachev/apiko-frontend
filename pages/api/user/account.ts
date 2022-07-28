@@ -1,18 +1,10 @@
 import { parse } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  IAccountResponse,
-  IAccountResponseError,
-  IEditAccountInfo,
-  IResponseError,
-} from '@/interfaces/responses';
+import { IEditAccountInfo, IResponseError } from '@/interfaces/responses';
 import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async (
-  req: NextApiRequest,
-  res: NextApiResponse<IAccountResponse | IAccountResponseError>
-) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { API_URL } = process.env;
   try {
     let cookie;

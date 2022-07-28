@@ -1,17 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  IProductsByCategory,
-  IProductsByCategoryResponse,
-  IProductsByCategoryResponseError,
-  IResponseError,
-} from '@/interfaces/responses';
+import { IProductsByCategory, IResponseError } from '@/interfaces/responses';
 import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default async (
-  req: NextApiRequest,
-  res: NextApiResponse<IProductsByCategoryResponse | IProductsByCategoryResponseError>
-) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { API_URL } = process.env;
   try {
     const data = await http.get<IProductsByCategory[] & IResponseError>(

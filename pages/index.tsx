@@ -30,24 +30,25 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
 
   useEffect(() => {
     const localStorageProducts = cacheProducts.get('products');
-    if (loadMoreSettings.limit > localStorageProducts.length) {
+    const { limit, offset, sortBy } = loadMoreSettings;
+    if (limit > localStorageProducts.length) {
       (async () => {
         try {
           const data = await http.get<IProducts>(
-            `${NEXT_PUBLIC_PROXI_URL}/products/loadMore?offset=${loadMoreSettings.offset}&limit=${loadMoreSettings.limit}&sortBy=${loadMoreSettings.sortBy}`
+            `${NEXT_PUBLIC_PROXI_URL}/products/loadMore?offset=${offset}&limit=${limit}&sortBy=${sortBy}`
           );
           if (data.message) {
             return setRequestError(data.message);
           }
-          cacheProducts.set('products', data.products);
           setLoadMoreProducts(addFavoritesToAll(data.products, favorites));
+          cacheProducts.set('products', data.products);
           setRequestError('');
         } catch (error: any) {
           setRequestError(error.message);
         }
       })();
     }
-  }, [loadMoreSettings]);
+  }, [loadMoreSettings.limit]);
 
   useEffect(() => {
     const localStorageProducts = cacheProducts.get('products');
@@ -76,9 +77,11 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
   };
 
   const filterProducts = (searchField: string) => {
-    return loadMoreProducts.filter((product: IProduct) => {
+    const findProducts = loadMoreProducts.filter((product: IProduct) => {
       return product.title.toLowerCase().includes(searchField);
     });
+    cacheProducts.set('products', findProducts);
+    return findProducts;
   };
 
   const chooseProductsByCategory = async (
@@ -103,8 +106,9 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
 
   const sort = async (ev: React.FormEvent<HTMLSelectElement>): Promise<void> => {
     try {
+      let sortBy = ev.currentTarget.value;
       const data = await http.get<IProducts>(
-        `${NEXT_PUBLIC_PROXI_URL}/products/sort?sortBy=${ev.currentTarget.value}`
+        `${NEXT_PUBLIC_PROXI_URL}/products/sort?sortBy=${sortBy}`
       );
 
       if (data?.message) {
@@ -112,6 +116,11 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
       }
       setSearchField('');
       setLoadMoreProducts(data.products);
+      setLoadMoreSettings((old) => ({
+        ...old,
+        limit: data.products.length + 1,
+        sortBy,
+      }));
       cacheProducts.set('products', data.products);
       setRequestError('');
     } catch (error: any) {

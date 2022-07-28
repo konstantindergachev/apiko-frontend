@@ -113,7 +113,7 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
                 <LikeButton
                   onClick={handleProductLike}
                   productId={product.id}
-                  isLiked={ids.includes(product.id)}
+                  isLiked={storedFullname.fullname ? ids.includes(product.id) : false}
                 />
               </Card>
             );
