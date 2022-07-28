@@ -1,8 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
+  IProductsByCategory,
   IProductsByCategoryResponse,
   IProductsByCategoryResponseError,
+  IResponseError,
 } from '@/interfaces/responses';
+import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (
@@ -11,9 +14,9 @@ export default async (
 ) => {
   const { API_URL } = process.env;
   try {
-    const response = await fetch(`${API_URL}/categories/${req.query.categoryId}`);
-
-    const data = await response.json();
+    const data = await http.get<IProductsByCategory[] & IResponseError>(
+      `${API_URL}/categories/${req.query.categoryId}`
+    );
     if (data.statusCode === 404) {
       return res.status(data.statusCode).json({ message: data.message });
     }

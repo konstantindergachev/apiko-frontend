@@ -12,10 +12,10 @@ export interface IResponse {
 
 export interface IResponseError {
   statusCode?: number;
-  message?: string;
+  message: string;
 }
 
-interface IProductsByCategory {
+export interface IProductsByCategory {
   id: number;
   title: string;
   price: string;
@@ -67,6 +67,22 @@ export interface IAccountResponse {
     };
     user: { id: number };
   };
+}
+
+export interface IEditAccountInfo {
+  id: 5;
+  fullname: string;
+  phone: string;
+  country: string;
+  city: string;
+  address: string;
+  email: string;
+}
+
+export interface IEditAccountNewPassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export interface IAccountResponseError {

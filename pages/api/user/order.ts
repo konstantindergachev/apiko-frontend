@@ -1,7 +1,7 @@
 import { parse } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { IAccountResponse, IAccountResponseError } from '@/interfaces/responses';
-import * as http from '../../../utils/fetch';
+import * as http from '@/utils/fetch';
 import { IBasketBody } from '@/interfaces/basket';
 import { IOrderServerResponse } from '@/interfaces/api/intex';
 // eslint-disable-next-line import/no-anonymous-default-export

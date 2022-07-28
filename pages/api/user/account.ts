@@ -1,6 +1,12 @@
 import { parse } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IAccountResponse, IAccountResponseError } from '@/interfaces/responses';
+import {
+  IAccountResponse,
+  IAccountResponseError,
+  IEditAccountInfo,
+  IResponseError,
+} from '@/interfaces/responses';
+import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (
@@ -16,16 +22,14 @@ export default async (
       token = cookie.apiko;
     }
 
-    const response = await fetch(`${API_URL}/account`, {
-      method: 'PUT',
-      body: JSON.stringify(req.body),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+    const data = await http.put<IEditAccountInfo, IResponseError>(`${API_URL}/account`, req.body, {
+      headers,
     });
 
-    const data = await response.json();
     if (data.statusCode === 404) {
       return res.status(data.statusCode).json({ message: data.message });
     }

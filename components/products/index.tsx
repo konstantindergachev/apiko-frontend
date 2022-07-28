@@ -13,6 +13,7 @@ import { Success } from '@/components/shared/success';
 import { Button } from '@/components/shared/button';
 import { IResponse, IResponseError } from '@/interfaces/responses';
 import { selectUsername } from '../../store';
+import * as http from '@/utils/fetch';
 
 import styles from './styles.module.css';
 export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
@@ -59,10 +60,9 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
   const { NEXT_PUBLIC_PROXI_URL } = process.env;
   const removeLike = async (productId: number, userId: number) => {
     try {
-      const response = await fetch(
+      const data = await http.get<IResponse & IResponseError>(
         `${NEXT_PUBLIC_PROXI_URL}/favorites/remove?productId=${productId}&userId=${userId}`
       );
-      const data: IResponse & IResponseError = await response.json();
 
       if (data.message) {
         setRequestSuccess(data.message);
@@ -74,10 +74,9 @@ export const Products: React.FC<IProducts> = ({ products }): JSX.Element => {
 
   const addLike = async (productId: number, userId: number) => {
     try {
-      const response = await fetch(
+      const data = await http.get<IResponse & IResponseError>(
         `${NEXT_PUBLIC_PROXI_URL}/favorites/add?productId=${productId}&userId=${userId}`
       );
-      const data: IResponse & IResponseError = await response.json();
 
       if (data.message) {
         setRequestSuccess(data.message);

@@ -1,6 +1,11 @@
 import { parse } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IProductFavoriteResponse, IProductFavoriteResponseError } from '@/interfaces/responses';
+import {
+  IProductFavoriteResponse,
+  IProductFavoriteResponseError,
+  IResponseError,
+} from '@/interfaces/responses';
+import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (
@@ -15,13 +20,13 @@ export default async (
       cookie = parse(req.headers.cookie);
       token = cookie.apiko;
     }
-    const response = await fetch(`${API_URL}/products/${req.query.productId}/favorite`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
+    const headers = { Authorization: `Bearer ${token}` };
+    const data = await http.get<IProductFavoriteResponse & IResponseError>(
+      `${API_URL}/products/${req.query.productId}/favorite`,
+      {
+        headers,
+      }
+    );
     if (data.statusCode === 401) {
       return res.status(data.statusCode).json({ message: data.message });
     }

@@ -1,8 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
+  IProductsByCategory,
   IProductsByCategoryResponse,
   IProductsByCategoryResponseError,
+  IResponseError,
 } from '@/interfaces/responses';
+import * as http from '@/utils/fetch';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (
@@ -12,11 +15,10 @@ export default async (
   const { API_URL } = process.env;
   try {
     const { offset, limit, sortBy } = req.query;
-    const response = await fetch(
+    const data = await http.get<IProductsByCategory[] & IResponseError>(
       `${API_URL}/products?offset=${offset}&limit=${limit}&sortBy=${sortBy}`
     );
 
-    const data = await response.json();
     if (data.statusCode === 404) {
       return res.status(data.statusCode).json({ message: data.message });
     }
