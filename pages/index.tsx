@@ -10,7 +10,7 @@ import AppHead from '@/layout/head';
 import { Panel } from '@/components/panel';
 import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
-import { PRODUCT_LIMIT } from './constants';
+import { PRODUCT_LIMIT } from '@/components/products/constants';
 
 import * as http from '@/utils/fetch';
 import styles from './styles.module.css';
