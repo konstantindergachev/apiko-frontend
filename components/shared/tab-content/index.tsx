@@ -10,7 +10,7 @@ import { LikeButton } from '@/components/like';
 import { IInfoFields, IInput } from '@/interfaces/forms';
 import { IOrder } from '@/interfaces/orders';
 import { IFavorite } from '@/interfaces/favorites';
-import { orderSchema } from 'pages/basket/validate';
+import { orderSchema } from '@/components/basket/validate';
 import { passwordSchema } from './validate';
 
 import { baseFavorites, selectUsername } from 'store';

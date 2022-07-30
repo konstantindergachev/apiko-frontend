@@ -18,9 +18,9 @@ import { IInput } from '@/interfaces/forms';
 import { IBasketBody, IBasketProduct, IOrderResponse } from '@/interfaces/basket';
 
 import { numberFormat } from '@/utils/index';
-import { orderSchema } from './validate';
-import { MESSAGES } from './constants';
-import { inputs } from './config';
+import { orderSchema } from '@/components/basket/validate';
+import { MESSAGES } from '@/components/basket/constants';
+import { inputs } from '@/components/basket/config';
 import * as http from '@/utils/fetch';
 import trash from '@/images/trash.svg';
 import styles from './styles.module.css';
