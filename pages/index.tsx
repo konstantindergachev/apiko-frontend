@@ -10,6 +10,7 @@ import AppHead from '@/layout/head';
 import { Panel } from '@/components/panel';
 import { Error } from '@/components/shared/error';
 import { Button } from '@/components/shared/button';
+import { TopButton } from '@/components/shared/top-button';
 import { PRODUCT_LIMIT } from '@/components/products/constants';
 
 import * as http from '@/utils/fetch';
@@ -155,6 +156,7 @@ const Home: NextPage<IProducts> = ({ products }): JSX.Element => {
             onClick={loadMore(PRODUCT_LIMIT)}
           />
         )}
+        <TopButton pathname="/" />
       </BaseLayout>
     </>
   );
